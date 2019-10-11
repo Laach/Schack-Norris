@@ -1,4 +1,6 @@
 ﻿@using Norris.UI.Views.Manage
+@using Norris.Data.Data.Entities
+
 @inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
