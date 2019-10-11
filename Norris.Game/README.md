@@ -1,8 +1,18 @@
-# bool TryDoMove(BoardMoveModel)
+# bool IsValidMove(BoardMoveModel)
 ### Description
-Takes in all the necessary information to attempt a move. If the move 
-succeeds it returns true and has changed the positions inside BoardModel.
-It does not touch the booleans in Tile.
+Checks if a given move is valid for a player on a given board.
+
+## DTO information
+- BoardModel: The game board. Found in `Norris.Data.Models.Board`
+- MoveModel : The move from a position, to a position. Found in `Norris.Data.Models.Board`
+- Color     : Color of the player making the move. Found in `Norris.Data.Models.Board`
+
+# BoardModel DoMove(BoardMoveModel)
+## Description
+Moves whatever is on a given position to a new position. 
+**Disclaimer!** It does not check if it is a valid move. `IsValidMove(...)` is 
+expected to be run beforehand.
+
 
 ## DTO information
 - BoardModel: The game board. Found in `Norris.Data.Models.Board`
@@ -10,9 +20,10 @@ It does not touch the booleans in Tile.
 - Color     : Color of the player making the move. Found in `Norris.Data.Models.Board`
 
 
-# void FillPossibleMoves(BoardMoveModel)
+# BoardModel FillPossibleMoves(BoardMoveModel)
 ## Description
 Sets the bools in the Tiles to true if they are able to do the respective actions.
+Returns the new BoardModel with the Tiles modified.
 
 ## DTO information
 - BoardModel: The game board. Found in `Norris.Data.Models.Board`
