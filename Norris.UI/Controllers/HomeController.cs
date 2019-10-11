@@ -5,13 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Norris.UI.Models;
+using Microsoft.AspNetCore.Identity;
+using Norris.Data.Data.Entities;
 
 namespace Norris.UI.Controllers
 {
     public class HomeController : Controller
     {
+        private SignInManager<User> _signInManager;
+        public HomeController(SignInManager<User> sim)
+        {
+            _signInManager = sim;
+        }
+
         public IActionResult Index()
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+
             return View();
         }
 
