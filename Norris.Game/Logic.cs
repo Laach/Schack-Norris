@@ -53,6 +53,26 @@ namespace Norris.Game {
     }
 
 
+    public static IEnumerable<Point> KingMoves(
+      ChessBoard board, 
+      Color player, 
+      Point point){
+
+      return  LinearMovement(board, player, point, y => y + 1, x => x + 1, 1)
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x - 1, 1))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x + 1, 1))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x - 1, 1))
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x + 1, 1))
+
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x    , 1))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x    , 1))
+      .Concat(LinearMovement(board, player, point, y => y    , x => x - 1, 1))
+      .Concat(LinearMovement(board, player, point, y => y    , x => x + 1, 1));
+
+      // arr.ForEach(x => Console.WriteLine("Hi" + x));  
+      // return (IEnumerable<Point>) arr;
+
+    }
 
 
 

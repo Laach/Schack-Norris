@@ -23,6 +23,7 @@ namespace Norris.Game
           board[3, 3] = NewTile(PieceType.Pawn, Color.White); 
           board[5, 5] = NewTile(PieceType.Pawn, Color.Black); 
           
+          var xs = Logic.KingMoves(board, Color.White, p);
           // var xs = Logic.LinearMovement(board, Color.White, p, y => y + 1, x => x + 1, 1);
           Logic.PrintBoard(board, xs, Color.White);
 
