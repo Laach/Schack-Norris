@@ -14,7 +14,9 @@ namespace Norris.Game
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+
+            // BuildWebHost(args).Run();
+            Console.WriteLine("Hello, Casper");
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
