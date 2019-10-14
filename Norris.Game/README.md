@@ -1,12 +1,9 @@
 # bool IsValidMove(BoardMoveModel)
-### Description
+## Description
 Checks if a given move is valid for a player on a given board.
 
 ## DTO information
-BoardMoveModel
-- BoardModel: The game board. Found in `Norris.Data.Models.Board`
-- MoveModel : The move from a position, to a position. Found in `Norris.Data.Models.Board`
-- Color     : Color of the player making the move. Found in `Norris.Data.Models.Board`
+[BoardMoveModel](/Norris.Game/Models/README.md)
 
 # BoardModel DoMove(BoardMoveModel)
 ## Description
@@ -16,11 +13,7 @@ expected to be run beforehand.
 
 
 ## DTO information
-BoardMoveModel
-- BoardModel: The game board. Found in `Norris.Data.Models.Board`
-- MoveModel : The move from a position, to a position. Found in `Norris.Data.Models.Board`
-- Color     : Color of the player making the move. Found in `Norris.Data.Models.Board`
-
+[BoardMoveModel](/Norris.Game/Models/README.md)
 
 # BoardModel FillPossibleMoves(BoardMoveModel)
 ## Description
@@ -28,7 +21,4 @@ Sets the bools in the Tiles to true if they are able to do the respective action
 Returns the new BoardModel with the Tiles modified.
 
 ## DTO information
-BoardMoveModel
-- BoardModel: The game board. Found in `Norris.Data.Models.Board`
-- MoveModel : The move from a position, to a position. Found in `Norris.Data.Models.Board`
-- Color     : Color of the player making the move. Found in `Norris.Data.Models.Board`
+[BoardMoveModel](/Norris.Game/Models/README.md)
