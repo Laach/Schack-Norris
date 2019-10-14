@@ -40,6 +40,20 @@ namespace Norris.UI.Controllers
             return View();
         }
 
+        public IActionResult Lobby()
+        {
+            ViewData["Message"] = "Lobby page.";
+
+            return View();
+        }
+
+        public IActionResult Game()
+        {
+            ViewData["Message"] = "Game view.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
