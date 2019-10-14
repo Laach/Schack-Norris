@@ -1,7 +1,7 @@
 
 namespace Norris.Data.Models.Board{
   public struct MoveModel{
-    PositionModel From;
-    PositionModel To;
+    public PositionModel From;
+    public PositionModel To;
   }
 }
