@@ -58,6 +58,14 @@ namespace Norris.Game {
     public static BoardModel FillPossibleMoves(BoardMoveModel board){
       throw new NotImplementedException();
     }
+
+    public static bool IsWhiteChecked(BoardModel board){
+      return Logic.IsChecked(board, Color.White);
+    }
+
+    public static bool IsBlackChecked(BoardModel board){
+      return Logic.IsChecked(board, Color.Black);
+    }
     // static IEnumerable<PositionModel> LinearMovement(){
     //   var a = new ChessBoard.ChessBoard();
     // }

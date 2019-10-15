@@ -114,8 +114,14 @@ namespace Norris.Game {
 
     }
 
-    // public static IEnumerable<Point> 
+    public static bool IsChecked(BoardModel b, Color color){
+      ChessBoard board = new ChessBoard(b);
+      IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
+                                            board, t => t.Piece.Color != color);
+      Point king = Utils.FindKing(board, color);
 
+      return enemyMoves.Contains(king);
+    }
 
   }
 }
