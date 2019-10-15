@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Norris.UI", "Norris.UI\Norris.UI.csproj", "{C0A9A3B2-3132-4EFD-BA81-B3F7441E6C98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Norris.Data", "Norris.Data\Norris.Data.csproj", "{6253514C-415F-41F2-8701-13B7F8E378F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Norris.Data", "Norris.Data\Norris.Data.csproj", "{6253514C-415F-41F2-8701-13B7F8E378F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Norris.Game", "Norris.Game\Norris.Game.csproj", "{CED65E32-06DF-4ED8-87B2-40768C2174A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Norris.Game", "Norris.Game\Norris.Game.csproj", "{CED65E32-06DF-4ED8-87B2-40768C2174A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
