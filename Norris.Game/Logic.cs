@@ -85,6 +85,22 @@ namespace Norris.Game {
     }
 
 
+    public static IEnumerable<Point> QueenMove(
+      ChessBoard board, 
+      Color player, 
+      Point point){
+
+      return  LinearMovement(board, player, point, y => y + 1, x => x + 1)
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x - 1))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x + 1))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x - 1))
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x + 1))
+
+      .Concat(LinearMovement(board, player, point, y => y + 1, x => x    ))
+      .Concat(LinearMovement(board, player, point, y => y - 1, x => x    ))
+      .Concat(LinearMovement(board, player, point, y => y    , x => x - 1))
+      .Concat(LinearMovement(board, player, point, y => y    , x => x + 1));
+      }
 
 
   }
