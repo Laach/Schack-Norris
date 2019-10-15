@@ -9,10 +9,12 @@ namespace Norris.UI.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "username")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "password")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
