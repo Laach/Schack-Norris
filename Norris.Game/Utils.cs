@@ -6,7 +6,38 @@ using Norris.Data.Models.Board;
 namespace Norris.Game {
   static class Utils {
 
-    public static void PrintBoard(ChessBoard board, IEnumerable<Point> arr, Color player){
+    static string GetStringRep(PieceType type){
+      switch(type){
+        case PieceType.Bishop: return "B";
+        case PieceType.Pawn  : return "P";
+        case PieceType.Rook  : return "R";
+        case PieceType.Knight: return "N";
+        case PieceType.Queen : return "Q";
+        case PieceType.King  : return "K";
+        default: return "";
+      }
+    }
+
+    static string GetColorString(Color c) => c == Color.White ? "W" : "B";
+
+    public static void PrettyPrint(ChessBoard board){
+      for(int i = 0; i < 8; i++){
+        Console.Write("\n-------------------------\n|");
+        for(int j = 0; j < 8; j++){
+
+          string a = board[i,j] == null ? "  " : GetColorString(
+            board[i,j].Piece.Color) + GetStringRep(board[i,j].Piece.Type
+          );
+
+          Console.Write(a + "|");
+        }
+      }
+      Console.WriteLine("\n-------------------------");
+
+    }
+
+    public static void PrintMoveset(
+      ChessBoard board, IEnumerable<Point> arr, Color player){
       var enemy = player == Color.White ? Color.Black : Color.White;
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
