@@ -26,16 +26,16 @@ namespace Norris.UI.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Lobby()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Lobby page.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Game()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Game view.";
 
             return View();
         }
