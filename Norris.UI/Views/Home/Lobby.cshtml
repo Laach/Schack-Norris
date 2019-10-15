@@ -2,4 +2,5 @@
     ViewData["Title"] = "Lobby";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+
+@await Html.PartialAsync("_FriendsPartial")
