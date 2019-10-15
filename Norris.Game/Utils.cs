@@ -31,17 +31,28 @@ namespace Norris.Game {
     public static Color GetOppositeColor(Color color){
       return color == Color.White ? Color.Black : Color.White;
     }
-    
-    public static Point FindKing(ChessBoard board, Color player){
+
+    public static Point FindFirst(ChessBoard board, Func<Tile, bool> f){
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-          if(board[i,j]?.Piece.Type == PieceType.King && board[i,j].Piece.Color == player){
+          if(board[i,j] != null && f(board[i,j])){
             return new Point(){ Y = i, X = j};
           }
         }
       }
-      throw new Exception($"\nError, {player} king not found");
-      
+      throw new Exception($"\nError, tile not found");
+ 
+    }
+
+    public static Point FindKing(ChessBoard board, Color player){
+      try{
+        return FindFirst(
+          board, t => t.Piece.Type == PieceType.King && t.Piece.Color == player
+        );
+      }
+      catch{
+        throw new Exception($"\nError, {player} king not found");
+      }
     }
 
 
@@ -51,9 +62,28 @@ namespace Norris.Game {
     }
 
     
+    public static IEnumerable<Point> FoldIEnum(IEnumerable<Point>[] arr){
+      IEnumerable<Point> list = new List<Point>();
+      foreach(var ienum in arr){
+        list = list.Concat(ienum);
+      }
+      return list;
+    }
 
-
-
+    public static IEnumerable<Point> GetAllMovesFor(ChessBoard board, Func<Tile, bool> f){
+      IEnumerable<Point> list = new List<Point>(){};
+      for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+          if(board[i,j] != null && f(board[i, j])){
+            var p = new Point(){ Y = i, X = j};
+            list = list.Concat(
+              Logic.GetMovesFor(board, board[i,j].Piece.Color, p)
+            );
+          }
+        }
+      }
+      return list;
+    }
     
   }
 }
