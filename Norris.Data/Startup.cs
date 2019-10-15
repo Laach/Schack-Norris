@@ -25,7 +25,12 @@ namespace Norris.Data
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<NContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            if (System.Environment.UserName == "casper"){
+                services.AddDbContext<NContext>(options => options.UseSqlite("Data Source=norris.db"));
+            }
+            else{
+                services.AddDbContext<NContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<NContext>().AddDefaultTokenProviders();
         }
 

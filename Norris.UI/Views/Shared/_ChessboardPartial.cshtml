@@ -1,0 +1,48 @@
+@using Microsoft.AspNetCore.Identity
+@using Norris.UI.Models
+@using Norris.Data.Data.Entities
+
+@using Norris.Data.Models.Board
+
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  background-color: black;
+  padding: 1px;
+
+}
+.grid-item {
+   padding-bottom: 100%;
+  font-size: 10px;
+  text-align: center;
+}
+
+.white-item {
+background-color: white;
+}
+
+.black-item {
+background-color: black;
+}
+</style>
+<div class="grid-container">
+    @{string c = "white-item"; }
+    @for (Rank r = Rank.Eight; ; r--)
+    {
+        for (File f = 0; ; f++)
+        {
+            <div class="grid-item @r @f @c"></div>
+            if (f == File.H) { break; }
+            if(c == "white-item")
+            {
+                c = "black-item";
+            }
+            else
+            {
+                c = "white-item";
+            }
+        }
+        if (r == Rank.One) { break; }
+    }
+</div>
