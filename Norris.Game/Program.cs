@@ -22,10 +22,10 @@ namespace Norris.Game
           board[5, 7] = NewTile(PieceType.Pawn, Color.Black); 
           board[0, 7] = NewTile(PieceType.King, Color.Black); 
           
-          var xs = Utils.GetAllMovesFor(board, t => t.Piece.Color == Color.White);
+          // var xs = Utils.GetAllMovesFor(board, t => t.Piece.Color == Color.White);
           // var xs = Logic.GetMovesFor(board, Color.White, p);
           // var xs = Logic.LinearMovement(board, Color.White, p, y => y + 1, x => x + 1, 1);
-          Utils.PrintBoard(board, xs, Color.White);
+          // Utils.PrintBoard(board, xs, Color.White);
 
         }
 
