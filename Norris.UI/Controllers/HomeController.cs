@@ -28,6 +28,9 @@ namespace Norris.UI.Controllers
 
         public IActionResult Lobby()
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+
             ViewData["Message"] = "Lobby page.";
 
             return View();
@@ -35,6 +38,9 @@ namespace Norris.UI.Controllers
 
         public IActionResult Game()
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+
             ViewData["Message"] = "Game view.";
 
             return View();
