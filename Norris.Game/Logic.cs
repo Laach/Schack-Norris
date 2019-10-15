@@ -69,7 +69,7 @@ namespace Norris.Game {
     }
 
 
-    public static IEnumerable<Point> RookMove(
+    public static IEnumerable<Point> RookMoves(
       ChessBoard board, 
       Color player, 
       Point point){
@@ -77,10 +77,9 @@ namespace Norris.Game {
       .Concat(LinearMovement(board, player, point, y => y - 1, x => x    ))
       .Concat(LinearMovement(board, player, point, y => y    , x => x - 1))
       .Concat(LinearMovement(board, player, point, y => y    , x => x + 1));
-
     }
 
-    public static IEnumerable<Point> BishopMove(
+    public static IEnumerable<Point> BishopMoves(
       ChessBoard board, 
       Color player, 
       Point point){
@@ -90,14 +89,32 @@ namespace Norris.Game {
       .Concat(LinearMovement(board, player, point, y => y - 1, x => x - 1));
     }
 
-    public static IEnumerable<Point> QueenMove(
+    public static IEnumerable<Point> QueenMoves(
       ChessBoard board, 
       Color player, 
       Point point){
 
-      return RookMove(board, player, point)
-      .Concat(BishopMove(board, player, point));
+      return RookMoves(board, player, point)
+      .Concat(BishopMoves(board, player, point));
     }
+
+
+    public static IEnumerable<Point> GetMovesFor(
+      ChessBoard board, 
+      Color player, 
+      Point point){
+      
+      switch(board[point]?.Piece.Type){
+        case PieceType.King  : return KingMoves  (board, player, point);
+        case PieceType.Queen : return QueenMoves (board, player, point);
+        case PieceType.Rook  : return RookMoves  (board, player, point);
+        case PieceType.Bishop: return BishopMoves(board, player, point);
+        default: return new List<Point>();
+      }
+
+    }
+
+    // public static IEnumerable<Point> 
 
 
   }
