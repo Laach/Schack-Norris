@@ -47,24 +47,24 @@ namespace Norris.Game {
       return newmove;
     }
 
-    public static BoardModel IsValidMove(BoardMoveModel board){
+    public static BoardModel IsValidMove(BoardMoveModel data){
       throw new NotImplementedException();
     }
 
-    public static BoardModel DoMove(BoardMoveModel board){
+    public static BoardModel DoMove(BoardMoveModel data){
       throw new NotImplementedException();
     }
 
-    public static BoardModel FillPossibleMoves(BoardMoveModel board){
+    public static BoardModel FillPossibleMoves(BoardMoveModel data){
       throw new NotImplementedException();
     }
 
-    public static bool IsWhiteChecked(BoardModel board){
-      return Logic.IsChecked(board, Color.White);
+    public static bool IsWhiteChecked(BoardModel data){
+      return Logic.IsChecked(data, Color.White);
     }
 
-    public static bool IsBlackChecked(BoardModel board){
-      return Logic.IsChecked(board, Color.Black);
+    public static bool IsBlackChecked(BoardModel data){
+      return Logic.IsChecked(data, Color.Black);
     }
     // static IEnumerable<PositionModel> LinearMovement(){
     //   var a = new ChessBoard.ChessBoard();
