@@ -7,15 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Norris.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
+using Norris.Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Norris.UI.Controllers
 {
     public class HomeController : Controller
     {
         private SignInManager<User> _signInManager;
-        public HomeController(SignInManager<User> sim)
+        private readonly NContext _nContext;
+        public HomeController(SignInManager<User> sim, NContext nContext)
         {
             _signInManager = sim;
+            _nContext = nContext;
         }
 
         public IActionResult Index()
@@ -51,7 +55,10 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
-            return View();
+
+            var friends = _nContext.Users.ToList();
+
+            return PartialView("FindFriends",friends);
         }
 
         public IActionResult Error()

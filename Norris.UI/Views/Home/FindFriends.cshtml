@@ -1,7 +1,18 @@
-﻿@{
+﻿@using Norris.Data.Data.Entities;
+@model List<User>
+@{
     ViewData["Title"] = "Find Friends";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
 <p>Here you can search for your friends to add to your list.</p>
+<ul>
+    @{ foreach (var item in Model)
+        {
+            <li>
+                <p>@item.UserName</p>
+            </li>
+        }}
+</ul>
+
