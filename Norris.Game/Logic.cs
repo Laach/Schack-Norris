@@ -120,7 +120,7 @@ namespace Norris.Game {
     }
 
     static bool PawnCanAttack(ChessBoard board, Point p, Color c){
-      return board[p] != null && board[p].Piece.Color == c;
+      return Inbounds(p) && board[p] != null && board[p].Piece.Color == c;
     }
 
     public static IEnumerable<Point> PawnMoves(
