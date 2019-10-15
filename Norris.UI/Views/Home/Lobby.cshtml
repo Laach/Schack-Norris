@@ -3,4 +3,8 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-@await Html.PartialAsync("_FriendsPartial")
+<div class="row">
+    <div class="col-sm-9"></div>
+    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial")</div>
+</div>
+
