@@ -49,10 +49,18 @@ namespace Norris.Game {
 
     public static BoardModel IsValidMove(BoardMoveModel data){
       throw new NotImplementedException();
+      // false if from position does not match color
     }
 
     public static BoardModel DoMove(BoardMoveModel data){
-      throw new NotImplementedException();
+      BoardModel b = data.Board;
+      var from = Utils.PositionModelToPoint(data.Move.From);
+      var to   = Utils.PositionModelToPoint(data.Move.To  );
+
+      b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
+      b.Board[from.Y, from.X] = null;
+      // ChessBoard dummy = Utils.CloneBoard(board);
+      return b;
     }
 
     public static BoardModel FillPossibleMoves(BoardMoveModel data){
