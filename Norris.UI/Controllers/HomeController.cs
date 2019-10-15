@@ -58,7 +58,28 @@ namespace Norris.UI.Controllers
 
             var friends = _nContext.Users.ToList();
 
-            return PartialView("FindFriends",friends);
+            return View("FindFriends",friends);
+        }
+
+        [HttpGet]
+        public PartialViewResult Search(string searchString)
+        {
+            List<User> tempUsers = _nContext.Users.ToList();
+            List<User> foundUsers = new List<User>();
+            searchString = searchString.ToLower();
+            int j = 0;
+            foreach (var user in tempUsers)
+            {
+                if (j == 50)
+                    break;
+
+                if (user.UserName.ToLower().Contains(searchString))
+                {
+                    foundUsers.Add(user);
+                    j++;
+                }
+            }
+            return PartialView("SearchResultsView", foundUsers);
         }
 
         public IActionResult Error()

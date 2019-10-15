@@ -7,12 +7,12 @@
 <h3>@ViewData["Message"]</h3>
 
 <p>Here you can search for your friends to add to your list.</p>
-<ul>
-    @{ foreach (var item in Model)
-        {
-            <li>
-                <p>@item.UserName</p>
-            </li>
-        }}
-</ul>
+
+<input type="text" placeholder="Search user" onkeyup="searchUsers(this.value)" />
+
+<div>
+    <span id="searchResults"></span>
+</div>
+
+
 
