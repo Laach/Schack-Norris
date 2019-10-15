@@ -23,7 +23,7 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
-            return View();
+            return Redirect("/Home/Lobby");
         }
 
         public IActionResult Lobby()
@@ -42,6 +42,14 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
 
             ViewData["Message"] = "Game view.";
+
+            return View();
+        }
+
+        public IActionResult FindFriends()
+        {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
 
             return View();
         }

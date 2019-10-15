@@ -26,13 +26,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Norris.UI</a>
+                <a asp-area="" asp-controller="Home" asp-action="Lobby" class="navbar-brand">Lobby</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Game">Game</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Lobby">Lobby</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="FindFriends">Find Friends</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -42,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - Norris.UI</p>
+            <p>&copy; 2019 - Schack Norris</p>
         </footer>
     </div>
 
