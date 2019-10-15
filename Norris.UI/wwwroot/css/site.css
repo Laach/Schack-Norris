@@ -25,6 +25,10 @@
 #qrCode {
     margin: 15px;
 }
+.friends{
+    
+}
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
