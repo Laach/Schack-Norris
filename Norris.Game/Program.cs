@@ -15,17 +15,17 @@ namespace Norris.Game
     {
         public static void Main(string[] args)
         {
-            // BuildWebHost(args).Run();
           var board = new ChessBoard(new BoardModel(){Board = new Tile[8,8]});
           var p = new Point{Y=4, X=4};
-          // var p = new Point{Y=2, X=5};
           board[p   ] = NewTile(PieceType.King, Color.White);
-          board[3, 3] = NewTile(PieceType.Pawn, Color.White); 
-          board[5, 5] = NewTile(PieceType.Pawn, Color.Black); 
+          board[2, 2] = NewTile(PieceType.King, Color.White); 
+          board[5, 7] = NewTile(PieceType.Pawn, Color.Black); 
+          board[0, 7] = NewTile(PieceType.King, Color.Black); 
           
-          var xs = Logic.KingMoves(board, Color.White, p);
+          var xs = Utils.GetAllMovesFor(board, t => t.Piece.Color == Color.White);
+          // var xs = Logic.GetMovesFor(board, Color.White, p);
           // var xs = Logic.LinearMovement(board, Color.White, p, y => y + 1, x => x + 1, 1);
-          Logic.PrintBoard(board, xs, Color.White);
+          Utils.PrintBoard(board, xs, Color.White);
 
         }
 
@@ -36,10 +36,5 @@ namespace Norris.Game
             }
           };
         }
-
-      // public static IWebHost BuildWebHost(string[] args) =>
-      //     WebHost.CreateDefaultBuilder(args)
-      //         .UseStartup<Startup>()
-      //         .Build();
     }
 }
