@@ -55,10 +55,27 @@ namespace Norris.Game {
       }
     }
 
+    static Tile CloneTile(Tile tile){
+      return new Tile(){
+        Piece = new PieceModel(){
+          Type = tile.Piece.Type,
+          Color = tile.Piece.Color
+        }
+      };
+    }
 
     public static ChessBoard CloneBoard(ChessBoard board){
 
-      throw new NotImplementedException();
+      BoardModel clone = new BoardModel(){Board = new Tile[8,8]};
+      for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+          if(board[i,j] != null){
+            clone.Board[i,j] = CloneTile(board[i,j]);
+          }
+        }
+      }
+
+      return new ChessBoard(clone);
     }
 
     
@@ -83,6 +100,14 @@ namespace Norris.Game {
         }
       }
       return list;
+    }
+
+    public static Tile NewTile(PieceType type, Color color){
+      return new Tile(){
+        Piece = new PieceModel(){
+          Type = type, Color = color
+        }
+      };
     }
     
   }
