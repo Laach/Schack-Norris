@@ -8,6 +8,11 @@ namespace Norris.Data
 {
     public class GameRepository : IGameRepositroy
     {
+        /*private readonly AppDbContext context;
+        public GameRepository(AppDBContext context)
+        {
+          this.context = context;    
+        }*/
         public bool AddFriend(int currentUserID, int friendUserID)
         {
             throw new NotImplementedException();
