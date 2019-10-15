@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Norris.Data.Models.Board;
 using Norris.Game.Models;
@@ -47,15 +48,35 @@ namespace Norris.Game {
       return newmove;
     }
 
-    public static BoardModel IsValidMove(BoardMoveModel data){
-      throw new NotImplementedException();
-      // false if from position does not match color
+    public static bool IsValidMove(BoardMoveModel data){
+      ChessBoard board = new ChessBoard(data.Board);
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+      Point to   = Utils.PositionModelToPoint(data.Move.To  );
+
+      // Position moving from is not a piece or is enemy piece.
+      if(board[from] == null || board[from].Piece.Color != data.Player){
+        return false;
+      }
+
+
+      // Do a dummy move and see if player will place themselves in check.
+      ChessBoard dummy = Utils.CloneBoard(board);
+      dummy.board = DoMove(new BoardMoveModel(){
+                            Board = dummy.board, Move=data.Move, Player=data.Player});
+
+      if(Logic.IsChecked(dummy.board, data.Player)){
+        return false;
+      }
+
+      // See if the new position is available in the moveset for that tile.
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+      return moves.Contains(to);
     }
 
     public static BoardModel DoMove(BoardMoveModel data){
       BoardModel b = data.Board;
-      var from = Utils.PositionModelToPoint(data.Move.From);
-      var to   = Utils.PositionModelToPoint(data.Move.To  );
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+      Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
       b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
       b.Board[from.Y, from.X] = null;
