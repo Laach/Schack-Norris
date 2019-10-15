@@ -21,7 +21,7 @@ namespace Norris.Game {
         steps--;
         if(!Inbounds(xy)) { yield break; }
 
-        if(board[xy] != null && board[xy].Piece.Color != player){
+        if(IsEnemy(board, xy, player)){
           yield return xy;
           yield break;
         }
@@ -52,27 +52,38 @@ namespace Norris.Game {
       }
     }
 
+    static bool CanGoTo(ChessBoard board, Point point, Color player){
+      return board[point] == null || board[point].Piece.Color != player;
+    }
+
+    static bool IsEnemy(ChessBoard board, Point point, Color player){
+      return board[point] != null && board[point].Piece.Color != player;
+    }
+
+
+
+
+
 
     public static IEnumerable<Point> KingMoves(
       ChessBoard board, 
       Color player, 
       Point point){
 
-      return  LinearMovement(board, player, point, y => y + 1, x => x + 1, 1)
-      .Concat(LinearMovement(board, player, point, y => y + 1, x => x - 1, 1))
-      .Concat(LinearMovement(board, player, point, y => y - 1, x => x + 1, 1))
-      .Concat(LinearMovement(board, player, point, y => y - 1, x => x - 1, 1))
-      .Concat(LinearMovement(board, player, point, y => y + 1, x => x + 1, 1))
+      var arr = new Point[]{
+        new Point(){ Y = point.Y + 1, X = point.X + 1},
+        new Point(){ Y = point.Y + 1, X = point.X - 1},
+        new Point(){ Y = point.Y - 1, X = point.X + 1},
+        new Point(){ Y = point.Y - 1, X = point.X - 1},
 
-      .Concat(LinearMovement(board, player, point, y => y + 1, x => x    , 1))
-      .Concat(LinearMovement(board, player, point, y => y - 1, x => x    , 1))
-      .Concat(LinearMovement(board, player, point, y => y    , x => x - 1, 1))
-      .Concat(LinearMovement(board, player, point, y => y    , x => x + 1, 1));
-
-      // arr.ForEach(x => Console.WriteLine("Hi" + x));  
-      // return (IEnumerable<Point>) arr;
-
+        new Point(){ Y = point.Y + 1, X = point.X    },
+        new Point(){ Y = point.Y - 1, X = point.X    },
+        new Point(){ Y = point.Y    , X = point.X + 1},
+        new Point(){ Y = point.Y    , X = point.X - 1},
+      };
+      return arr.Where(xy => Inbounds(xy) && CanGoTo(board, xy, player));
     }
+
 
 
 
