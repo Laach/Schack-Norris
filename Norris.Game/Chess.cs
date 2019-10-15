@@ -99,20 +99,46 @@ namespace Norris.Game {
     //   var a = new ChessBoard.ChessBoard();
     // }
     
+    public static BoardModel InitBoard(){
+      Tile[,] board = new Tile[8,8];
+      board[0,0] = Utils.NewTile(PieceType.Rook, Color.Black);
+      board[0,7] = Utils.NewTile(PieceType.Rook, Color.Black);
+
+      board[0,1] = Utils.NewTile(PieceType.Knight, Color.Black);
+      board[0,6] = Utils.NewTile(PieceType.Knight, Color.Black);
+
+      board[0,2] = Utils.NewTile(PieceType.Bishop, Color.Black);
+      board[0,5] = Utils.NewTile(PieceType.Bishop, Color.Black);
+
+      board[0,3] = Utils.NewTile(PieceType.Queen, Color.Black);
+      board[0,4] = Utils.NewTile(PieceType.King, Color.Black );
+
+      for(int i = 0; i < 8; i++){
+        board[1,i] = Utils.NewTile(PieceType.Pawn, Color.Black); 
+      }
 
 
 
+      board[7,0] = Utils.NewTile(PieceType.Rook, Color.White);
+      board[7,7] = Utils.NewTile(PieceType.Rook, Color.White);
 
+      board[7,1] = Utils.NewTile(PieceType.Knight, Color.White);
+      board[7,6] = Utils.NewTile(PieceType.Knight, Color.White);
 
+      board[7,2] = Utils.NewTile(PieceType.Bishop, Color.White);
+      board[7,5] = Utils.NewTile(PieceType.Bishop, Color.White);
 
+      board[7,3] = Utils.NewTile(PieceType.Queen, Color.White);
+      board[7,4] = Utils.NewTile(PieceType.King, Color.White );
 
+      for(int i = 0; i < 8; i++){
+        board[6,i] = Utils.NewTile(PieceType.Pawn, Color.White); 
+      }
+
+      return new BoardModel(){Board = board};
+
+    }
 
   }
-
-
-
-
-
-
 
 }
