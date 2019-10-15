@@ -7,6 +7,7 @@ namespace Norris.Game {
 
   static class Logic {
 
+    // Ychange and Xchange are how much the point is moved each step.
     public static IEnumerable<Point> LinearMovement(
       ChessBoard board, Color player, 
       Point p, 
@@ -36,22 +37,6 @@ namespace Norris.Game {
       return p.X < 8 && p.X >= 0 && p.Y < 8 && p.Y >= 0;
     }
 
-
-    public static void PrintBoard(ChessBoard board, IEnumerable<Point> arr, Color player){
-      var enemy = player == Color.White ? Color.Black : Color.White;
-      for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-          if((board[i,j] == null || board[i,j].Piece.Color == enemy) && arr.Contains(new Point{Y=i,X=j})){
-            Console.Write(" x ");
-          }
-          else{
-            Console.Write(board[i,j] != null ? " p " :  " - ");
-          }
-        }
-        Console.WriteLine();
-      }
-    }
-
     static bool CanGoTo(ChessBoard board, Point point, Color player){
       return board[point] == null || board[point].Piece.Color != player;
     }
@@ -59,7 +44,6 @@ namespace Norris.Game {
     static bool IsEnemy(ChessBoard board, Point point, Color player){
       return board[point] != null && board[point].Piece.Color != player;
     }
-
 
 
 
