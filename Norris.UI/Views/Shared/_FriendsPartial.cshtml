@@ -1,20 +1,20 @@
 ﻿@using Norris.Data.Data.Entities
+@using Norris.Data.Models
 
-@model List<User>
+@model FriendListModel
 
     <div>
         <div class="friends">
             <ul class="list-group">
                 <li class="list-group-item">Online</li>
                 
-                @if (Model.Any())
-                {
-                    //Currently displays all users. Placeholder until GetFriendsList(User) available
+                @if (/*Model.Any()*/ true)
+                {/*
                     foreach (var user in Model)
                     {
                         <li class="list-group-item"> @user.UserName </li>
                         
-                    }
+                    }*/
                 }
                 else
                 {
@@ -24,14 +24,13 @@
         </div>
         <ul class="list-group friends">
             <li class="list-group-item">Offline</li>
-            @if (Model.Any())
+            @if (/*Model.Any()*/ true)
             {
-
-                //Currently displays all users. Placeholder until GetFriendsList(User) available
+                /*
                 foreach (var user in Model)
                 {
                     <li class="list-group-item disabled">@user.UserName</li>
-                }
+                }*/
             }
             else
             {
