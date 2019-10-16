@@ -7,7 +7,7 @@ using Norris.Data.Data.Entities;
 
 namespace Norris.Data
 {
-    public class GameRepository : IGameRepositroy
+    public class GameRepository : IGameRepository
     {
         /*private readonly AppDbContext context;
         public GameRepository(AppDBContext context)
