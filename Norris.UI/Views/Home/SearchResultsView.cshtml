@@ -1,0 +1,15 @@
+﻿@using Norris.Data.Data.Entities;
+@model List<User>
+@{
+    ViewData["Title"] = "SearchResults";
+}
+
+<ul>
+    @foreach (var item in Model)
+        {
+            <li>
+                <p>@item.UserName</p>
+            </li>
+        }
+</ul>
+
