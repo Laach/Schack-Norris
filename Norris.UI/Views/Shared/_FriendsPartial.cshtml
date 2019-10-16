@@ -5,16 +5,17 @@
 
     <div>
         <div class="friends">
+            Friends
             <ul class="list-group">
                 <li class="list-group-item">Online</li>
                 
-                @if (/*Model.Any()*/ true)
-                {/*
-                    foreach (var user in Model)
+                @if (Model.Friends.Any())
+                {
+                    foreach (var user in Model.Friends)
                     {
                         <li class="list-group-item"> @user.UserName </li>
                         
-                    }*/
+                    }
                 }
                 else
                 {
@@ -24,13 +25,13 @@
         </div>
         <ul class="list-group friends">
             <li class="list-group-item">Offline</li>
-            @if (/*Model.Any()*/ true)
+            @if (Model.Friends.Any())
             {
-                /*
-                foreach (var user in Model)
+                
+                foreach (var user in Model.Friends)
                 {
                     <li class="list-group-item disabled">@user.UserName</li>
-                }*/
+                }
             }
             else
             {
