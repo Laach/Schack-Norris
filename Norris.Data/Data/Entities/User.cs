@@ -8,5 +8,7 @@ namespace Norris.Data.Data.Entities
 {
     public class User : IdentityUser
     {
+        List<User> Friends;
+        List<GameSession> gameSessions;
     }
 }

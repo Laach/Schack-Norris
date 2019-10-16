@@ -1,6 +1,6 @@
 ﻿namespace Norris.Data.Models.Board.Enums
 {
-    public enum Status
+    public enum GameStatus
     {
         Inactive,
         Actiave
