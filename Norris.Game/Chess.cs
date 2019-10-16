@@ -71,21 +71,34 @@ namespace Norris.Game {
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
       return Logic.DoMove(board, from, to).board;
-      // b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
-      // b.Board[from.Y, from.X] = null;
-      // // ChessBoard dummy = Utils.CloneBoard(board);
-      // return b;
     }
 
 
 
     public static BoardModel FillPossibleMoves(MovePlanModel data){
-      // throw new NotImplementedException();
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
+      Color player = data.Player;
 
 
       IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+
+      // Filters out all moves that will make players check themselves.
+      IEnumerable<Point> possibleMoves = moves.Where(to => 
+        !Logic.IsChecked(Logic.DummyMove(board, from, to, player), player)
+      );
+
+
+
+      IEnumerable<Point> canMoveTo = possibleMoves.Where(to => 
+        board[to] == null
+      );
+
+      IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
+        board[to] != null && board[to].Piece.Color != player
+      );
+
+
 
       throw new NotImplementedException();
     }
