@@ -53,45 +53,33 @@ namespace Norris.Game {
       return newmove;
     }
 
+
+
     public static bool IsValidMove(MovePlanModel data){
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
-      // Position moving from is not a piece or is enemy piece.
-      if(board[from] == null || board[from].Piece.Color != data.Player){
-        return false;
-      }
-
-
-      // Do a dummy move and see if player will place themselves in check.
-      ChessBoard dummy = Utils.CloneBoard(board);
-      dummy.board = DoMove(new MovePlanModel(){
-                            Board = dummy.board, Move=data.Move, Player=data.Player});
-
-      if(Logic.IsChecked(dummy.board, data.Player)){
-        return false;
-      }
-
-      // See if the new position is available in the moveset for that tile.
-      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
-      return moves.Contains(to);
+      return Logic.IsValidMove(board, from, to, data.Player);
     }
 
+
+
     public static BoardModel DoMove(MovePlanModel data){
-      BoardModel b = data.Board;
+      ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
-      b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
-      b.Board[from.Y, from.X] = null;
-      // ChessBoard dummy = Utils.CloneBoard(board);
-      return b;
+      return Logic.DoMove(board, from, to);
+      // b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
+      // b.Board[from.Y, from.X] = null;
+      // // ChessBoard dummy = Utils.CloneBoard(board);
+      // return b;
     }
 
 
 
-    public static BoardModel FillPossibleMoves(GameLogicModel data){
+    public static BoardModel FillPossibleMoves(MovePlanModel data){
       // throw new NotImplementedException();
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
@@ -99,16 +87,7 @@ namespace Norris.Game {
 
       IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
 
-      return moves.Where(move => 
-        IsValidMove(new GameLogicModel(){
-                              Board = board.board, 
-                              Move=new MoveModel(){
-                                From=data.Move.From, 
-                                To=new PositionModel(){}
-                                }, 
-                              Player=data.Player});
-      
-      );
+      throw new NotImplementedException();
     }
 
 
