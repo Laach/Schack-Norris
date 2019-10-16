@@ -51,6 +51,10 @@ namespace Norris.UI.Controllers
             return View();
         }
 
+        public void ClickAction(string tile)
+        {
+            
+        }
         public IActionResult FindFriends()
         {
             if (!_signInManager.IsSignedIn(User))
