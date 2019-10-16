@@ -32,16 +32,16 @@ background-color: black;
     {
         for (File f = 0; ; f++)
         {
-            <div class="grid-item @r @f @c"></div>
+            <div class="grid-item @r @f @c" id="@r@f"></div>
             if (f == File.H) { break; }
-            if(c == "white-item")
-            {
-                c = "black-item";
-            }
-            else
-            {
-                c = "white-item";
-            }
+                if(c == "white-item")
+                {
+                    c = "black-item";
+                }
+                else
+                {
+                    c = "white-item";
+                }
         }
         if (r == Rank.One) { break; }
     }
