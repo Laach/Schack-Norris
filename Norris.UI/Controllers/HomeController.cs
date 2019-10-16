@@ -71,7 +71,7 @@ namespace Norris.UI.Controllers
         {
             UserListModel users = new UserListModel();
             users = _GameRepo.GetUserSearchResult(searchString);
-           */ 
+           
             //List<User> foundUsers = new List<User>();
             //searchString = searchString.ToLower();
             //int j = 0;
