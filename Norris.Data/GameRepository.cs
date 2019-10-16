@@ -29,13 +29,19 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        public FriendListModel GetFriendList(int userID)
+        public UserListModel GetFriendList(int userID)
         {
-            return new FriendListModel
+            var test = new UserListModel
             {
-
+               Users = new List<User>()
 
             };
+            test.Users.Add(new User
+            {
+                UserName = "FriendsUser1",
+                Id = "1"
+            });
+            return test;
         }
 
         public GameStateModel GetGamestate(GameID id)
@@ -43,19 +49,39 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
+        public UserListModel GetPlayerLobby()
+        {
+            var test = new UserListModel
+            {
+                Users = new List<User>()
+
+            };
+            test.Users.Add(new User
+            {
+                UserName = "SlUtsUckEr69",
+                Id = "1"
+            });
+            test.Users.Add(new User
+            {
+                UserName = "DucKLoVer420",
+                Id = "3"
+            });
+            return test;
+        }
+
         public ViewUserModel GetUserData(int userID)
         {
             throw new NotImplementedException();
         }
 
-        public SearchUserModel GetUserSearchResult(string searchterm)
+        public UserListModel GetUserSearchResult(string searchterm)
         {
-            var test = new SearchUserModel
+            var test = new UserListModel
             {
-                SearchResult = new List<User>()
+                Users = new List<User>()
 
             };
-            test.SearchResult.Add(new User
+            test.Users.Add(new User
             {
                 UserName = "TestUser1",
                 Id = "1"
