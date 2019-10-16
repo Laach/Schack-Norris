@@ -15,26 +15,26 @@ namespace Norris.Game {
       }
       File file; 
       switch (Char.ToLower(pos[0])){
-        case 'a': file = File.A; break;
-        case 'b': file = File.B; break;
-        case 'c': file = File.C; break;
-        case 'd': file = File.D; break;
-        case 'e': file = File.E; break;
-        case 'f': file = File.F; break;
-        case 'g': file = File.G; break;
-        case 'h': file = File.H; break;
+        case 'a': file = File.FA; break;
+        case 'b': file = File.FB; break;
+        case 'c': file = File.FC; break;
+        case 'd': file = File.FD; break;
+        case 'e': file = File.FE; break;
+        case 'f': file = File.FF; break;
+        case 'g': file = File.FG; break;
+        case 'h': file = File.FH; break;
         default: throw new ArgumentException($"\nInvalid file: {pos[0]} ");
       }
       Rank rank;
       switch(pos[1]){
-        case '1': rank = Rank.One;   break;
-        case '2': rank = Rank.Two;   break;
-        case '3': rank = Rank.Three; break;
-        case '4': rank = Rank.Four;  break;
-        case '5': rank = Rank.Five;  break;
-        case '6': rank = Rank.Six;   break;
-        case '7': rank = Rank.Seven; break;
-        case '8': rank = Rank.Eight; break;
+        case '1': rank = Rank.R1;   break;
+        case '2': rank = Rank.R2;   break;
+        case '3': rank = Rank.R3; break;
+        case '4': rank = Rank.R4;  break;
+        case '5': rank = Rank.R5;  break;
+        case '6': rank = Rank.R6;   break;
+        case '7': rank = Rank.R7; break;
+        case '8': rank = Rank.R8; break;
         default: throw new ArgumentException($"\nInvalid rank: {pos[1]} ");
       }
 
