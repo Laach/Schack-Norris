@@ -202,8 +202,7 @@ namespace Norris.Game {
 
     }
 
-    public static bool IsChecked(BoardModel b, Color color){
-      ChessBoard board = new ChessBoard(b);
+    public static bool IsChecked(ChessBoard board, Color color){
       IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
                                             board, t => t.Piece.Color != color);
       Point king = Utils.FindKing(board, color);
@@ -213,15 +212,22 @@ namespace Norris.Game {
 
 
 
-    public static BoardModel DoMove(ChessBoard board, Point from, Point to){
+    public static ChessBoard DoMove(ChessBoard board, Point from, Point to){
 
       board[to] = board[from];
       board[from] = null;
       // ChessBoard dummy = Utils.CloneBoard(board);
-      return board.board;
+      return board;
     }
 
+    public static ChessBoard DummyMove(
+      ChessBoard board, 
+      Point from, 
+      Point to, 
+      Color player){
 
+      return Logic.DoMove(Utils.CloneBoard(board), from, to);
+    }
 
     public static bool IsValidMove(ChessBoard board, Point from, Point to, Color player){
       // Position moving from is not a piece or is enemy piece.
@@ -231,10 +237,7 @@ namespace Norris.Game {
 
 
       // Do a dummy move and see if player will place themselves in check.
-      ChessBoard dummy = Utils.CloneBoard(board);
-      dummy.board = Logic.DoMove(dummy, from, to);
-
-      if(Logic.IsChecked(dummy.board, player)){
+      if(Logic.IsChecked(DummyMove(board, from, to, player), player)){
         return false;
       }
 

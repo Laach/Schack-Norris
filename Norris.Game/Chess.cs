@@ -70,7 +70,7 @@ namespace Norris.Game {
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
-      return Logic.DoMove(board, from, to);
+      return Logic.DoMove(board, from, to).board;
       // b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
       // b.Board[from.Y, from.X] = null;
       // // ChessBoard dummy = Utils.CloneBoard(board);
@@ -93,13 +93,13 @@ namespace Norris.Game {
 
 
     public static bool IsWhiteChecked(BoardModel data){
-      return Logic.IsChecked(data, Color.White);
+      return Logic.IsChecked(new ChessBoard(data), Color.White);
     }
 
 
 
     public static bool IsBlackChecked(BoardModel data){
-      return Logic.IsChecked(data, Color.Black);
+      return Logic.IsChecked(new ChessBoard(data), Color.Black);
     }
 
 
