@@ -98,15 +98,17 @@ namespace Norris.UI.Controllers
                 }
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (!changePasswordResult.Succeeded)
-            {
-                AddErrors(changePasswordResult);
-                return View(model);
+            if (model.NewPassword != null || model.ConfirmPassword != null) {
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    AddErrors(changePasswordResult);
+                    return View(model);
+                }
             }
-
+            
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
+            _logger.LogInformation("User has updated their profile successfully.");
             StatusMessage = "Your profile has been Updated.";
             return RedirectToAction(nameof(Index));
         }
