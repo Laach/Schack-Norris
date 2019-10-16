@@ -38,7 +38,9 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Lobby page.";
 
-            return View();
+            var friends = _GameRepo.GetFriendList(2);
+
+            return View(friends);
         }
 
         public IActionResult Game()
@@ -48,7 +50,9 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Game view.";
 
-            return View();
+            var friends = _GameRepo.GetFriendList(2);
+
+            return View(friends);
         }
 
         public void ClickAction(string tile)
@@ -71,6 +75,7 @@ namespace Norris.UI.Controllers
         {
             UserListModel users = new UserListModel();
             users = _GameRepo.GetUserSearchResult(searchString);
+           
             //List<User> foundUsers = new List<User>();
             //searchString = searchString.ToLower();
             //int j = 0;
