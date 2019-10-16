@@ -7,15 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Norris.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
+using Norris.Data.Data;
+using Norris.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Norris.UI.Controllers
 {
     public class HomeController : Controller
     {
         private SignInManager<User> _signInManager;
-        public HomeController(SignInManager<User> sim)
+        private readonly IGameRepository _GameRepo;
+        public HomeController(SignInManager<User> sim, IGameRepository GameRepo)
         {
             _signInManager = sim;
+            _GameRepo = GameRepo;
         }
 
         public IActionResult Index()
@@ -23,21 +28,60 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
+            return Redirect("/Home/Lobby");
+        }
+
+        public IActionResult Lobby()
+        {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+
+            ViewData["Message"] = "Lobby page.";
+
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Game()
         {
-            ViewData["Message"] = "Your application description page.";
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+
+            ViewData["Message"] = "Game view.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult FindFriends()
         {
-            ViewData["Message"] = "Your contact page.";
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
 
-            return View();
+
+            var friends = _GameRepo.Users.ToList();
+
+            return View("FindFriends",friends);
+        }
+
+        [HttpGet]
+        public PartialViewResult Search(string searchString)
+        {
+            SearchUserModel users = new SearchUserModel(); 
+            users = _GameRepo.Users.ToList(searchString);
+            //List<User> foundUsers = new List<User>();
+            //searchString = searchString.ToLower();
+            //int j = 0;
+            //foreach (var user in tempUsers)
+            //{
+            //    if (j == 50)
+            //        break;
+
+            //    if (user.UserName.ToLower().Contains(searchString))
+            //    {
+            //        foundUsers.Add(user);
+            //        j++;
+            //    }
+            //}
+            return PartialView("SearchResultsView", users.SearchResult);
         }
 
         public IActionResult Error()
