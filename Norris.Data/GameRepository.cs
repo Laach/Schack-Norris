@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Norris.Data.Models;
+using Norris.Data.Data.Entities;
 
 namespace Norris.Data
 {
@@ -30,7 +31,11 @@ namespace Norris.Data
 
         public FriendListModel GetFriendList(int userID)
         {
-            throw new NotImplementedException();
+            return new FriendListModel
+            {
+
+
+            };
         }
 
         public GameStateModel GetGamestate(GameID id)
@@ -45,7 +50,17 @@ namespace Norris.Data
 
         public SearchUserModel GetUserSearchResult(string searchterm)
         {
-            throw new NotImplementedException();
+            var test = new SearchUserModel
+            {
+                SearchResult = new List<User>()
+
+            };
+            test.SearchResult.Add(new User
+            {
+                UserName = "TestUser1",
+                Id = "1"
+            }) ;
+            return test;
         }
     }
 }
