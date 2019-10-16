@@ -37,8 +37,11 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Lobby page.";
 
-            return View();
+            var friends = _nContext.Users.ToList();
+
+            return View(friends);
         }
+
 
         public IActionResult Game()
         {
@@ -47,7 +50,9 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Game view.";
 
-            return View();
+            var friends = _nContext.Users.ToList();
+
+            return View(friends);
         }
 
         public IActionResult FindFriends()

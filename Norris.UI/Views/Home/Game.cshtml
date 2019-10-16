@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Norris.Data.Data.Entities
+@model List<User>
+
+@{
     ViewData["Title"] = "Game";
 }
 <h2>@ViewData["Title"]</h2>
@@ -7,9 +10,9 @@
 <style>
 </style>
 
-    <div class="row">
-        <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial")</div>
-        <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial")</div>
-    </div>
+<div class="row">
+    <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial")</div>
+    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model)</div>
+</div>
 
 

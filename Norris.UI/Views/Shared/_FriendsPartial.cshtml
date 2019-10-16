@@ -1,24 +1,19 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Norris.UI.Models
-@using Norris.Data.Data.Entities
+﻿@using Norris.Data.Data.Entities
 
-@using Norris.Data
-
-@inject UserManager<User> UserManager
+@model List<User>
 
     <div>
-        @{var users = UserManager.Users;}
-        @{/*var friends = Norris.Data.Datainterface.GetFriendsList(User)*/}
-
         <div class="friends">
             <ul class="list-group">
                 <li class="list-group-item">Online</li>
-                @if (users.Any())
+                
+                @if (Model.Any())
                 {
                     //Currently displays all users. Placeholder until GetFriendsList(User) available
-                    foreach (var user in users)
+                    foreach (var user in Model)
                     {
-                        <li class="list-group-item">@user.UserName</li>
+                        <li class="list-group-item"> @user.UserName </li>
+                        
                     }
                 }
                 else
@@ -29,11 +24,11 @@
         </div>
         <ul class="list-group friends">
             <li class="list-group-item">Offline</li>
-            @if (users.Any())
+            @if (Model.Any())
             {
 
                 //Currently displays all users. Placeholder until GetFriendsList(User) available
-                foreach (var user in users)
+                foreach (var user in Model)
                 {
                     <li class="list-group-item disabled">@user.UserName</li>
                 }
