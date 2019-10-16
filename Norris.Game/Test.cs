@@ -15,7 +15,7 @@ namespace Norris.Game{
       foreach(var s in data){
         System.Console.WriteLine(s);
         MoveModel move = Chess.StringToMove(s);
-        var movemodel = new GameLogicModel();
+        var movemodel = new MovePlanModel();
         movemodel.Board  = board;
         movemodel.Player = turn;
         movemodel.Move   = move;
@@ -41,7 +41,7 @@ namespace Norris.Game{
         s = Console.ReadLine();
   
         MoveModel move = Chess.StringToMove(s);
-        var movemodel = new GameLogicModel();
+        var movemodel = new MovePlanModel();
         movemodel.Board  = board;
         movemodel.Player = turn;
         movemodel.Move   = move;
