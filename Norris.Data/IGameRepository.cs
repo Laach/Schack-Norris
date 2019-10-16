@@ -7,7 +7,7 @@ using Norris.Data.Models.Board;
 
 namespace Norris.Data
 {
-    public interface IGameRepositroy
+    public interface IGameRepository
     {
         GameStateModel GetGamestate(GameID id);
         FriendListModel GetFriendList(int userID);      
