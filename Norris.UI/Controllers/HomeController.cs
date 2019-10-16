@@ -69,7 +69,7 @@ namespace Norris.UI.Controllers
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            SearchUserModel users = new SearchUserModel();
+            UserListModel users = new UserListModel();
             users = _GameRepo.GetUserSearchResult(searchString);
             //List<User> foundUsers = new List<User>();
             //searchString = searchString.ToLower();
@@ -85,7 +85,7 @@ namespace Norris.UI.Controllers
             //        j++;
             //    }
             //}
-            return PartialView("SearchResultsView", users.SearchResult);
+            return PartialView("SearchResultsView", users.Users);
         }
 
         public IActionResult Error()
