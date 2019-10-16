@@ -36,9 +36,18 @@ background-color: gray;
     {
         for (File f = 0; ; f++)
         {
-            <div class="grid-item @r @f @c" id="@r@f">
-                <img class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
-            </div>
+    <div class="grid-item @r @f @c" id="@r@f">
+        <input type="button" id="@r@f" value="@r@f" />
+        <img class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+        <script type="text/javascript">
+            $(function(){
+                $("input#@r@f").on('click', function(){
+                    @Url.Action("Home")
+                });
+            });
+        </script>
+
+    </div>
             if (f == File.H) { break; }
                 if(c == "white-item")
                 {
