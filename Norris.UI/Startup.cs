@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Norris.Data.Data;
 using Norris.UI.Models;
 using Norris.UI.Services;
+using Norris.Data;
 using Norris.Data.Data.Entities;
 
 namespace Norris.UI
@@ -40,7 +41,7 @@ namespace Norris.UI
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddSingleton<IGameRepository, GameRepository>();
             services.AddMvc();
         }
 

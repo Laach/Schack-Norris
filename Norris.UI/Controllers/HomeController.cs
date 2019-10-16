@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Norris.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
-using Norris.Data.Data;
+using Norris.Data;
 using Norris.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +57,7 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
 
 
-            var friends = _GameRepo.Users.ToList();
+            var friends = _GameRepo.GetFriendList(2);
 
             return View("FindFriends",friends);
         }
@@ -65,8 +65,8 @@ namespace Norris.UI.Controllers
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            SearchUserModel users = new SearchUserModel(); 
-            users = _GameRepo.Users.ToList(searchString);
+            SearchUserModel users = new SearchUserModel();
+            users = _GameRepo.GetUserSearchResult(searchString);
             //List<User> foundUsers = new List<User>();
             //searchString = searchString.ToLower();
             //int j = 0;
