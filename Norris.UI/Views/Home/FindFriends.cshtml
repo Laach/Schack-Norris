@@ -1,0 +1,18 @@
+﻿@using Norris.Data.Data.Entities;
+@model List<User>
+@{
+    ViewData["Title"] = "Find Friends";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Here you can search for your friends to add to your list.</p>
+
+<input type="text" placeholder="Search user" onkeyup="searchUsers(this.value)" />
+
+<div>
+    <span id="searchResults"></span>
+</div>
+
+
+
