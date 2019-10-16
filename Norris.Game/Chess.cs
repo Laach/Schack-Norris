@@ -42,6 +42,9 @@ namespace Norris.Game {
     }
 
     public static MoveModel StringToMove(string move){
+      if(move.Length < 5){
+        throw new ArgumentException($"Move string \"{move}\" too short");
+      }
       MoveModel newmove = new MoveModel();
       newmove.From = StringToPosition(move.Substring(0, 2));
       newmove.To   = StringToPosition(move.Substring(3, 2));

@@ -31,6 +31,35 @@ namespace Norris.Game{
       Utils.PrettyPrint(new ChessBoard(board));
     }
 
+    public static void PlayGame(){
+      BoardModel board = Chess.InitBoard();
+      Color turn = Color.White;
+      string s = "";
+      while(true){
+        Utils.PrettyPrint(new ChessBoard(board));
+        Console.WriteLine($"{turn}, input move: ");
+        s = Console.ReadLine();
+  
+        MoveModel move = Chess.StringToMove(s);
+        var movemodel = new BoardMoveModel();
+        movemodel.Board  = board;
+        movemodel.Player = turn;
+        movemodel.Move   = move;
+        if(!Chess.IsValidMove(movemodel)){
+          Console.Clear();
+          Console.WriteLine("Invalid move: " + s);
+          // Utils.PrettyPrint(new ChessBoard(board));
+          continue;
+        }
+        else{
+          Console.Clear();
+          Console.WriteLine();
+        }
+        board = Chess.DoMove(movemodel);
+        turn = turn == Color.White ? Color.Black : Color.White;
+      }
+    }
+
 
 
 
