@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Norris.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
-using Norris.Data.Data;
+using Norris.Data;
+using Norris.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Norris.UI.Controllers
@@ -15,11 +16,11 @@ namespace Norris.UI.Controllers
     public class HomeController : Controller
     {
         private SignInManager<User> _signInManager;
-        private readonly NContext _nContext;
-        public HomeController(SignInManager<User> sim, NContext nContext)
+        private readonly IGameRepository _GameRepo;
+        public HomeController(SignInManager<User> sim, IGameRepository GameRepo)
         {
             _signInManager = sim;
-            _nContext = nContext;
+            _GameRepo = GameRepo;
         }
 
         public IActionResult Index()
@@ -61,7 +62,7 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
 
 
-            var friends = _nContext.Users.ToList();
+            var friends = _GameRepo.GetFriendList(2);
 
             return View("FindFriends",friends);
         }
@@ -69,22 +70,23 @@ namespace Norris.UI.Controllers
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            List<User> tempUsers = _nContext.Users.ToList();
-            List<User> foundUsers = new List<User>();
-            searchString = searchString.ToLower();
-            int j = 0;
-            foreach (var user in tempUsers)
-            {
-                if (j == 50)
-                    break;
+            SearchUserModel users = new SearchUserModel();
+            users = _GameRepo.GetUserSearchResult(searchString);
+            //List<User> foundUsers = new List<User>();
+            //searchString = searchString.ToLower();
+            //int j = 0;
+            //foreach (var user in tempUsers)
+            //{
+            //    if (j == 50)
+            //        break;
 
-                if (user.UserName.ToLower().Contains(searchString))
-                {
-                    foundUsers.Add(user);
-                    j++;
-                }
-            }
-            return PartialView("SearchResultsView", foundUsers);
+            //    if (user.UserName.ToLower().Contains(searchString))
+            //    {
+            //        foundUsers.Add(user);
+            //        j++;
+            //    }
+            //}
+            return PartialView("SearchResultsView", users.SearchResult);
         }
 
         public IActionResult Error()
