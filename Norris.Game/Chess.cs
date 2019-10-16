@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Norris.Data.Models.Board;
 using Norris.Game.Models;
@@ -41,41 +42,106 @@ namespace Norris.Game {
     }
 
     public static MoveModel StringToMove(string move){
+      if(move.Length < 5){
+        throw new ArgumentException($"Move string \"{move}\" too short");
+      }
       MoveModel newmove = new MoveModel();
       newmove.From = StringToPosition(move.Substring(0, 2));
       newmove.To   = StringToPosition(move.Substring(3, 2));
       return newmove;
     }
 
-    public static BoardModel IsValidMove(BoardMoveModel board){
+    public static bool IsValidMove(GameLogicModel data){
+      ChessBoard board = new ChessBoard(data.Board);
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+      Point to   = Utils.PositionModelToPoint(data.Move.To  );
+
+      // Position moving from is not a piece or is enemy piece.
+      if(board[from] == null || board[from].Piece.Color != data.Player){
+        return false;
+      }
+
+
+      // Do a dummy move and see if player will place themselves in check.
+      ChessBoard dummy = Utils.CloneBoard(board);
+      dummy.board = DoMove(new GameLogicModel(){
+                            Board = dummy.board, Move=data.Move, Player=data.Player});
+
+      if(Logic.IsChecked(dummy.board, data.Player)){
+        return false;
+      }
+
+      // See if the new position is available in the moveset for that tile.
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+      return moves.Contains(to);
+    }
+
+    public static BoardModel DoMove(GameLogicModel data){
+      BoardModel b = data.Board;
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+      Point to   = Utils.PositionModelToPoint(data.Move.To  );
+
+      b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
+      b.Board[from.Y, from.X] = null;
+      // ChessBoard dummy = Utils.CloneBoard(board);
+      return b;
+    }
+
+    public static BoardModel FillPossibleMoves(GameLogicModel data){
       throw new NotImplementedException();
     }
 
-    public static BoardModel DoMove(BoardMoveModel board){
-      throw new NotImplementedException();
+    public static bool IsWhiteChecked(BoardModel data){
+      return Logic.IsChecked(data, Color.White);
     }
 
-    public static BoardModel FillPossibleMoves(BoardMoveModel board){
-      throw new NotImplementedException();
+    public static bool IsBlackChecked(BoardModel data){
+      return Logic.IsChecked(data, Color.Black);
     }
     // static IEnumerable<PositionModel> LinearMovement(){
     //   var a = new ChessBoard.ChessBoard();
     // }
     
+    public static BoardModel InitBoard(){
+      Tile[,] board = new Tile[8,8];
+      board[0,0] = Utils.NewTile(PieceType.Rook, Color.Black);
+      board[0,7] = Utils.NewTile(PieceType.Rook, Color.Black);
+
+      board[0,1] = Utils.NewTile(PieceType.Knight, Color.Black);
+      board[0,6] = Utils.NewTile(PieceType.Knight, Color.Black);
+
+      board[0,2] = Utils.NewTile(PieceType.Bishop, Color.Black);
+      board[0,5] = Utils.NewTile(PieceType.Bishop, Color.Black);
+
+      board[0,3] = Utils.NewTile(PieceType.Queen, Color.Black);
+      board[0,4] = Utils.NewTile(PieceType.King, Color.Black );
+
+      for(int i = 0; i < 8; i++){
+        board[1,i] = Utils.NewTile(PieceType.Pawn, Color.Black); 
+      }
 
 
 
+      board[7,0] = Utils.NewTile(PieceType.Rook, Color.White);
+      board[7,7] = Utils.NewTile(PieceType.Rook, Color.White);
 
+      board[7,1] = Utils.NewTile(PieceType.Knight, Color.White);
+      board[7,6] = Utils.NewTile(PieceType.Knight, Color.White);
 
+      board[7,2] = Utils.NewTile(PieceType.Bishop, Color.White);
+      board[7,5] = Utils.NewTile(PieceType.Bishop, Color.White);
 
+      board[7,3] = Utils.NewTile(PieceType.Queen, Color.White);
+      board[7,4] = Utils.NewTile(PieceType.King, Color.White );
 
+      for(int i = 0; i < 8; i++){
+        board[6,i] = Utils.NewTile(PieceType.Pawn, Color.White); 
+      }
+
+      return new BoardModel(){Board = board};
+
+    }
 
   }
-
-
-
-
-
-
 
 }
