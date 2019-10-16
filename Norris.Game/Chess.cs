@@ -41,6 +41,8 @@ namespace Norris.Game {
       return new PositionModel(){File = file, Rank = rank};
     }
 
+
+
     public static MoveModel StringToMove(string move){
       if(move.Length < 5){
         throw new ArgumentException($"Move string \"{move}\" too short");
@@ -87,20 +89,41 @@ namespace Norris.Game {
       return b;
     }
 
-    public static BoardModel FillPossibleMoves(MovePlanModel data){
-      throw new NotImplementedException();
+
+
+    public static BoardModel FillPossibleMoves(GameLogicModel data){
+      // throw new NotImplementedException();
+      ChessBoard board = new ChessBoard(data.Board);
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+
+
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+
+      return moves.Where(move => 
+        IsValidMove(new GameLogicModel(){
+                              Board = board.board, 
+                              Move=new MoveModel(){
+                                From=data.Move.From, 
+                                To=new PositionModel(){}
+                                }, 
+                              Player=data.Player});
+      
+      );
     }
+
+
 
     public static bool IsWhiteChecked(BoardModel data){
       return Logic.IsChecked(data, Color.White);
     }
 
+
+
     public static bool IsBlackChecked(BoardModel data){
       return Logic.IsChecked(data, Color.Black);
     }
-    // static IEnumerable<PositionModel> LinearMovement(){
-    //   var a = new ChessBoard.ChessBoard();
-    // }
+
+
     
     public static BoardModel InitBoard(){
       Tile[,] board = new Tile[8,8];

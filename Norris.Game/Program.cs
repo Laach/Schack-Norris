@@ -15,8 +15,12 @@ namespace Norris.Game
     {
         public static void Main(string[] args)
         {
-          Console.WriteLine("Norris.Game.Main() is left empty to not interfere with"
-          + " other's projects");
+          // Console.WriteLine("Norris.Game.Main() is left empty to not interfere with"
+          // + " other's projects");
+          // ChessBoard board = new ChessBoard(Chess.InitBoard());
+          // Test.RunGameSample();
+          Test.PlayGame();
+          
 
 
         }
