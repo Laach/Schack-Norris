@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
 using Norris.Data;
 using Norris.Data.Models;
+using Norris.UI.Models.ManageViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Norris.UI.Controllers
@@ -39,8 +40,9 @@ namespace Norris.UI.Controllers
             ViewData["Message"] = "Lobby page.";
 
             var friends = _GameRepo.GetFriendList(2);
-
-            return View(friends);
+            var lobbyUsers = _GameRepo.GetPlayerLobby();
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends.Users };
+            return View(lobbyAndFriends);
         }
 
         public IActionResult Game()
