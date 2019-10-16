@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial")</div>
-    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model)</div>
+    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.Users)</div>
 </div>
 
 
