@@ -21,8 +21,10 @@ namespace Norris.Game {
     static string GetColorString(Color c) => c == Color.White ? "W" : "B";
 
     public static void PrettyPrint(ChessBoard board){
+        Console.WriteLine("\n   A  B  C  D  E  F  G  H ");
       for(int i = 0; i < 8; i++){
-        Console.Write("\n-------------------------\n|");
+        Console.WriteLine($"   -------------------------");
+        Console.Write($"{8-i} |");
         for(int j = 0; j < 8; j++){
 
           string a = board[i,j] == null ? "  " : GetColorString(
@@ -31,9 +33,15 @@ namespace Norris.Game {
 
           Console.Write(a + "|");
         }
+        if(i == 7){
+          Console.Write($" {8-i}");
+        }
+        else{
+          Console.WriteLine($" {8-i}");
+        }
       }
-      Console.WriteLine("\n-------------------------");
-
+      Console.WriteLine($"\n   -------------------------");
+      Console.WriteLine("   A  B  C  D  E  F  G  H ");
     }
 
     public static void PrintMoveset(

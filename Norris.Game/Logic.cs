@@ -123,6 +123,14 @@ namespace Norris.Game {
       return Inbounds(p) && board[p] != null && board[p].Piece.Color == c;
     }
 
+    static IEnumerable<Point> PawnStartPositions(int y){
+      List<Point> list = new List<Point>();
+      for(int i = 0; i < 8; i++){
+        list.Add(new Point(){Y = y, X = i});
+      }
+      return list;
+    }
+
     public static IEnumerable<Point> PawnMoves(
       ChessBoard board, 
       Color player, 
@@ -145,6 +153,11 @@ namespace Norris.Game {
           list = list.Append(attack2);
         }
 
+        IEnumerable<Point> startPositions = PawnStartPositions(6);
+        if(startPositions.Contains(point)){
+          list = list.Append(new Point(){ Y = point.Y - 2, X = point.X});
+        }
+
       }
       else{
         Point forward = new Point(){ Y = point.Y + 1, X = point.X};
@@ -160,6 +173,11 @@ namespace Norris.Game {
         }
         if(PawnCanAttack(board, attack2, Color.White)){
           list = list.Append(attack2);
+        }
+
+        IEnumerable<Point> startPositions = PawnStartPositions(1);
+        if(startPositions.Contains(point)){
+          list = list.Append(new Point(){ Y = point.Y + 2, X = point.X});
         }
 
       }
