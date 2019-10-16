@@ -51,7 +51,7 @@ namespace Norris.Game {
       return newmove;
     }
 
-    public static bool IsValidMove(BoardMoveModel data){
+    public static bool IsValidMove(GameLogicModel data){
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
@@ -64,7 +64,7 @@ namespace Norris.Game {
 
       // Do a dummy move and see if player will place themselves in check.
       ChessBoard dummy = Utils.CloneBoard(board);
-      dummy.board = DoMove(new BoardMoveModel(){
+      dummy.board = DoMove(new GameLogicModel(){
                             Board = dummy.board, Move=data.Move, Player=data.Player});
 
       if(Logic.IsChecked(dummy.board, data.Player)){
@@ -76,7 +76,7 @@ namespace Norris.Game {
       return moves.Contains(to);
     }
 
-    public static BoardModel DoMove(BoardMoveModel data){
+    public static BoardModel DoMove(GameLogicModel data){
       BoardModel b = data.Board;
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
@@ -87,7 +87,7 @@ namespace Norris.Game {
       return b;
     }
 
-    public static BoardModel FillPossibleMoves(BoardMoveModel data){
+    public static BoardModel FillPossibleMoves(GameLogicModel data){
       throw new NotImplementedException();
     }
 
