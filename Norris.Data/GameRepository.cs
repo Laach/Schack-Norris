@@ -31,11 +31,17 @@ namespace Norris.Data
 
         public FriendListModel GetFriendList(int userID)
         {
-            return new FriendListModel
+            var test = new FriendListModel
             {
-
+               Friends = new List<User>()
 
             };
+            test.Friends.Add(new User
+            {
+                UserName = "FriendUser1",
+                Id = "1"
+            });
+            return test;
         }
 
         public GameStateModel GetGamestate(GameID id)
