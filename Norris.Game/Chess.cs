@@ -41,6 +41,8 @@ namespace Norris.Game {
       return new PositionModel(){File = file, Rank = rank};
     }
 
+
+
     public static MoveModel StringToMove(string move){
       if(move.Length < 5){
         throw new ArgumentException($"Move string \"{move}\" too short");
@@ -51,56 +53,69 @@ namespace Norris.Game {
       return newmove;
     }
 
-    public static bool IsValidMove(GameLogicModel data){
+
+
+    public static bool IsValidMove(MovePlanModel data){
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
-      // Position moving from is not a piece or is enemy piece.
-      if(board[from] == null || board[from].Piece.Color != data.Player){
-        return false;
-      }
-
-
-      // Do a dummy move and see if player will place themselves in check.
-      ChessBoard dummy = Utils.CloneBoard(board);
-      dummy.board = DoMove(new GameLogicModel(){
-                            Board = dummy.board, Move=data.Move, Player=data.Player});
-
-      if(Logic.IsChecked(dummy.board, data.Player)){
-        return false;
-      }
-
-      // See if the new position is available in the moveset for that tile.
-      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
-      return moves.Contains(to);
+      return Logic.IsValidMove(board, from, to, data.Player);
     }
 
-    public static BoardModel DoMove(GameLogicModel data){
-      BoardModel b = data.Board;
+
+
+    public static BoardModel DoMove(MovePlanModel data){
+      ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.PositionModelToPoint(data.Move.From);
       Point to   = Utils.PositionModelToPoint(data.Move.To  );
 
-      b.Board[to.Y, to.X] = b.Board[from.Y, from.X];
-      b.Board[from.Y, from.X] = null;
-      // ChessBoard dummy = Utils.CloneBoard(board);
-      return b;
+      return Logic.DoMove(board, from, to).board;
     }
 
-    public static BoardModel FillPossibleMoves(GameLogicModel data){
+
+
+    public static BoardModel FillPossibleMoves(MovePlanModel data){
+      ChessBoard board = new ChessBoard(data.Board);
+      Point from = Utils.PositionModelToPoint(data.Move.From);
+      Color player = data.Player;
+
+
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+
+      // Filters out all moves that will make players check themselves.
+      IEnumerable<Point> possibleMoves = moves.Where(to => 
+        !Logic.IsChecked(Logic.DummyMove(board, from, to, player), player)
+      );
+
+
+
+      IEnumerable<Point> canMoveTo = possibleMoves.Where(to => 
+        board[to] == null
+      );
+
+      IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
+        board[to] != null && board[to].Piece.Color != player
+      );
+
+
+
       throw new NotImplementedException();
     }
 
+
+
     public static bool IsWhiteChecked(BoardModel data){
-      return Logic.IsChecked(data, Color.White);
+      return Logic.IsChecked(new ChessBoard(data), Color.White);
     }
 
+
+
     public static bool IsBlackChecked(BoardModel data){
-      return Logic.IsChecked(data, Color.Black);
+      return Logic.IsChecked(new ChessBoard(data), Color.Black);
     }
-    // static IEnumerable<PositionModel> LinearMovement(){
-    //   var a = new ChessBoard.ChessBoard();
-    // }
+
+
     
     public static BoardModel InitBoard(){
       Tile[,] board = new Tile[8,8];
