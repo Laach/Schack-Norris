@@ -1,10 +1,37 @@
-﻿@{
+﻿@using Norris.Data.Data.Entities
+@using Norris.Data.Models
+@model LobbyAndFriendsViewModel
+
+@{
     ViewData["Title"] = "Lobby";
 }
 <h2>@ViewData["Title"]</h2>
 
 <div class="row">
-    <div class="col-sm-9"></div>
-    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial")</div>
+    <div class="col-sm-9">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="active">
+                        <th class="col-sm-9">USERNAME</th>
+                        <th class="col-sm-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach(var item in Model.CurrentLobbyUsers)
+                    {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td><button class="btn btn-success btn-sm btn-block" type="submit">Join game</button></td>
+                    </tr>
+                    }
+                </tbody>
+                
+        </table>
+        </div>
+    </div>
+    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.Friends)</div>
 </div>
+
 

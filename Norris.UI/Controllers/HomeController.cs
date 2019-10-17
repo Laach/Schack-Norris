@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
 using Norris.Data;
 using Norris.Data.Models;
+using Norris.UI.Models.ManageViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Norris.UI.Controllers
@@ -38,7 +39,10 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Lobby page.";
 
-            return View();
+            var friends = _GameRepo.GetFriendList(2);
+            var lobbyUsers = _GameRepo.GetPlayerLobby();
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends.Users };
+            return View(lobbyAndFriends);
         }
 
         public IActionResult Game()
@@ -48,7 +52,9 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Game view.";
 
-            return View();
+            var friends = _GameRepo.GetFriendList(2);
+
+            return View(friends);
         }
 
         public IActionResult FindFriends()
@@ -67,6 +73,7 @@ namespace Norris.UI.Controllers
         {
             UserListModel users = new UserListModel();
             users = _GameRepo.GetUserSearchResult(searchString);
+           
             //List<User> foundUsers = new List<User>();
             //searchString = searchString.ToLower();
             //int j = 0;
