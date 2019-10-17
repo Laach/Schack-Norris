@@ -12,9 +12,10 @@ using System;
 namespace Norris.Data.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20191017174119_DbSetup")]
+    partial class DbSetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
