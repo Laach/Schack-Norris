@@ -8,7 +8,8 @@ namespace Norris.Data.Data.Entities
 {
     public class User : IdentityUser
     {
-        List<User> Friends;
-        List<GameSession> gameSessions;
+        public List<Friends> Friends { get; set; }
+        public List<GameSession> WhiteGameSessions { get; set; }
+        public List<GameSession> BlackGameSessions { get; set; }
     }
 }

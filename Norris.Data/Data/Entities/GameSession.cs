@@ -10,17 +10,24 @@ using Norris.Data.Models;
 
 namespace Norris.Data.Data.Entities
 {
-    class GameSession
+    public class GameSession
     {
+        [Key]
         [Required]
-        string Id;
+        public string Id { get; set; }
         [Required]
-        List<User> Players;
+        public string Player1ID { get; set; }
         [Required]
-        GameStatus status;
+        public string Player2ID { get; set; }
         [Required]
-        BoardModel BoardModel;
+        public User Player1 { get; set; }
         [Required]
-        GameLogModel Log;
+        public User Player2 { get; set; }
+        [Required]
+        public GameStatus Status { get; set; }
+        [Required]
+        public string Board { get; set; }
+        [Required]
+        public string Log { get; set; }
     }
 }
