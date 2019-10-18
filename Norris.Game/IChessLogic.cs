@@ -11,7 +11,7 @@ namespace Norris.Game {
 
     string[,] DoMove(MovePlanDTO data);
 
-    PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO data);
+    PossibleMovesDTO GetPossibleMoves(SelectedPieceDTO data);
 
     bool IsWhiteChecked(string[,] board);
 

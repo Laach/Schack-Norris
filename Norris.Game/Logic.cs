@@ -257,7 +257,7 @@ namespace Norris.Game {
 
 
 
-    public static PossibleMovesDTO FillPossibleMoves(
+    public static PossibleMovesDTO GetPossibleMoves(
       ChessBoard board, 
       Point selected, 
       Color player){

@@ -31,12 +31,12 @@ namespace Norris.Game {
 
 
 
-    public PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO data){
+    public PossibleMovesDTO GetPossibleMoves(SelectedPieceDTO data){
       ChessBoard board = new ChessBoard(data.Board);
       Point selected = Utils.StringToPoint(data.Selected);
       Color player = Utils.CharToColor(data.PlayerColor);
 
-      return Logic.FillPossibleMoves(board, selected, player);
+      return Logic.GetPossibleMoves(board, selected, player);
     }
 
 
