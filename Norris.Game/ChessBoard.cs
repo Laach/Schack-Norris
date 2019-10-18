@@ -15,7 +15,7 @@ namespace Norris.Game{
       board = new PieceModel[8,8];
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-          board[i,j] = StringToPiece(b[i,j]);
+          board[i,j] = b[i,j] == "ee" ? null : StringToPiece(b[i,j]);
         }
       }
     }
@@ -45,7 +45,7 @@ namespace Norris.Game{
       PieceModel piece = new PieceModel();
       switch(p[0]){
         case 'w': piece.Color = Color.White; break;
-        case 'b': piece.Color = Color.White; break;
+        case 'b': piece.Color = Color.Black; break;
         default: throw new ArgumentException();
       }
       switch(p[1]){
