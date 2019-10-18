@@ -43,3 +43,7 @@ Takes in a board and returns if white king is checked.
 # [bool IsBlackChecked(string[,])](/Norris.Game/ChessLogic.cs)
 ## Description
 Takes in a board and returns if black king is checked.
+
+# [string[,] InitBoard()](Norris.Game/ChessLogic.cs)
+## Description
+Creates a new chess board with all pieces in starting position.
