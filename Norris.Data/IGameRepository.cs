@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Norris.Data.Models;
+using Norris.Data.Models.DTO;
 
 namespace Norris.Data
 {
     public interface IGameRepository
     {
-        GameStateModel GetGamestate(GameID id);
-        UserListModel GetFriendList(int userID);      
-        UserListModel GetUserSearchResult(string searchterm);
+        GameStateDTO GetGamestate(GameID id);
+        UserListDTO GetFriendList(int userID);      
+        UserListDTO GetUserSearchResult(string searchterm);
         ViewUserModel GetUserData(int userID);
-        GameStateModel AddNewMove(NewMoveModel newMove);
+        GameStateDTO AddNewMove(NewMoveDTO newMove);
         GameID AddNewGame(int player1ID, int player2ID);
         bool AddFriend(int currentUserID, int friendUserID);
-        UserListModel GetPlayerLobby();
+        UserListDTO GetPlayerLobby();
         
     }
 }
