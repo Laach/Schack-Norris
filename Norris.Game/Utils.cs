@@ -28,7 +28,7 @@ namespace Norris.Game {
         for(int j = 0; j < 8; j++){
 
           string a = board[i,j] == null ? "  " : GetColorString(
-            board[i,j].Piece.Color) + GetStringRep(board[i,j].Piece.Type
+            board[i,j].Color) + GetStringRep(board[i,j].Type
           );
 
           Console.Write(a + "|");
@@ -49,7 +49,7 @@ namespace Norris.Game {
       var enemy = player == Color.White ? Color.Black : Color.White;
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-          if((board[i,j] == null || board[i,j].Piece.Color == enemy) && arr.Contains(new Point{Y=i,X=j})){
+          if((board[i,j] == null || board[i,j].Color == enemy) && arr.Contains(new Point{Y=i,X=j})){
             Console.Write(" x ");
           }
           else{
@@ -60,18 +60,11 @@ namespace Norris.Game {
       }
     }
 
-    public static Point PositionModelToPoint(PositionModel position){
-      Point p = new Point();
-      p.X = (int)position.File; // File integers already represents the right index.
-      p.Y = 7 - (int)position.Rank; // Rank starts at 1 in bottom left.
-      return p;
-    }
-
     public static Color GetOppositeColor(Color color){
       return color == Color.White ? Color.Black : Color.White;
     }
 
-    public static Point FindFirst(ChessBoard board, Func<Tile, bool> f){
+    public static Point FindFirst(ChessBoard board, Func<PieceModel, bool> f){
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
           if(board[i,j] != null && f(board[i,j])){
@@ -86,7 +79,7 @@ namespace Norris.Game {
     public static Point FindKing(ChessBoard board, Color player){
       try{
         return FindFirst(
-          board, t => t.Piece.Type == PieceType.King && t.Piece.Color == player
+          board, t => t.Type == PieceType.King && t.Color == player
         );
       }
       catch{
@@ -94,22 +87,20 @@ namespace Norris.Game {
       }
     }
 
-    static Tile CloneTile(Tile tile){
-      return new Tile(){
-        Piece = new PieceModel(){
-          Type = tile.Piece.Type,
-          Color = tile.Piece.Color
-        }
+    static PieceModel ClonePiece(PieceModel piece){
+      return new PieceModel(){
+        Type = piece.Type,
+        Color = piece.Color
       };
     }
 
     public static ChessBoard CloneBoard(ChessBoard board){
 
-      BoardModel clone = new BoardModel(){Board = new Tile[8,8]};
+      PieceModel[,] clone = new PieceModel[8,8];
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
           if(board[i,j] != null){
-            clone.Board[i,j] = CloneTile(board[i,j]);
+            clone[i,j] = ClonePiece(board[i,j]);
           }
         }
       }
@@ -126,14 +117,14 @@ namespace Norris.Game {
       return list;
     }
 
-    public static IEnumerable<Point> GetAllMovesFor(ChessBoard board, Func<Tile, bool> f){
+    public static IEnumerable<Point> GetAllMovesFor(ChessBoard board, Func<PieceModel, bool> f){
       IEnumerable<Point> list = new List<Point>(){};
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
           if(board[i,j] != null && f(board[i, j])){
             var p = new Point(){ Y = i, X = j};
             list = list.Concat(
-              Logic.GetMovesFor(board, board[i,j].Piece.Color, p)
+              Logic.GetMovesFor(board, board[i,j].Color, p)
             );
           }
         }
@@ -141,12 +132,47 @@ namespace Norris.Game {
       return list;
     }
 
-    public static Tile NewTile(PieceType type, Color color){
-      return new Tile(){
-        Piece = new PieceModel(){
+    public static PieceModel NewPiece(PieceType type, Color color){
+      return new PieceModel(){
           Type = type, Color = color
-        }
       };
+    }
+
+    public static Point StringToPoint(string pos){
+      if (pos.Length < 2){
+        throw new ArgumentException($"\nString \"{pos}\" is too short");
+      }
+      Point p = new Point();
+      switch (Char.ToLower(pos[0])){
+        case 'a': p.X = 0; break;
+        case 'b': p.X = 1; break;
+        case 'c': p.X = 2; break;
+        case 'd': p.X = 3; break;
+        case 'e': p.X = 4; break;
+        case 'f': p.X = 5; break;
+        case 'g': p.X = 6; break;
+        case 'h': p.X = 7; break;
+        default: throw new ArgumentException($"\nInvalid file: {pos[0]} ");
+      }
+      p.Y = 8 - Convert.ToInt32(pos[1].ToString());
+      return p;
+    }
+
+    public static ValueTuple<Point, Point> MoveToPoints(string move){
+      var from = StringToPoint(move.Substring(0, 2));
+      var to   = StringToPoint(move.Substring(3, 2));
+      return new ValueTuple<Point, Point>(from, to);
+    }
+
+    public static Color CharToColor(char c){
+      return c == 'w' ? Color.White : Color.Black;
+    }
+
+    public static string PieceToString(PieceModel p){
+      string pos = "";
+      pos += p.Color == Color.White ? "w" : "b";
+      pos += GetStringRep(p.Type);
+      return pos;
     }
     
   }

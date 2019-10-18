@@ -38,11 +38,11 @@ namespace Norris.Game {
     }
 
     static bool CanGoTo(ChessBoard board, Point point, Color player){
-      return board[point] == null || board[point].Piece.Color != player;
+      return board[point] == null || board[point].Color != player;
     }
 
     static bool IsEnemy(ChessBoard board, Point point, Color player){
-      return board[point] != null && board[point].Piece.Color != player;
+      return board[point] != null && board[point].Color != player;
     }
 
 
@@ -120,7 +120,7 @@ namespace Norris.Game {
     }
 
     static bool PawnCanAttack(ChessBoard board, Point p, Color c){
-      return Inbounds(p) && board[p] != null && board[p].Piece.Color == c;
+      return Inbounds(p) && board[p] != null && board[p].Color == c;
     }
 
     static IEnumerable<Point> PawnStartPositions(int y){
@@ -190,7 +190,7 @@ namespace Norris.Game {
       Color player, 
       Point point){
       
-      switch(board[point]?.Piece.Type){
+      switch(board[point]?.Type){
         case PieceType.King  : return KingMoves  (board, player, point);
         case PieceType.Queen : return QueenMoves (board, player, point);
         case PieceType.Rook  : return RookMoves  (board, player, point);
@@ -204,7 +204,7 @@ namespace Norris.Game {
 
     public static bool IsChecked(ChessBoard board, Color color){
       IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
-                                            board, t => t.Piece.Color != color);
+                                            board, t => t.Color != color);
       Point king = Utils.FindKing(board, color);
 
       return enemyMoves.Contains(king);
@@ -231,7 +231,7 @@ namespace Norris.Game {
 
     public static bool IsValidMove(ChessBoard board, Point from, Point to, Color player){
       // Position moving from is not a piece or is enemy piece.
-      if(board[from] == null || board[from].Piece.Color != player){
+      if(board[from] == null || board[from].Color != player){
         return false;
       }
 

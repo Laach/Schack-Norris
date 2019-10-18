@@ -9,79 +9,49 @@ namespace Norris.Game {
 
   public static class Chess {
 
-    public static PositionModel StringToPosition(string pos){
-      if (pos.Length < 2){
-        throw new ArgumentException($"\nString \"{pos}\" is too short");
-      }
-      File file; 
-      switch (Char.ToLower(pos[0])){
-        case 'a': file = File.FA; break;
-        case 'b': file = File.FB; break;
-        case 'c': file = File.FC; break;
-        case 'd': file = File.FD; break;
-        case 'e': file = File.FE; break;
-        case 'f': file = File.FF; break;
-        case 'g': file = File.FG; break;
-        case 'h': file = File.FH; break;
-        default: throw new ArgumentException($"\nInvalid file: {pos[0]} ");
-      }
-      Rank rank;
-      switch(pos[1]){
-        case '1': rank = Rank.R1;   break;
-        case '2': rank = Rank.R2;   break;
-        case '3': rank = Rank.R3; break;
-        case '4': rank = Rank.R4;  break;
-        case '5': rank = Rank.R5;  break;
-        case '6': rank = Rank.R6;   break;
-        case '7': rank = Rank.R7; break;
-        case '8': rank = Rank.R8; break;
-        default: throw new ArgumentException($"\nInvalid rank: {pos[1]} ");
-      }
-
-      return new PositionModel(){File = file, Rank = rank};
-    }
 
 
 
-    public static MoveModel StringToMove(string move){
-      if(move.Length < 5){
-        throw new ArgumentException($"Move string \"{move}\" too short");
-      }
-      MoveModel newmove = new MoveModel();
-      newmove.From = StringToPosition(move.Substring(0, 2));
-      newmove.To   = StringToPosition(move.Substring(3, 2));
-      return newmove;
-    }
+    // static Point StringToPoint(string move){
+    //   if(move.Length < 5){
+    //     throw new ArgumentException($"Move string \"{move}\" too short");
+    //   }
+    //   MoveModel newmove = new MoveModel();
+    //   newmove.From = StringToPosition(move.Substring(0, 2));
+    //   newmove.To   = StringToPosition(move.Substring(3, 2));
+    //   return newmove;
+    // }
 
 
-
+    // bool IsValidMove(MovePlanDTO)
     public static bool IsValidMove(MovePlanModel data){
       ChessBoard board = new ChessBoard(data.Board);
-      Point from = Utils.PositionModelToPoint(data.Move.From);
-      Point to   = Utils.PositionModelToPoint(data.Move.To  );
+      var (from, to) = Utils.MoveToPoints(data.Move);
+      Color player = Utils.CharToColor(data.Player);
 
-      return Logic.IsValidMove(board, from, to, data.Player);
+      return Logic.IsValidMove(board, from, to, player);
     }
 
 
 
-    public static BoardModel DoMove(MovePlanModel data){
+    // string[,] DoMove(MovePlanDTO)
+    public static string[,] DoMove(MovePlanModel data){
       ChessBoard board = new ChessBoard(data.Board);
-      Point from = Utils.PositionModelToPoint(data.Move.From);
-      Point to   = Utils.PositionModelToPoint(data.Move.To  );
+      var (from, to) = Utils.MoveToPoints(data.Move);
 
-      return Logic.DoMove(board, from, to).board;
+      return Logic.DoMove(board, from, to).AsStringMatrix();
     }
 
 
 
-    public static BoardModel FillPossibleMoves(MovePlanModel data){
+    // PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO)
+    public static string[,] FillPossibleMoves(MovePlanModel data){
       ChessBoard board = new ChessBoard(data.Board);
-      Point from = Utils.PositionModelToPoint(data.Move.From);
-      Color player = data.Player;
+      Point from = Utils.StringToPoint(data.Move);
+      Color player = Utils.CharToColor(data.Player);
 
 
-      IEnumerable<Point> moves = Logic.GetMovesFor(board, data.Player, from);
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, player, from);
 
       // Filters out all moves that will make players check themselves.
       IEnumerable<Point> possibleMoves = moves.Where(to => 
@@ -95,7 +65,7 @@ namespace Norris.Game {
       );
 
       IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
-        board[to] != null && board[to].Piece.Color != player
+        board[to] != null && board[to].Color != player
       );
 
 
@@ -105,55 +75,55 @@ namespace Norris.Game {
 
 
 
-    public static bool IsWhiteChecked(BoardModel data){
-      return Logic.IsChecked(new ChessBoard(data), Color.White);
+    public static bool IsWhiteChecked(string[,] board){
+      return Logic.IsChecked(new ChessBoard(board), Color.White);
     }
 
 
 
-    public static bool IsBlackChecked(BoardModel data){
-      return Logic.IsChecked(new ChessBoard(data), Color.Black);
+    public static bool IsBlackChecked(string[,] board){
+      return Logic.IsChecked(new ChessBoard(board), Color.Black);
     }
 
 
     
-    public static BoardModel InitBoard(){
-      Tile[,] board = new Tile[8,8];
-      board[0,0] = Utils.NewTile(PieceType.Rook, Color.Black);
-      board[0,7] = Utils.NewTile(PieceType.Rook, Color.Black);
+    public static PieceModel[,] InitBoard(){
+      PieceModel[,] board = new PieceModel[8,8];
+      board[0,0] = Utils.NewPiece(PieceType.Rook, Color.Black);
+      board[0,7] = Utils.NewPiece(PieceType.Rook, Color.Black);
 
-      board[0,1] = Utils.NewTile(PieceType.Knight, Color.Black);
-      board[0,6] = Utils.NewTile(PieceType.Knight, Color.Black);
+      board[0,1] = Utils.NewPiece(PieceType.Knight, Color.Black);
+      board[0,6] = Utils.NewPiece(PieceType.Knight, Color.Black);
 
-      board[0,2] = Utils.NewTile(PieceType.Bishop, Color.Black);
-      board[0,5] = Utils.NewTile(PieceType.Bishop, Color.Black);
+      board[0,2] = Utils.NewPiece(PieceType.Bishop, Color.Black);
+      board[0,5] = Utils.NewPiece(PieceType.Bishop, Color.Black);
 
-      board[0,3] = Utils.NewTile(PieceType.Queen, Color.Black);
-      board[0,4] = Utils.NewTile(PieceType.King, Color.Black );
+      board[0,3] = Utils.NewPiece(PieceType.Queen, Color.Black);
+      board[0,4] = Utils.NewPiece(PieceType.King, Color.Black );
 
       for(int i = 0; i < 8; i++){
-        board[1,i] = Utils.NewTile(PieceType.Pawn, Color.Black); 
+        board[1,i] = Utils.NewPiece(PieceType.Pawn, Color.Black); 
       }
 
 
 
-      board[7,0] = Utils.NewTile(PieceType.Rook, Color.White);
-      board[7,7] = Utils.NewTile(PieceType.Rook, Color.White);
+      board[7,0] = Utils.NewPiece(PieceType.Rook, Color.White);
+      board[7,7] = Utils.NewPiece(PieceType.Rook, Color.White);
 
-      board[7,1] = Utils.NewTile(PieceType.Knight, Color.White);
-      board[7,6] = Utils.NewTile(PieceType.Knight, Color.White);
+      board[7,1] = Utils.NewPiece(PieceType.Knight, Color.White);
+      board[7,6] = Utils.NewPiece(PieceType.Knight, Color.White);
 
-      board[7,2] = Utils.NewTile(PieceType.Bishop, Color.White);
-      board[7,5] = Utils.NewTile(PieceType.Bishop, Color.White);
+      board[7,2] = Utils.NewPiece(PieceType.Bishop, Color.White);
+      board[7,5] = Utils.NewPiece(PieceType.Bishop, Color.White);
 
-      board[7,3] = Utils.NewTile(PieceType.Queen, Color.White);
-      board[7,4] = Utils.NewTile(PieceType.King, Color.White );
+      board[7,3] = Utils.NewPiece(PieceType.Queen, Color.White);
+      board[7,4] = Utils.NewPiece(PieceType.King, Color.White );
 
       for(int i = 0; i < 8; i++){
-        board[6,i] = Utils.NewTile(PieceType.Pawn, Color.White); 
+        board[6,i] = Utils.NewPiece(PieceType.Pawn, Color.White); 
       }
 
-      return new BoardModel(){Board = board};
+      return board;
 
     }
 
