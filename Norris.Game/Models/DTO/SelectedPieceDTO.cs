@@ -1,5 +1,5 @@
 
-namespace Norris.Game.Models{
+namespace Norris.Game.Models.DTO{
 
   public class SelectedPieceDTO{
     public string[,] Board  {get; set;}

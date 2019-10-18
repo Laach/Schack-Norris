@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Norris.Game.Models;
+using Norris.Game.Models.DTO;
 
 namespace Norris.Game {
 

@@ -1,4 +1,4 @@
-namespace Norris.Game.Models{
+namespace Norris.Game.Models.DTO{
   using Norris.Game.Models;
 
   public class MovePlanDTO{
