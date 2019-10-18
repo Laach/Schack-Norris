@@ -7,10 +7,10 @@ using Norris.Game.Models.DTO;
 
 namespace Norris.Game {
 
-  public static class Chess {
+  public class ChessLogic : IChessLogic {
 
 
-    public static bool IsValidMove(MovePlanDTO data){
+    public bool IsValidMove(MovePlanDTO data){
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.StringToPoint(data.From);
       Point to   = Utils.StringToPoint(data.To);
@@ -21,7 +21,7 @@ namespace Norris.Game {
 
 
 
-    public static string[,] DoMove(MovePlanDTO data){
+    public string[,] DoMove(MovePlanDTO data){
       ChessBoard board = new ChessBoard(data.Board);
       Point from = Utils.StringToPoint(data.From);
       Point to   = Utils.StringToPoint(data.To);
@@ -31,7 +31,7 @@ namespace Norris.Game {
 
 
 
-    public static PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO data){
+    public PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO data){
       ChessBoard board = new ChessBoard(data.Board);
       Point selected = Utils.StringToPoint(data.Selected);
       Color player = Utils.CharToColor(data.PlayerColor);
@@ -41,17 +41,17 @@ namespace Norris.Game {
 
 
 
-    public static bool IsWhiteChecked(string[,] board){
+    public bool IsWhiteChecked(string[,] board){
       return Logic.IsChecked(new ChessBoard(board), Color.White);
     }
 
 
 
-    public static bool IsBlackChecked(string[,] board){
+    public bool IsBlackChecked(string[,] board){
       return Logic.IsChecked(new ChessBoard(board), Color.Black);
     }
 
-    public static string[,] InitBoard(){
+    public string[,] InitBoard(){
       return new ChessBoard(Utils.InitBoard()).AsStringMatrix();
     }
     

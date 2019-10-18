@@ -8,6 +8,7 @@ namespace Norris.Game{
   static class Test{
 
     public static void RunGameSample(){
+      ChessLogic Chess = new ChessLogic();
       ChessBoard board = new ChessBoard(Chess.InitBoard());
       var data = System.IO.File.ReadAllLines("schackexempel.txt");
       Color turn = Color.White;
@@ -27,6 +28,7 @@ namespace Norris.Game{
     }
 
     public static void PlayGame(){
+      ChessLogic Chess = new ChessLogic();
       ChessBoard board = new ChessBoard(Chess.InitBoard());
       Color turn = Color.White;
       string s = "";
