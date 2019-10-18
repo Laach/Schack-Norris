@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Norris.Data.Models.Board;
+using Norris.Game.Models;
 
 namespace Norris.Game {
   static class Utils {
 
-    static string GetStringRep(PieceType type){
+    public static string GetStringRep(PieceType type){
       switch(type){
         case PieceType.Bishop: return "B";
         case PieceType.Pawn  : return "P";
@@ -18,7 +18,6 @@ namespace Norris.Game {
       }
     }
 
-    static string GetColorString(Color c) => c == Color.White ? "W" : "B";
 
     public static void PrettyPrint(ChessBoard board){
         Console.WriteLine("\n   A  B  C  D  E  F  G  H ");
@@ -27,7 +26,7 @@ namespace Norris.Game {
         Console.Write($"{8-i} |");
         for(int j = 0; j < 8; j++){
 
-          string a = board[i,j] == null ? "  " : GetColorString(
+          string a = board[i,j] == null ? "  " : ColorToChar(
             board[i,j].Color) + GetStringRep(board[i,j].Type
           );
 
@@ -109,13 +108,6 @@ namespace Norris.Game {
     }
 
     
-    public static IEnumerable<Point> FoldIEnum(IEnumerable<Point>[] arr){
-      IEnumerable<Point> list = new List<Point>();
-      foreach(var ienum in arr){
-        list = list.Concat(ienum);
-      }
-      return list;
-    }
 
     public static IEnumerable<Point> GetAllMovesFor(ChessBoard board, Func<PieceModel, bool> f){
       IEnumerable<Point> list = new List<Point>(){};
@@ -138,6 +130,10 @@ namespace Norris.Game {
       };
     }
 
+
+
+
+
     public static Point StringToPoint(string pos){
       if (pos.Length < 2){
         throw new ArgumentException($"\nString \"{pos}\" is too short");
@@ -158,22 +154,32 @@ namespace Norris.Game {
       return p;
     }
 
+    public static string PointToString(Point p){
+      string pos = "";
+      switch(p.X){
+        case 0: pos = "a"; break;
+        case 1: pos = "b"; break;
+        case 2: pos = "c"; break;
+        case 3: pos = "d"; break;
+        case 4: pos = "e"; break;
+        case 5: pos = "f"; break;
+        case 6: pos = "g"; break;
+        case 7: pos = "h"; break;
+      }
+      pos += (8 - p.Y).ToString();
+      return pos;
+    }
+
     public static ValueTuple<Point, Point> MoveToPoints(string move){
       var from = StringToPoint(move.Substring(0, 2));
       var to   = StringToPoint(move.Substring(3, 2));
       return new ValueTuple<Point, Point>(from, to);
     }
 
-    public static Color CharToColor(char c){
-      return c == 'w' ? Color.White : Color.Black;
-    }
+    public static Color CharToColor(char c) => c == 'w' ? Color.White : Color.Black;
+   
+    public static char ColorToChar(Color c) => c == Color.White ? 'W' : 'B';
 
-    public static string PieceToString(PieceModel p){
-      string pos = "";
-      pos += p.Color == Color.White ? "w" : "b";
-      pos += GetStringRep(p.Type);
-      return pos;
-    }
     
   }
 }

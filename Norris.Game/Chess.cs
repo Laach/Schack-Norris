@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Norris.Data.Models.Board;
 using Norris.Game.Models;
 
 
@@ -10,67 +9,33 @@ namespace Norris.Game {
   public static class Chess {
 
 
-
-
-    // static Point StringToPoint(string move){
-    //   if(move.Length < 5){
-    //     throw new ArgumentException($"Move string \"{move}\" too short");
-    //   }
-    //   MoveModel newmove = new MoveModel();
-    //   newmove.From = StringToPosition(move.Substring(0, 2));
-    //   newmove.To   = StringToPosition(move.Substring(3, 2));
-    //   return newmove;
-    // }
-
-
-    // bool IsValidMove(MovePlanDTO)
-    public static bool IsValidMove(MovePlanModel data){
+    public static bool IsValidMove(MovePlanDTO data){
       ChessBoard board = new ChessBoard(data.Board);
-      var (from, to) = Utils.MoveToPoints(data.Move);
-      Color player = Utils.CharToColor(data.Player);
+      Point from = Utils.StringToPoint(data.From);
+      Point to   = Utils.StringToPoint(data.To);
+      Color player = Utils.CharToColor(data.PlayerColor);
 
       return Logic.IsValidMove(board, from, to, player);
     }
 
 
 
-    // string[,] DoMove(MovePlanDTO)
-    public static string[,] DoMove(MovePlanModel data){
+    public static string[,] DoMove(MovePlanDTO data){
       ChessBoard board = new ChessBoard(data.Board);
-      var (from, to) = Utils.MoveToPoints(data.Move);
+      Point from = Utils.StringToPoint(data.From);
+      Point to   = Utils.StringToPoint(data.To);
 
       return Logic.DoMove(board, from, to).AsStringMatrix();
     }
 
 
 
-    // PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO)
-    public static string[,] FillPossibleMoves(MovePlanModel data){
+    public static PossibleMovesDTO FillPossibleMoves(SelectedPieceDTO data){
       ChessBoard board = new ChessBoard(data.Board);
-      Point from = Utils.StringToPoint(data.Move);
-      Color player = Utils.CharToColor(data.Player);
+      Point selected = Utils.StringToPoint(data.Selected);
+      Color player = Utils.CharToColor(data.PlayerColor);
 
-
-      IEnumerable<Point> moves = Logic.GetMovesFor(board, player, from);
-
-      // Filters out all moves that will make players check themselves.
-      IEnumerable<Point> possibleMoves = moves.Where(to => 
-        !Logic.IsChecked(Logic.DummyMove(board, from, to, player), player)
-      );
-
-
-
-      IEnumerable<Point> canMoveTo = possibleMoves.Where(to => 
-        board[to] == null
-      );
-
-      IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
-        board[to] != null && board[to].Color != player
-      );
-
-
-
-      throw new NotImplementedException();
+      return Logic.FillPossibleMoves(board, selected, player);
     }
 
 

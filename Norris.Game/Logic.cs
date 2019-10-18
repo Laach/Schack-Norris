@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Norris.Data.Models.Board;
+using Norris.Game.Models;
 
 namespace Norris.Game {
 
@@ -9,7 +9,8 @@ namespace Norris.Game {
 
     // Ychange and Xchange are how much the point is moved each step.
     public static IEnumerable<Point> LinearMovement(
-      ChessBoard board, Color player, 
+      ChessBoard board, 
+      Color player, 
       Point p, 
       Func<int,int> Ychange, 
       Func<int,int> Xchange,
@@ -185,6 +186,10 @@ namespace Norris.Game {
 
     }
 
+
+
+
+
     public static IEnumerable<Point> GetMovesFor(
       ChessBoard board, 
       Color player, 
@@ -202,10 +207,10 @@ namespace Norris.Game {
 
     }
 
-    public static bool IsChecked(ChessBoard board, Color color){
+    public static bool IsChecked(ChessBoard board, Color player){
       IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
-                                            board, t => t.Color != color);
-      Point king = Utils.FindKing(board, color);
+                                            board, t => t.Color != player);
+      Point king = Utils.FindKing(board, player);
 
       return enemyMoves.Contains(king);
     }
@@ -220,6 +225,8 @@ namespace Norris.Game {
       return board;
     }
 
+
+
     public static ChessBoard DummyMove(
       ChessBoard board, 
       Point from, 
@@ -229,12 +236,13 @@ namespace Norris.Game {
       return Logic.DoMove(Utils.CloneBoard(board), from, to);
     }
 
+
+
     public static bool IsValidMove(ChessBoard board, Point from, Point to, Color player){
       // Position moving from is not a piece or is enemy piece.
       if(board[from] == null || board[from].Color != player){
         return false;
       }
-
 
       // Do a dummy move and see if player will place themselves in check.
       if(Logic.IsChecked(DummyMove(board, from, to, player), player)){
@@ -245,6 +253,42 @@ namespace Norris.Game {
       IEnumerable<Point> moves = Logic.GetMovesFor(board, player, from);
       return moves.Contains(to);
     }
+
+
+
+    public static PossibleMovesDTO FillPossibleMoves(
+      ChessBoard board, 
+      Point selected, 
+      Color player){
+
+      IEnumerable<Point> moves = Logic.GetMovesFor(board, player, selected);
+
+      // Filters out all moves that will make players check themselves.
+      IEnumerable<Point> possibleMoves = moves.Where(to => 
+        !Logic.IsChecked(Logic.DummyMove(board, selected, to, player), player)
+      );
+
+
+      IEnumerable<Point> canMoveTo = possibleMoves.Where(to => 
+        board[to] == null
+      );
+
+      IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
+        board[to] != null && board[to].Color != player
+      );
+
+
+      PossibleMovesDTO dto = new PossibleMovesDTO();
+
+      dto.PositionsPieceCanMoveTo = canMoveTo.Select(p => 
+        Utils.PointToString(p)).ToList();
+      
+      dto.PositionsPieceCanKillAt = canMoveTo.Select(p => 
+        Utils.PointToString(p)).ToList();
+
+      return dto;
+    }
+
 
   }
 }

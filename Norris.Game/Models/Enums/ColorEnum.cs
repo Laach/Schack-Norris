@@ -1,5 +1,5 @@
 
-namespace Norris.Data.Models.Board{
+namespace Norris.Game.Models{
   public enum Color{
     White,
     Black

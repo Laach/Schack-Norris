@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Norris.Data.Models.Board;
+using Norris.Game.Models;
 
 
 
@@ -34,6 +34,13 @@ namespace Norris.Game{
       set{ board[y, x] = value;}
     }
 
+    private static string PieceToString(PieceModel p){
+      string pos = "";
+      pos += p.Color == Color.White ? "w" : "b";
+      pos += Utils.GetStringRep(p.Type).ToLower();
+      return pos;
+    }
+
     private PieceModel StringToPiece(string p){
       PieceModel piece = new PieceModel();
       switch(p[0]){
@@ -57,11 +64,11 @@ namespace Norris.Game{
       string[,] matrix = new string[8,8];
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-          matrix[i,j] = Utils.PieceToString(board[i,j]);
+          matrix[i,j] = board[i,j] != null ? PieceToString(board[i,j]) : "ee";
         }
       }
 
-      throw new NotImplementedException();
+      return matrix;
     }
   }
 
