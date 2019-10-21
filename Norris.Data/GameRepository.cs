@@ -23,14 +23,23 @@ namespace Norris.Data
 
         public string AddNewGame(string playerWhiteID, string playerBlackID)
         {
-            string DefaultGameState = "br,bn,bb,bq,bk,bb,bn,br,bp,bp,bp,bp,bp,bp,bp,bp,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,wp,wp,wp,wp,wp,wp,wp,wp,wr,wn,wb,wq,wk,wb,wn,wr";
+            string DefaultGameState = 
+                "br,bn,bb,bq,bk,bb,bn,br," +
+                "bp,bp,bp,bp,bp,bp,bp,bp," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "wp,wp,wp,wp,wp,wp,wp,wp," +
+                "wr,wn,wb,wq,wk,wb,wn,wr";
+
             GameSession newgame = new GameSession
             {
                 Id = Guid.NewGuid().ToString(),
                 Board = DefaultGameState,
                 PlayerBlackID = playerBlackID,
-                PlayerBlack = (User)context.Users.Where(e => e.Id.Equals(playerBlackID)),
-                PlayerWhite = (User)context.Users.Where(e => e.Id.Equals(playerWhiteID)),
+                PlayerBlack = context.Users.Where(e => e.Id.Equals(playerBlackID)).FirstOrDefault(),
+                PlayerWhite = context.Users.Where(e => e.Id.Equals(playerWhiteID)).FirstOrDefault(),
                 PlayerWhiteID = playerWhiteID,
                 IsActive = true,
                 Log = "",
@@ -67,10 +76,18 @@ namespace Norris.Data
             return test;
         }
 
-        public GameStateDTO GetGamestate(GameID id)
+        public GameStateDTO GetGamestate(string id)
         {
             //GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
-            string DefaultGameState = "br,bn,bb,bq,bk,bb,bn,br,bp,bp,bp,bp,bp,bp,bp,bp,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,ee,wp,wp,wp,wp,wp,wp,wp,wp,wr,wn,wb,wq,wk,wb,wn,wr";
+            string DefaultGameState = 
+                "br,bn,bb,bq,bk,bb,bn,br," +
+                "bp,bp,bp,bp,bp,bp,bp,bp," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "wp,wp,wp,wp,wp,wp,wp,wp," +
+                "wr,wn,wb,wq,wk,wb,wn,wr";
 
             //var pieces = Game.Board.Split(',').ToList();
             var pieces = DefaultGameState.Split(',').ToList();
