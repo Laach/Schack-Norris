@@ -4,18 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Norris.Data.Models;
 using Norris.Data.Data.Entities;
+using Norris.Data.Data;
 
 namespace Norris.Data
 {
     public class GameRepository : IGameRepository
     {
-        /*private readonly AppDbContext context;
-        public GameRepository(AppDBContext context)
+        private readonly NContext context;
+        public GameRepository(NContext context)
         {
-          this.context = context;    
-        }*/
+            this.context = context;
+        }
         public bool AddFriend(int currentUserID, int friendUserID)
         {
+            
             throw new NotImplementedException();
         }
 
