@@ -1,6 +1,6 @@
 ﻿@using Norris.Data.Data.Entities
 @using Norris.Data.Models.DTO
-@model UserListDTO
+@model GameViewModel
 
 @{
     ViewData["Title"] = "Game";
@@ -12,8 +12,8 @@
 </style>
 
 <div class="row">
-    <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial")</div>
-    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.Users)</div>
+    <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial", Model.Board)</div>
+    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.UserList.Users)</div>
 </div>
 
 

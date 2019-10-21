@@ -9,7 +9,7 @@ namespace Norris.Data
 {
     public interface IGameRepository
     {
-        GameStateDTO GetGamestate(GameID id);
+        GameStateDTO GetGamestate(string id);
         UserListDTO GetFriendList(int userID);      
         UserListDTO GetUserSearchResult(string searchterm);
         ViewUserModel GetUserData(int userID);
