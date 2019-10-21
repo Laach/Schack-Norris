@@ -45,10 +45,16 @@ namespace Norris.Game {
       return Logic.IsChecked(new ChessBoard(board), Color.White);
     }
 
-
-
     public bool IsBlackChecked(string[,] board){
       return Logic.IsChecked(new ChessBoard(board), Color.Black);
+    }
+
+    public bool IsWhiteCheckMate(string[,] board){
+      return Logic.IsCheckMate(new ChessBoard(board), Color.White);
+    }
+
+    public bool IsBlackCheckMate(string[,] board){
+      return Logic.IsCheckMate(new ChessBoard(board), Color.Black);
     }
 
     public string[,] InitBoard(){
