@@ -2,8 +2,6 @@
 @using Norris.UI.Models
 @using Norris.Data.Data.Entities
 
-@using Norris.Data.Models.Board
-
 <style>
     .grid-container {
         display: grid;
@@ -14,7 +12,6 @@
 
     .grid-item {
         font-size: 10px;
-        text-align: center;
     }
 
     .white-item {
@@ -31,14 +28,20 @@
 </style>
 <div class="grid-container">
     @{string c = "white-item"; }
-    @for (Rank r = Rank.R8; ; r--)
+    @for (int r = 8; ; r--)
     {
-        for (File f = 0; ; f++)
+        for (int f = 1; ; f++)
         {
-            <div class="grid-item @r @f @c" id="@r@f">
-                <img class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+    <div class="grid-item @r @f @c" id="@r@f">
+        <div style="position:relative;">
+            <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+            <div >
+                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
             </div>
-            if (f == File.FH) { break; }
+        </div>
+        
+    </div>
+            if (f == 8) { break; }
             if (c == "white-item")
             {
                 c = "black-item";
@@ -48,6 +51,6 @@
                 c = "white-item";
             }
         }
-        if (r == Rank.R1) { break; }
+        if (r == 1) { break; }
     }
 </div>
