@@ -29,10 +29,10 @@ namespace Norris.UI
         public void ConfigureServices(IServiceCollection services)
         {
             if (System.Environment.UserName == "casper"){
-                services.AddDbContext<NContext>(options => options.UseSqlite("Data Source=norris.db"));
+                services.AddDbContextPool<NContext>(options => options.UseSqlite("Data Source=norris.db"));
             }
             else{
-                services.AddDbContext<NContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                services.AddDbContextPool<NContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
 
             services.AddIdentity<User, IdentityRole>()
@@ -41,7 +41,7 @@ namespace Norris.UI
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IGameRepository, GameRepository>();
+            services.AddTransient<IGameRepository, GameRepository>();
             services.AddMvc();
         }
 

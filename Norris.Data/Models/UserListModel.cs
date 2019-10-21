@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Norris.Data.Data.Entities;
 
-namespace Norris.Data.Models.DTO
+namespace Norris.Data.Models
 {
-    public class UserListDTO
+    public class UserListModel
     {
         public List<User> Users { get; set; }
     }

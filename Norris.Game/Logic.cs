@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Norris.Game.Models;
-using Norris.Game.Models.DTO;
+using Norris.Data.Models.Board;
 
 namespace Norris.Game {
 
@@ -10,8 +9,7 @@ namespace Norris.Game {
 
     // Ychange and Xchange are how much the point is moved each step.
     public static IEnumerable<Point> LinearMovement(
-      ChessBoard board, 
-      Color player, 
+      ChessBoard board, Color player, 
       Point p, 
       Func<int,int> Ychange, 
       Func<int,int> Xchange,
@@ -40,11 +38,11 @@ namespace Norris.Game {
     }
 
     static bool CanGoTo(ChessBoard board, Point point, Color player){
-      return board[point] == null || board[point].Color != player;
+      return board[point] == null || board[point].Piece.Color != player;
     }
 
     static bool IsEnemy(ChessBoard board, Point point, Color player){
-      return board[point] != null && board[point].Color != player;
+      return board[point] != null && board[point].Piece.Color != player;
     }
 
 
@@ -122,7 +120,7 @@ namespace Norris.Game {
     }
 
     static bool PawnCanAttack(ChessBoard board, Point p, Color c){
-      return Inbounds(p) && board[p] != null && board[p].Color == c;
+      return Inbounds(p) && board[p] != null && board[p].Piece.Color == c;
     }
 
     static IEnumerable<Point> PawnStartPositions(int y){
@@ -187,16 +185,12 @@ namespace Norris.Game {
 
     }
 
-
-
-
-
     public static IEnumerable<Point> GetMovesFor(
       ChessBoard board, 
       Color player, 
       Point point){
       
-      switch(board[point]?.Type){
+      switch(board[point]?.Piece.Type){
         case PieceType.King  : return KingMoves  (board, player, point);
         case PieceType.Queen : return QueenMoves (board, player, point);
         case PieceType.Rook  : return RookMoves  (board, player, point);
@@ -208,10 +202,10 @@ namespace Norris.Game {
 
     }
 
-    public static bool IsChecked(ChessBoard board, Color player){
+    public static bool IsChecked(ChessBoard board, Color color){
       IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
-                                            board, t => t.Color != player);
-      Point king = Utils.FindKing(board, player);
+                                            board, t => t.Piece.Color != color);
+      Point king = Utils.FindKing(board, color);
 
       return enemyMoves.Contains(king);
     }
@@ -226,8 +220,6 @@ namespace Norris.Game {
       return board;
     }
 
-
-
     public static ChessBoard DummyMove(
       ChessBoard board, 
       Point from, 
@@ -237,13 +229,12 @@ namespace Norris.Game {
       return Logic.DoMove(Utils.CloneBoard(board), from, to);
     }
 
-
-
     public static bool IsValidMove(ChessBoard board, Point from, Point to, Color player){
       // Position moving from is not a piece or is enemy piece.
-      if(board[from] == null || board[from].Color != player){
+      if(board[from] == null || board[from].Piece.Color != player){
         return false;
       }
+
 
       // Do a dummy move and see if player will place themselves in check.
       if(Logic.IsChecked(DummyMove(board, from, to, player), player)){
@@ -254,42 +245,6 @@ namespace Norris.Game {
       IEnumerable<Point> moves = Logic.GetMovesFor(board, player, from);
       return moves.Contains(to);
     }
-
-
-
-    public static PossibleMovesDTO GetPossibleMoves(
-      ChessBoard board, 
-      Point selected, 
-      Color player){
-
-      IEnumerable<Point> moves = Logic.GetMovesFor(board, player, selected);
-
-      // Filters out all moves that will make players check themselves.
-      IEnumerable<Point> possibleMoves = moves.Where(to => 
-        !Logic.IsChecked(Logic.DummyMove(board, selected, to, player), player)
-      );
-
-
-      IEnumerable<Point> canMoveTo = possibleMoves.Where(to => 
-        board[to] == null
-      );
-
-      IEnumerable<Point> canKillAt = possibleMoves.Where(to => 
-        board[to] != null && board[to].Color != player
-      );
-
-
-      PossibleMovesDTO dto = new PossibleMovesDTO();
-
-      dto.PositionsPieceCanMoveTo = canMoveTo.Select(p => 
-        Utils.PointToString(p)).ToList();
-      
-      dto.PositionsPieceCanKillAt = canMoveTo.Select(p => 
-        Utils.PointToString(p)).ToList();
-
-      return dto;
-    }
-
 
   }
 }
