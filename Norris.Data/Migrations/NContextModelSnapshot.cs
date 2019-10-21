@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Norris.Data.Data;
-using Norris.Data.Models.Board.Enums;
 using System;
 
 namespace Norris.Data.Migrations
@@ -129,47 +128,6 @@ namespace Norris.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("FriendID");
-
-                    b.HasKey("UserId", "FriendID");
-
-                    b.HasIndex("FriendID");
-
-                    b.ToTable("Friends");
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.GameSession", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Board")
-                        .IsRequired();
-
-                    b.Property<string>("Log")
-                        .IsRequired();
-
-                    b.Property<string>("Player1ID")
-                        .IsRequired();
-
-                    b.Property<string>("Player2ID")
-                        .IsRequired();
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Player1ID");
-
-                    b.HasIndex("Player2ID");
-
-                    b.ToTable("GameSessions");
-                });
-
             modelBuilder.Entity("Norris.Data.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -264,32 +222,6 @@ namespace Norris.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
-                {
-                    b.HasOne("Norris.Data.Data.Entities.User", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Norris.Data.Data.Entities.User", "User")
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.GameSession", b =>
-                {
-                    b.HasOne("Norris.Data.Data.Entities.User", "Player1")
-                        .WithMany("WhiteGameSessions")
-                        .HasForeignKey("Player1ID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Norris.Data.Data.Entities.User", "Player2")
-                        .WithMany("BlackGameSessions")
-                        .HasForeignKey("Player2ID")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
