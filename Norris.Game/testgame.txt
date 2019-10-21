@@ -1,0 +1,9 @@
+e2 e4
+f7 f5
+d1 g4
+e8 f7
+f1 c4
+f7 f6
+d2 d4
+b8 c6
+g4 g5
