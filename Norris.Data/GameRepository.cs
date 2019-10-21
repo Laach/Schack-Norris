@@ -18,13 +18,29 @@ namespace Norris.Data
         }
         public bool AddFriend(int currentUserID, int friendUserID)
         {
-            
             throw new NotImplementedException();
         }
 
-        public GameID AddNewGame(int player1ID, int player2ID)
+        public GameID AddNewGame(int playerWhiteID, int playerBlackID)
         {
-            throw new NotImplementedException();
+            GameSession newgame = new GameSession();
+            newgame.Id = Guid.NewGuid().ToString();
+
+            string[,] DefaultGameState = new string[8, 8] {{"br","bn","bb","bq","bk","bb","bn","br"},
+                                                           {"bp","bp","bp","bp","bp","bp","bp","bp"},
+                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
+                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
+                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
+                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
+                                                           {"wp","wp","wp","wp","wp","wp","wp","wp"},
+                                                           {"wr","wn","wb","wq","wk","wb","wn","wr"}};
+            context.GameSessions.Add(newgame);
+        }   
+
+
+
+
+            
         }
 
         public GameStateDTO AddNewMove(NewMoveDTO newMove)
@@ -49,9 +65,26 @@ namespace Norris.Data
 
         public GameStateDTO GetGamestate(GameID id)
         {
-            throw new NotImplementedException();
+            GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
+            var pieces = Game.Board.Split(',').ToList();
+            var board = new string[8,8];
+            int k = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    board[i, j] = pieces.ElementAt(k++);
+                }
+            }
+            return new GameStateDTO {
+                Log = Game.Log.Split(',').ToList(),
+                Board = board,
+                ActivePlayerColor = Game.IsWhitePlayerTurn ? 'w' : 'b'
+            };
+                 
         }
 
+       
         public UserListDTO GetPlayerLobby()
         {
             var test = new UserListDTO

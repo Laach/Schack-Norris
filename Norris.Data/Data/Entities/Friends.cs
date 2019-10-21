@@ -11,5 +11,6 @@ namespace Norris.Data.Data.Entities
         public User User { get; set; }
         public string FriendID { get; set; }
         public User Friend { get; set; }
+
     }
 }
