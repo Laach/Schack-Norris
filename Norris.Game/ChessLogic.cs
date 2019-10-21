@@ -57,11 +57,6 @@ namespace Norris.Game {
       return Logic.IsCheckMate(new ChessBoard(board), Color.Black);
     }
 
-    public string[,] InitBoard(){
-      return new ChessBoard(Utils.InitBoard()).AsStringMatrix();
-    }
-    
-
   }
 
 }
