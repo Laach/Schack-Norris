@@ -12,7 +12,6 @@
 
     .grid-item {
         font-size: 10px;
-        text-align: center;
     }
 
     .white-item {
@@ -33,9 +32,15 @@
     {
         for (int f = 1; ; f++)
         {
-            <div class="grid-item @r @f @c" id="@r@f">
-                <img class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+    <div class="grid-item @r @f @c" id="@r@f">
+        <div style="position:relative;">
+            <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+            <div >
+                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
             </div>
+        </div>
+        
+    </div>
             if (f == 8) { break; }
             if (c == "white-item")
             {
