@@ -50,12 +50,9 @@ namespace Norris.UI.Controllers
         {
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
-
-            ViewData["Message"] = "Game view.";
-
-            var friends = _GameRepo.GetFriendList(2);
-
-            return View(friends);
+            else
+                return RedirectToAction("Index", "Game", new { GameID = 13});
+            
         }
 
         public IActionResult FindFriends()

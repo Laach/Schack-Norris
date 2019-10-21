@@ -62,7 +62,7 @@ namespace Norris.Data
             return test;
         }
 
-        public GameStateDTO GetGamestate(GameID id)
+        public GameStateDTO GetGamestate(string id)
         {/*
             GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
             var pieces = Game.Board.Split(',').ToList();

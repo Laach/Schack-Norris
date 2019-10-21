@@ -2,6 +2,7 @@
 @using Norris.UI.Models
 @using Norris.Data.Data.Entities
 
+@model BoardViewModel
 <style>
     .grid-container {
         display: grid;
@@ -30,18 +31,28 @@
     @{string c = "white-item"; }
     @for (int r = 8; ; r--)
     {
-        for (int f = 1; ; f++)
+        for (char f = 'a'; ; f++)
         {
     <div class="grid-item @r @f @c" id="@r@f">
         <div style="position:relative;">
-            <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
-            <div >
-                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
-            </div>
+            @{ string rf = r.ToString() + f;}
+            <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf})'>
+                <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+                <div>
+                    @if (Model.SelectedTile == rf)
+                    {
+                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
+                    }
+                    else
+                    {
+                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="rook" />
+                    }
+                </div>
+            </a>
         </div>
         
     </div>
-            if (f == 8) { break; }
+            if (f == 'h') { break; }
             if (c == "white-item")
             {
                 c = "black-item";
