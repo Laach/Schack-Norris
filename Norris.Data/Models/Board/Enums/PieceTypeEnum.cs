@@ -1,5 +1,5 @@
 
-namespace Norris.Game.Models{
+namespace Norris.Data.Models.Board{
   public enum PieceType{
     Pawn,
     Knight,

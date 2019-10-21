@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Norris.Data.Models;
-using Norris.Data.Models.DTO;
 using Norris.Data.Data.Entities;
 using Norris.Data.Data;
 
@@ -27,14 +26,14 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        public GameStateDTO AddNewMove(NewMoveDTO newMove)
+        public GameStateModel AddNewMove(NewMoveModel newMove)
         {
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetFriendList(int userID)
+        public UserListModel GetFriendList(int userID)
         {
-            var test = new UserListDTO
+            var test = new UserListModel
             {
                Users = new List<User>()
 
@@ -47,14 +46,14 @@ namespace Norris.Data
             return test;
         }
 
-        public GameStateDTO GetGamestate(GameID id)
+        public GameStateModel GetGamestate(GameID id)
         {
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetPlayerLobby()
+        public UserListModel GetPlayerLobby()
         {
-            var test = new UserListDTO
+            var test = new UserListModel
             {
                 Users = new List<User>()
 
@@ -77,9 +76,9 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetUserSearchResult(string searchterm)
+        public UserListModel GetUserSearchResult(string searchterm)
         {
-            var test = new UserListDTO
+            var test = new UserListModel
             {
                 Users = new List<User>()
 

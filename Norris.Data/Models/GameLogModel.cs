@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Norris.Data.Models.Board;
+using System.Collections.Generic;
 
 namespace Norris.Data.Models
 {
     public class GameLogModel
     {
-        public List<string> GameLog { get; set; }
+        public List<MoveModel> GameLog { get; set; }
     }
 }

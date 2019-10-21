@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Norris.Data.Data.Entities;
 using Norris.Data;
 using Norris.Data.Models;
-using Norris.Data.Models.DTO;
 using Norris.UI.Models.ManageViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -72,7 +71,7 @@ namespace Norris.UI.Controllers
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            UserListDTO users = new UserListDTO();
+            UserListModel users = new UserListModel();
             users = _GameRepo.GetUserSearchResult(searchString);
            
             //List<User> foundUsers = new List<User>();
