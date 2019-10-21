@@ -156,8 +156,9 @@ namespace Norris.Game {
         }
 
         IEnumerable<Point> startPositions = PawnStartPositions(6);
-        if(startPositions.Contains(point)){
-          list = list.Append(new Point(){ Y = point.Y - 2, X = point.X});
+        Point doublestep = new Point(){ Y = point.Y - 2, X = point.X};
+        if(startPositions.Contains(point) && board[doublestep] == null){
+          list = list.Append(doublestep);
         }
 
       }
@@ -178,8 +179,9 @@ namespace Norris.Game {
         }
 
         IEnumerable<Point> startPositions = PawnStartPositions(1);
-        if(startPositions.Contains(point)){
-          list = list.Append(new Point(){ Y = point.Y + 2, X = point.X});
+        Point doublestep = new Point(){ Y = point.Y + 2, X = point.X};
+        if(startPositions.Contains(point) && board[doublestep] == null){
+          list = list.Append(doublestep);
         }
 
       }
@@ -209,11 +211,11 @@ namespace Norris.Game {
     }
 
     public static bool IsChecked(ChessBoard board, Color player){
-      IEnumerable<Point> enemyMoves = Utils.GetAllMovesFor(
+      IEnumerable<MoveModel> enemyMoves = Utils.GetAllMovesFor(
                                             board, t => t.Color != player);
       Point king = Utils.FindKing(board, player);
 
-      return enemyMoves.Contains(king);
+      return enemyMoves.Select(p => p.To).Contains(king);
     }
 
 
@@ -291,5 +293,14 @@ namespace Norris.Game {
     }
 
 
+
+    public static bool IsCheckMate(
+      ChessBoard board,
+      Color player){
+
+      IEnumerable<MoveModel> moves = Utils.GetAllMovesFor(board, t => t.Color == player);
+
+      return !moves.Any(m => !IsChecked(DummyMove(board, m.From, m.To, player), player));
+    }
   }
 }
