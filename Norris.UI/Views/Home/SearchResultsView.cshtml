@@ -4,12 +4,13 @@
     ViewData["Title"] = "SearchResults";
 }
 
-<ul>
-    @foreach (var item in Model)
+    <table class="table table-bordered table-striped">
+        @foreach (var item in Model)
         {
-            <li>
-                <p>@item.UserName</p>
-            </li>
+            <tr>
+                <td>@item.UserName</td>
+                <td><button class="btn btn-success btn-sm btn-block" type="submit">Add friend</button></td>
+            </tr>
         }
-</ul>
+    </table>
 
