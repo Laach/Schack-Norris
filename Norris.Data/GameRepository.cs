@@ -33,18 +33,18 @@ namespace Norris.Data
                                                            {"ee","ee","ee","ee","ee","ee","ee","ee"},
                                                            {"wp","wp","wp","wp","wp","wp","wp","wp"},
                                                            {"wr","wn","wb","wq","wk","wb","wn","wr"}};
-            context.GameSessions.Add(newgame);
+            return default;
         }   
 
 
 
 
             
-        }
+        
 
         public GameStateDTO AddNewMove(NewMoveDTO newMove)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         public UserListDTO GetFriendList(int userID)
@@ -63,7 +63,7 @@ namespace Norris.Data
         }
 
         public GameStateDTO GetGamestate(GameID id)
-        {
+        {/*
             GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
             var pieces = Game.Board.Split(',').ToList();
             var board = new string[8,8];
@@ -80,7 +80,8 @@ namespace Norris.Data
                 Board = board,
                 ActivePlayerColor = Game.IsWhitePlayerTurn ? 'w' : 'b'
             };
-                 
+               */
+        return default;    
         }
 
        
