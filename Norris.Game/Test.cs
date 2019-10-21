@@ -48,7 +48,7 @@ namespace Norris.Game{
           Console.Clear();
           Console.WriteLine();
         }
-        board = Logic.DoMove(board, to, from);
+        board = Logic.DoMove(board, from, to);
         turn = turn == Color.White ? Color.Black : Color.White;
       }
     }
