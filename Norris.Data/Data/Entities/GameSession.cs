@@ -29,5 +29,6 @@ namespace Norris.Data.Data.Entities
         public string Board { get; set; }
         [Required]
         public string Log { get; set; }
+
     }
 }
