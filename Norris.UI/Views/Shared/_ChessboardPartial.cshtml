@@ -28,31 +28,33 @@
     }
 </style>
 <div class="grid-container">
-    @{string c = "white-item"; }
+    @{string c = "white-item";
+        string fileext = ".png";
+        }
     @for (int r = 8, i = 7; ; r--, i--)
     {
         int j = 0;
         for (char f = 'a'; ; f++, j++)
         {
-    <div class="grid-item @r @f @c" id="@r@f">
-        <div style="position:relative;">
-            @{ string rf = r.ToString() + f;}
-            <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf })'>
-                <img style="position:absolute;" class="piece-image" src="~/images/pieces/@{Model.GameState.Board[i, j]}.png" alt="@{Model.GameState.Board[i, j]}" />
-                <div>
-                    @if (Model.SelectedTile == rf)
-                    {
-                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
-                    }
-                    else
-                    {
-                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="rook" />
-                    }
+            <div class="grid-item @r @f @c" id="@r@f">
+                <div style="position:relative;">
+                    @{ string rf = r.ToString() + f;}
+                    <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf })'>
+                        <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]"/>
+                        <div>
+                            @if (Model.SelectedTile == rf)
+                            {
+                                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
+                            }
+                            else
+                            {
+                                <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
+                            }
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-        
-    </div>
+
+            </div>
             if (f == 'h') { break; }
             if (c == "white-item")
             {
