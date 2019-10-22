@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Norris.UI.Models
 @using Norris.Data.Data.Entities
+@using Norris.Data.Models.DTO
 
 @model BoardViewModel
 <style>
@@ -28,30 +29,48 @@
     }
 </style>
 <div class="grid-container">
-    @{string c = "white-item"; }
-    @for (int r = 8; ; r--)
+    @{string c = "white-item";
+        string fileext = ".png";
+        }
+    @for (int r = 8, i = 0; ; r--, i++)
     {
-        for (char f = 'a'; ; f++)
+        int j = 0;
+        for (char f = 'a'; ; f++, j++)
         {
-    <div class="grid-item @r @f @c" id="@r@f">
-        <div style="position:relative;">
-            @{ string rf = r.ToString() + f;}
-            <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf})'>
-                <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
-                <div>
-                    @if (Model.SelectedTile == rf)
-                    {
-                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="rook" />
-                    }
-                    else
-                    {
-                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="rook" />
-                    }
+            <div class="grid-item @r @f @c" id="@f@r">
+                <div style="position:relative;">
+                    @{ string clickedPosition = f + r.ToString();}
+                    <a href='@Url.Action("ClickedTile", "Game", 
+                       new {
+                            clickedPosition = clickedPosition,
+                            gameId = @Model.GameId,
+                            activePlayerColor = @Model.GameState.ActivePlayerColor,
+                            log = @Model.GameState.Log,
+                            selectedTile = @Model.SelectedTile
+                        })'>
+                        <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]"/>
+                        <div>
+                            @if (Model.SelectedTile == clickedPosition)
+                            {
+                                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
+                            }
+                            else if (@Model.CanMoveToTiles.Contains(clickedPosition))
+                            {
+                                <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
+                            }
+                            else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
+                            {
+                                <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
+                            }
+                            else
+                            {
+                                <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
+                            }
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-        
-    </div>
+
+            </div>
             if (f == 'h') { break; }
             if (c == "white-item")
             {

@@ -12,5 +12,7 @@ namespace Norris.UI.Models
         public string SelectedTile;
         public List<string> CanMoveToTiles;
         public List<string> CanMoveToAndTakeTiles;
+        public string GameId { get; set; }
+
     }
 }

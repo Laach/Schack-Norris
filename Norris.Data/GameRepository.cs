@@ -5,42 +5,56 @@ using System.Threading.Tasks;
 using Norris.Data.Models;
 using Norris.Data.Models.DTO;
 using Norris.Data.Data.Entities;
+using Norris.Data.Data;
 
 namespace Norris.Data
 {
     public class GameRepository : IGameRepository
     {
-        /*private readonly AppDbContext context;
-        public GameRepository(AppDBContext context)
+        private readonly NContext context;
+        public GameRepository(NContext context)
         {
-          this.context = context;    
-        }*/
+            this.context = context;
+        }
         public bool AddFriend(int currentUserID, int friendUserID)
         {
             throw new NotImplementedException();
         }
 
-        public GameID AddNewGame(int playerWhiteID, int playerBlackID)
+        public string AddNewGame(string playerWhiteID, string playerBlackID)
         {
-            GameSession newgame = new GameSession();
-            newgame.Id = Guid.NewGuid().ToString();
+            string DefaultGameState = 
+                "br,bn,bb,bq,bk,bb,bn,br," +
+                "bp,bp,bp,bp,bp,bp,bp,bp," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "wp,wp,wp,wp,wp,wp,wp,wp," +
+                "wr,wn,wb,wq,wk,wb,wn,wr";
 
-            string[,] DefaultGameState = new string[8, 8] {{"br","bn","bb","bq","bk","bb","bn","br"},
-                                                           {"bp","bp","bp","bp","bp","bp","bp","bp"},
-                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
-                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
-                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
-                                                           {"ee","ee","ee","ee","ee","ee","ee","ee"},
-                                                           {"wp","wp","wp","wp","wp","wp","wp","wp"},
-                                                           {"wr","wn","wb","wq","wk","wb","wn","wr"}};
-            return default;
-        }   
+            GameSession newgame = new GameSession
+            {
+                Id = Guid.NewGuid().ToString(),
+                Board = DefaultGameState,
+                PlayerBlackID = playerBlackID,
+                PlayerBlack = context.Users.Where(e => e.Id.Equals(playerBlackID)).FirstOrDefault(),
+                PlayerWhite = context.Users.Where(e => e.Id.Equals(playerWhiteID)).FirstOrDefault(),
+                PlayerWhiteID = playerWhiteID,
+                IsActive = true,
+                Log = "",
+                IsWhitePlayerTurn = true
+            };
+            context.GameSessions.Add(newgame);
+            context.SaveChanges();
+            return newgame.Id;
+        }
 
 
 
 
-            
-        
+
+
 
         public GameStateDTO AddNewMove(NewMoveDTO newMove)
         {
@@ -51,7 +65,7 @@ namespace Norris.Data
         {
             var test = new UserListDTO
             {
-               Users = new List<User>()
+                Users = new List<User>()
 
             };
             test.Users.Add(new User
@@ -63,10 +77,22 @@ namespace Norris.Data
         }
 
         public GameStateDTO GetGamestate(string id)
-        {/*
-            GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
-            var pieces = Game.Board.Split(',').ToList();
-            var board = new string[8,8];
+        {
+            //GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
+            string DefaultGameState = 
+                "br,bn,bb,bq,bk,bb,bn,br," +
+                "bp,bp,bp,bp,bp,bp,bp,bp," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "wp,wp,wp,wp,wp,wp,wp,wp," +
+                "wr,wn,wb,wq,wk,wb,wn,wr";
+
+            //var pieces = Game.Board.Split(',').ToList();
+            var pieces = DefaultGameState.Split(',').ToList();
+
+            var board = new string[8, 8];
             int k = 0;
             for (int i = 0; i < 8; i++)
             {
@@ -76,13 +102,15 @@ namespace Norris.Data
                 }
             }
             return new GameStateDTO {
-                Log = Game.Log.Split(',').ToList(),
+                //Log = Game.Log.Split(',').ToList(),
+                Log = new List<string>(),
                 Board = board,
-                ActivePlayerColor = Game.IsWhitePlayerTurn ? 'w' : 'b'
+                ActivePlayerColor = 'w'
             };
-               */
-        return default;    
+
         }
+
+    
 
        
         public UserListDTO GetPlayerLobby()
