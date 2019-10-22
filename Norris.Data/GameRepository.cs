@@ -16,9 +16,37 @@ namespace Norris.Data
         {
             this.context = context;
         }
-        public bool AddFriend(int currentUserID, int friendUserID)
+        public bool AddFriend(string currentUserID, string friendUserID)
         {
-            throw new NotImplementedException();
+            User user = context.Users.Where(u => u.Id == currentUserID).FirstOrDefault();
+            if (user == null){return false;}
+
+            User friend = context.Users.Where(u => u.Id == friendUserID).FirstOrDefault();
+            if (friend == null){return false;}
+
+            Friends userfriend = new Friends{
+              User = user,
+              UserId = currentUserID,
+              Friend = friend,
+              FriendID = friendUserID,
+            };
+            Friends frienduser = new Friends{
+              User = friend,
+              UserId = friendUserID,
+              Friend = user,
+              FriendID = currentUserID,
+            };
+
+            if (user.Friends == null){
+              user.Friends = new List<Friends>();
+            }
+            if(friend.Friends == null){
+              friend.Friends = new List<Friends>();
+            }
+            user.Friends.Add(userfriend);
+            friend.Friends.Add(frienduser);
+            
+            return true;
         }
 
         public string AddNewGame(string playerWhiteID, string playerBlackID)
@@ -61,18 +89,13 @@ namespace Norris.Data
             return default;
         }
 
-        public UserListDTO GetFriendList(int userID)
+        public UserListDTO GetFriendList(string userID)
         {
-            var test = new UserListDTO
-            {
-                Users = new List<User>()
-
-            };
-            test.Users.Add(new User
-            {
-                UserName = "FriendsUser1",
-                Id = "1"
-            });
+            var test = new UserListDTO();
+            test.Users = context.Users.Where(u => u.Id == userID).FirstOrDefault()?.Friends.Select(f => f.Friend).ToList();
+            if(test.Users == null){
+              test.Users = new List<User>();
+            }
             return test;
         }
 
@@ -133,7 +156,7 @@ namespace Norris.Data
             return test;
         }
 
-        public ViewUserModel GetUserData(int userID)
+        public ViewUserModel GetUserData(string userID)
         {
             throw new NotImplementedException();
         }
