@@ -19,10 +19,16 @@ namespace Norris.Data
         }
         public bool AddFriend(string currentUserID, string friendUserID)
         {
-            User user = context.Users.Where(u => u.Id == currentUserID).FirstOrDefault();
+            User user = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == currentUserID)
+              .FirstOrDefault();
             if (user == null){return false;}
 
-            User friend = context.Users.Where(u => u.Id == friendUserID).FirstOrDefault();
+            User friend = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == friendUserID)
+              .FirstOrDefault();
             if (friend == null){return false;}
 
             Friends userfriend = new Friends{
