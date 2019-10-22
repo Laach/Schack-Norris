@@ -164,7 +164,7 @@ namespace Norris.Data
         }
 
         private static bool IsNotFriend(User other, User me){
-          return other.Id != me.Id && me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
+          return me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
         }
 
         public UserListDTO GetUserSearchResult(string userID, string searchterm)
@@ -174,7 +174,7 @@ namespace Norris.Data
 
             string search = "%" + searchterm + "%";
             UserListDTO users = new UserListDTO();
-            users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user)).ToList();
+            users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
 
             return users;
         }
