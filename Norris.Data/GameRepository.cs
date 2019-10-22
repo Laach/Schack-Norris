@@ -169,7 +169,7 @@ namespace Norris.Data
 
         public UserListDTO GetUserSearchResult(string userID, string searchterm)
         {
-            var user = context.Users.Where(u => u.Id == userID).FirstOrDefault();
+            var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
             if(user == null){return null;}
 
             string search = "%" + searchterm + "%";
