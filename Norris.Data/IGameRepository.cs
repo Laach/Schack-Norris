@@ -11,7 +11,7 @@ namespace Norris.Data
     {
         GameStateDTO GetGamestate(string id);
         UserListDTO GetFriendList(string userID);      
-        UserListDTO GetUserSearchResult(string searchterm);
+        UserListDTO GetUserSearchResult(string userID, string searchterm);
         ViewUserModel GetUserData(string userID);
         GameStateDTO AddNewMove(NewMoveDTO newMove);
         string AddNewGame(string player1ID, string player2ID);

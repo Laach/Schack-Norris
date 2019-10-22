@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -66,20 +66,16 @@ namespace Norris.UI.Controllers
             return View("FindFriends",friends);
         }
 
-        private static bool IsNotFriend(User other, User me){
-          return other.Id != me.Id && !me.Friends.Any(f => f.FriendID == other.Id);
-        }
 
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            var currentUser = _signInManager.UserManager.Users.Where(u => u.Id == _signInManager.UserManager.GetUserId(User)).FirstOrDefault();
+            // var users = new UserListDTO();
+            var userID = _signInManager.UserManager.GetUserId(User);
+            // users.Users = _signInManager.UserManager.Users.ToList();
+            var dto = _GameRepo.GetUserSearchResult(userID, searchString);
 
-            string search = "%" + searchString + "%";
-            UserListDTO users = new UserListDTO();
-            users.Users = _signInManager.UserManager.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, currentUser)).ToList();
-
-            return PartialView("SearchResultsView", users.Users.Take(50).ToList());
+            return PartialView("SearchResultsView", dto.Users.Take(50).ToList());
         }
 
         public IActionResult Error()
