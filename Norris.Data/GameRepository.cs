@@ -6,6 +6,7 @@ using Norris.Data.Models;
 using Norris.Data.Models.DTO;
 using Norris.Data.Data.Entities;
 using Norris.Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Norris.Data
 {
@@ -45,6 +46,7 @@ namespace Norris.Data
             }
             user.Friends.Add(userfriend);
             friend.Friends.Add(frienduser);
+            context.SaveChanges();
             
             return true;
         }
@@ -161,19 +163,20 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetUserSearchResult(string searchterm)
-        {
-            var test = new UserListDTO
-            {
-                Users = new List<User>()
+        private static bool IsNotFriend(User other, User me){
+          return other.Id != me.Id && me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
+        }
 
-            };
-            test.Users.Add(new User
-            {
-                UserName = "TestUser1",
-                Id = "1"
-            }) ;
-            return test;
+        public UserListDTO GetUserSearchResult(string userID, string searchterm)
+        {
+            var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
+            if(user == null){return null;}
+
+            string search = "%" + searchterm + "%";
+            UserListDTO users = new UserListDTO();
+            users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user)).ToList();
+
+            return users;
         }
     }
 }
