@@ -10,7 +10,9 @@
         {
             <tr>
                 <td class="col-sm-9">@item.UserName</td>
-                <td class="col-sm-3"><button class="btn btn-success btn-sm btn-block" type="submit"><b>+ </b>Add friend</button></td>
+                <td class="col-sm-3"><a href="@Url.Action("AddFriend","Home", item.Id)" class="btn btn-success btn-sm btn-block">
+                    <b>+ </b>Add friend</a>
+                </td>
             </tr>
         }
     </table>
