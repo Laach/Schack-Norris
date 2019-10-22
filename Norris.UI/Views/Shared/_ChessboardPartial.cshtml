@@ -29,15 +29,16 @@
 </style>
 <div class="grid-container">
     @{string c = "white-item"; }
-    @for (int r = 8; ; r--)
+    @for (int r = 8, i = 7; ; r--, i--)
     {
-        for (char f = 'a'; ; f++)
+        int j = 0;
+        for (char f = 'a'; ; f++, j++)
         {
     <div class="grid-item @r @f @c" id="@r@f">
         <div style="position:relative;">
             @{ string rf = r.ToString() + f;}
-            <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf})'>
-                <img style="position:absolute;" class="piece-image" src="~/images/pieces/black/rook.png" alt="rook" />
+            <a href='@Url.Action("ClickedTile", "Game", new { rankFile = rf })'>
+                <img style="position:absolute;" class="piece-image" src="~/images/pieces/@{Model.GameState.Board[i, j]}.png" alt="@{Model.GameState.Board[i, j]}" />
                 <div>
                     @if (Model.SelectedTile == rf)
                     {

@@ -39,9 +39,6 @@ namespace Norris.UI.Controllers
 
         public IActionResult ClickedTile(string rankFile)
         {
-            char rank = rankFile[0];
-            char file = rankFile[1];
-
             if(_selectedTile == null)
             {
                 _selectedTile = rankFile;
