@@ -69,12 +69,13 @@ namespace Norris.UI.Controllers
             return View("FindFriends",friends);
         }
 
-        public IActionResult AddFriend(string toAddID)
+        public void AddFriend(string userID)
         {
+            System.Console.WriteLine(userID);
             //_GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
-            
-            return View("FindFriends");
+
         }
+
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
