@@ -41,7 +41,7 @@ namespace Norris.UI
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IGameRepository, GameRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddMvc();
         }
 
