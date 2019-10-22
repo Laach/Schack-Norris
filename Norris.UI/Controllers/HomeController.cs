@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Lobby page.";
 
-            var friends = _GameRepo.GetFriendList(2);
+            var friends = _GameRepo.GetFriendList("2");
             var lobbyUsers = _GameRepo.GetPlayerLobby();
             var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends.Users };
             return View(lobbyAndFriends);
@@ -61,32 +61,25 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
 
 
-            var friends = _GameRepo.GetFriendList(2);
+            var friends = _GameRepo.GetFriendList("2");
 
             return View("FindFriends",friends);
+        }
+
+        private static bool IsNotFriend(User other, User me){
+          return other.Id != me.Id && !me.Friends.Any(f => f.FriendID == other.Id);
         }
 
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            UserListDTO users = new UserListDTO();
-            users = _GameRepo.GetUserSearchResult(searchString);
-           
-            //List<User> foundUsers = new List<User>();
-            //searchString = searchString.ToLower();
-            //int j = 0;
-            //foreach (var user in tempUsers)
-            //{
-            //    if (j == 50)
-            //        break;
+            var currentUser = _signInManager.UserManager.Users.Where(u => u.Id == _signInManager.UserManager.GetUserId(User)).FirstOrDefault();
 
-            //    if (user.UserName.ToLower().Contains(searchString))
-            //    {
-            //        foundUsers.Add(user);
-            //        j++;
-            //    }
-            //}
-            return PartialView("SearchResultsView", users.Users);
+            string search = "%" + searchString + "%";
+            UserListDTO users = new UserListDTO();
+            users.Users = _signInManager.UserManager.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, currentUser)).ToList();
+
+            return PartialView("SearchResultsView", users.Users.Take(50).ToList());
         }
 
         public IActionResult Error()
