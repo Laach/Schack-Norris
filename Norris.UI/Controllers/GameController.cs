@@ -31,8 +31,10 @@ namespace Norris.UI.Controllers
 
         public IActionResult Index(string gameId)
         {
+            RefreshUser(User);
             ViewData["Message"] = "Game view.";
-            var friends = _GameRepo.GetFriendList("2");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
             var board = new BoardViewModel { GameState = gamestate, SelectedTile = null, CanMoveToAndTakeTiles = emptyStringList, CanMoveToTiles = emptyStringList, GameId = gameId };
@@ -41,6 +43,7 @@ namespace Norris.UI.Controllers
 
         public IActionResult ClickedTile(string clickedPosition, string gameId, char activePlayerColor, List<string> log,  string selectedTile)
         {
+            RefreshUser(User);
             char userColor = activePlayerColor;
             string piece;
             if (userColor == 'w')
@@ -117,10 +120,16 @@ namespace Norris.UI.Controllers
             } 
 
             var gamestate = _GameRepo.GetGamestate(gameId);
-            var friends = _GameRepo.GetFriendList("2");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
             var board = new BoardViewModel { GameState = gamestate, SelectedTile = selectedTile, CanMoveToAndTakeTiles = canTake, CanMoveToTiles = canMove, GameId = gameId };
             return View("Index", new GameViewModel { UserList = friends, Board = board } );
 
+        }
+
+        private void RefreshUser(System.Security.Claims.ClaimsPrincipal user){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            UserActivity.RefreshUser(uid);
         }
     }
 }
