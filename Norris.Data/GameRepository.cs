@@ -161,7 +161,30 @@ namespace Norris.Data
 
         }
 
-    
+
+        public IEnumerable<UserActiveGamesDTO> GetUserGameList(string userID){
+
+            var sessions = context.GameSessions
+              .Include(gs => gs.PlayerBlack)
+              .Include(gs => gs.PlayerWhite)
+              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .ToList();
+
+            if(sessions == null){
+              throw new ArgumentException($"User {userID} not found");
+            }
+
+            var games = new List<UserActiveGamesDTO>();
+
+            games = sessions.Select(s => new UserActiveGamesDTO{
+                GameID = s.Id,
+                OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
+                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn
+              })
+              .ToList();
+
+            return games;
+        }
 
        
         public UserListDTO GetPlayerLobby()
