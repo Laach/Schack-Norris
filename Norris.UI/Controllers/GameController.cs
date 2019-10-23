@@ -41,9 +41,10 @@ namespace Norris.UI.Controllers
 
         public IActionResult ClickedTile(string clickedPosition, string gameId, char activePlayerColor, List<string> log,  string selectedTile)
         {
-            char userColor = activePlayerColor;
+            var userId = _signInManager.UserManager.GetUserId(User);
+            char userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
             string piece;
-            if (userColor == 'w')
+            if (_GameRepo.IsActivePlayer(gameId, userId))
             {
                 piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
             }
