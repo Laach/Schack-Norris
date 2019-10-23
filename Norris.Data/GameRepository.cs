@@ -123,20 +123,39 @@ namespace Norris.Data
             };
         }
 
-        public UserListDTO GetFriendList(string userID)
+        public UserFriendsDTO GetFriendList(string userID)
         {
-            var test = new UserListDTO();
-            test.Users = context.Users
+            var dto = new UserFriendsDTO();
+            var user = context.Users
               .Include(u => u.Friends)
+              .ThenInclude(f => f.Friend)
               .Where(u => u.Id == userID)
-              .FirstOrDefault()
+              .FirstOrDefault();
+            if (user == null){
+              throw new ArgumentException($"User {userID} not found");
+            }  
+
+            var friends = user
               ?.Friends
               .Select(f => f.Friend)
               .ToList();
-            if(test.Users == null){
-              test.Users = new List<User>();
+
+            if(friends == null){
+              dto.OnlineFriends = new List<User>();
+              dto.OfflineFriends = new List<User>();
             }
-            return test;
+            else{
+              dto.OnlineFriends = 
+                friends
+                .Where(u => UserActivity.IsOnline(u.Id))
+                .ToList();
+              dto.OfflineFriends = 
+                friends
+                .Where(u => !UserActivity.IsOnline(u.Id))
+                .ToList();
+            }
+
+            return dto;
         }
 
         public GameStateDTO GetGamestate(string id)

@@ -33,7 +33,8 @@ namespace Norris.UI.Controllers
         {
             RefreshUser(User);
             ViewData["Message"] = "Game view.";
-            var friends = _GameRepo.GetFriendList("2");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
             var board = new BoardViewModel { GameState = gamestate, SelectedTile = null, CanMoveToAndTakeTiles = emptyStringList, CanMoveToTiles = emptyStringList, GameId = gameId };
@@ -119,7 +120,8 @@ namespace Norris.UI.Controllers
             } 
 
             var gamestate = _GameRepo.GetGamestate(gameId);
-            var friends = _GameRepo.GetFriendList("2");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
             var board = new BoardViewModel { GameState = gamestate, SelectedTile = selectedTile, CanMoveToAndTakeTiles = canTake, CanMoveToTiles = canMove, GameId = gameId };
             return View("Index", new GameViewModel { UserList = friends, Board = board } );
 
