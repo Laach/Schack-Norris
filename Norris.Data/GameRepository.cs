@@ -17,9 +17,44 @@ namespace Norris.Data
         {
             this.context = context;
         }
-        public bool AddFriend(int currentUserID, int friendUserID)
+        public bool AddFriend(string currentUserID, string friendUserID)
         {
-            throw new NotImplementedException();
+            User user = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == currentUserID)
+              .FirstOrDefault();
+            if (user == null){return false;}
+
+            User friend = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == friendUserID)
+              .FirstOrDefault();
+            if (friend == null){return false;}
+
+            Friends userfriend = new Friends{
+              User = user,
+              UserId = currentUserID,
+              Friend = friend,
+              FriendID = friendUserID,
+            };
+            Friends frienduser = new Friends{
+              User = friend,
+              UserId = friendUserID,
+              Friend = user,
+              FriendID = currentUserID,
+            };
+
+            if (user.Friends == null){
+              user.Friends = new List<Friends>();
+            }
+            if(friend.Friends == null){
+              friend.Friends = new List<Friends>();
+            }
+            user.Friends.Add(userfriend);
+            friend.Friends.Add(frienduser);
+            context.SaveChanges();
+            
+            return true;
         }
 
         public string AddNewGame(string playerWhiteID, string playerBlackID)
@@ -58,40 +93,56 @@ namespace Norris.Data
 
 
         public GameStateDTO AddNewMove(NewMoveDTO newMove)
+
         {
-            return default;
+            var game = context.GameSessions.Where(u => u.Id == newMove.GameID).FirstOrDefault();
+            if (game == null) { throw new KeyNotFoundException(); }
+            
+            string gameboard = "";
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    gameboard.Concat(newMove.CurrentBoard[i, j] + ",");
+                }
+            }
+            game.Board = gameboard.Substring(0, gameboard.Length - 1);
+            var temp = game.Log;
+            temp.Concat(newMove.From + newMove.To + ",");
+            game.Log = temp;
+            game.IsWhitePlayerTurn = game.IsWhitePlayerTurn ? false : true;
+            context.GameSessions.Update(game);
+            var successfullUpdate = context.SaveChanges();
+            if (successfullUpdate == 0) { throw new Exception("Database did not update"); }
+
+            return new GameStateDTO
+            {
+                Board = newMove.CurrentBoard,
+                Log = default, //WIP no implemenations yet 
+                ActivePlayerColor = game.IsWhitePlayerTurn == true ? 'w' : 'b'
+            };
         }
 
-        public UserListDTO GetFriendList(int userID)
+        public UserListDTO GetFriendList(string userID)
         {
-            var test = new UserListDTO
-            {
-                Users = new List<User>()
-
-            };
-            test.Users.Add(new User
-            {
-                UserName = "FriendsUser1",
-                Id = "1"
-            });
+            var test = new UserListDTO();
+            test.Users = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == userID)
+              .FirstOrDefault()
+              ?.Friends
+              .Select(f => f.Friend)
+              .ToList();
+            if(test.Users == null){
+              test.Users = new List<User>();
+            }
             return test;
         }
 
         public GameStateDTO GetGamestate(string id)
         {
-            //GameSession Game = (GameSession)context.GameSessions.Where(e => e.Id.Equals(id));
-            string DefaultGameState = 
-                "br,bn,bb,bq,bk,bb,bn,br," +
-                "bp,bp,bp,bp,bp,bp,bp,bp," +
-                "ee,ee,ee,ee,ee,ee,ee,ee," +
-                "ee,ee,ee,ee,ee,ee,ee,ee," +
-                "ee,ee,ee,ee,ee,ee,ee,ee," +
-                "ee,ee,ee,ee,ee,ee,ee,ee," +
-                "wp,wp,wp,wp,wp,wp,wp,wp," +
-                "wr,wn,wb,wq,wk,wb,wn,wr";
-
-            //var pieces = Game.Board.Split(',').ToList();
-            var pieces = DefaultGameState.Split(',').ToList();
+            GameSession Game = context.GameSessions.Where(e => e.Id.Equals(id)).FirstOrDefault();            
+            var pieces = Game.Board.Split(',').ToList();
 
             var board = new string[8, 8];
             int k = 0;
@@ -103,10 +154,9 @@ namespace Norris.Data
                 }
             }
             return new GameStateDTO {
-                //Log = Game.Log.Split(',').ToList(),
-                Log = new List<string>(),
+                Log = Game.Log.Split(',').ToList(),
                 Board = board,
-                ActivePlayerColor = 'w'
+                ActivePlayerColor = Game.IsWhitePlayerTurn == true ? 'w' : 'b'
             };
 
         }
@@ -157,24 +207,29 @@ namespace Norris.Data
             return test;
         }
 
-        public ViewUserModel GetUserData(int userID)
+        public ViewUserModel GetUserData(string userID)
         {
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetUserSearchResult(string searchterm)
-        {
-            var test = new UserListDTO
-            {
-                Users = new List<User>()
+        private static bool IsNotFriend(User other, User me){
+          return me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
+        }
 
-            };
-            test.Users.Add(new User
-            {
-                UserName = "TestUser1",
-                Id = "1"
-            }) ;
-            return test;
+        public UserListDTO GetUserSearchResult(string userID, string searchterm)
+        {
+            var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
+            if(user == null){return null;}
+
+            string search = searchterm + "%";
+            UserListDTO users = new UserListDTO();
+            users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
+
+            return users;
+        }
+        public bool IsActivePlayer(string gameID, string UserID)
+        {
+            return true;
         }
     }
 }
