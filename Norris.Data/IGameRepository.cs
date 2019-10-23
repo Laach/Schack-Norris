@@ -12,7 +12,7 @@ namespace Norris.Data
         //Expects a gameid and returns the boardstate,a log and the color the of the active player
         GameStateDTO GetGamestate(string id);
         UserListDTO GetFriendList(string userID);      
-        UserListDTO GetUserSearchResult(string searchterm);
+        UserListDTO GetUserSearchResult(string userID, string searchterm);
         ViewUserModel GetUserData(string userID);
         GameStateDTO AddNewMove(NewMoveDTO newMove);
         string AddNewGame(string player1ID, string player2ID);

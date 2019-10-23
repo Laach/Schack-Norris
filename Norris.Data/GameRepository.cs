@@ -6,6 +6,7 @@ using Norris.Data.Models;
 using Norris.Data.Models.DTO;
 using Norris.Data.Data.Entities;
 using Norris.Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Norris.Data
 {
@@ -18,10 +19,16 @@ namespace Norris.Data
         }
         public bool AddFriend(string currentUserID, string friendUserID)
         {
-            User user = context.Users.Where(u => u.Id == currentUserID).FirstOrDefault();
+            User user = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == currentUserID)
+              .FirstOrDefault();
             if (user == null){return false;}
 
-            User friend = context.Users.Where(u => u.Id == friendUserID).FirstOrDefault();
+            User friend = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == friendUserID)
+              .FirstOrDefault();
             if (friend == null){return false;}
 
             Friends userfriend = new Friends{
@@ -45,6 +52,7 @@ namespace Norris.Data
             }
             user.Friends.Add(userfriend);
             friend.Friends.Add(frienduser);
+            context.SaveChanges();
             
             return true;
         }
@@ -92,7 +100,13 @@ namespace Norris.Data
         public UserListDTO GetFriendList(string userID)
         {
             var test = new UserListDTO();
-            test.Users = context.Users.Where(u => u.Id == userID).FirstOrDefault()?.Friends.Select(f => f.Friend).ToList();
+            test.Users = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == userID)
+              .FirstOrDefault()
+              ?.Friends
+              .Select(f => f.Friend)
+              .ToList();
             if(test.Users == null){
               test.Users = new List<User>();
             }
@@ -161,19 +175,20 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        public UserListDTO GetUserSearchResult(string searchterm)
-        {
-            var test = new UserListDTO
-            {
-                Users = new List<User>()
+        private static bool IsNotFriend(User other, User me){
+          return me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
+        }
 
-            };
-            test.Users.Add(new User
-            {
-                UserName = "TestUser1",
-                Id = "1"
-            }) ;
-            return test;
+        public UserListDTO GetUserSearchResult(string userID, string searchterm)
+        {
+            var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
+            if(user == null){return null;}
+
+            string search = "%" + searchterm + "%";
+            UserListDTO users = new UserListDTO();
+            users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
+
+            return users;
         }
         public bool IsActivePlayer(string gameID, string UserID)
         {
