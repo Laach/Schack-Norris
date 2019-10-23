@@ -40,7 +40,7 @@ namespace Norris.UI.Controllers
 
             ViewData["Message"] = "Lobby page.";
 
-            var friends = _GameRepo.GetFriendList(2);
+            var friends = _GameRepo.GetFriendList("2");
             var lobbyUsers = _GameRepo.GetPlayerLobby();
             var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends.Users };
             return View(lobbyAndFriends);
@@ -60,7 +60,8 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
-            var friends = _GameRepo.GetFriendList(2);
+
+            var friends = _GameRepo.GetFriendList("2");
 
             return View("FindFriends",friends);
         }
@@ -74,24 +75,12 @@ namespace Norris.UI.Controllers
         [HttpGet]
         public PartialViewResult Search(string searchString)
         {
-            UserListDTO users = new UserListDTO();
-            users = _GameRepo.GetUserSearchResult(searchString);
-           
-            //List<User> foundUsers = new List<User>();
-            //searchString = searchString.ToLower();
-            //int j = 0;
-            //foreach (var user in tempUsers)
-            //{
-            //    if (j == 50)
-            //        break;
+            // var users = new UserListDTO();
+            var userID = _signInManager.UserManager.GetUserId(User);
+            // users.Users = _signInManager.UserManager.Users.ToList();
+            var dto = _GameRepo.GetUserSearchResult(userID, searchString);
 
-            //    if (user.UserName.ToLower().Contains(searchString))
-            //    {
-            //        foundUsers.Add(user);
-            //        j++;
-            //    }
-            //}
-            return PartialView("SearchResultsView", users.Users);
+            return PartialView("SearchResultsView", dto.Users.Take(50).ToList());
         }
 
         public IActionResult Error()
