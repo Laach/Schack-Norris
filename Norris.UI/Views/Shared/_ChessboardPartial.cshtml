@@ -44,8 +44,6 @@
                        new {
                             clickedPosition = clickedPosition,
                             gameId = @Model.GameId,
-                            activePlayerColor = @Model.GameState.ActivePlayerColor,
-                            log = @Model.GameState.Log,
                             selectedTile = @Model.SelectedTile
                         })'>
                         <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]"/>

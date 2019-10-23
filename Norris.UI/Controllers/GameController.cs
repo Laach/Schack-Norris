@@ -39,13 +39,14 @@ namespace Norris.UI.Controllers
             return View(new GameViewModel { UserList = friends, Board = board});
         }
 
-        public IActionResult ClickedTile(string clickedPosition, string gameId, char activePlayerColor, List<string> log,  string selectedTile)
+        public IActionResult ClickedTile(string clickedPosition, string gameId, string selectedTile)
         {
             var userId = _signInManager.UserManager.GetUserId(User);
-            char userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
+            char userColor;
             string piece;
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
+                userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
                 piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
             }
             else
@@ -78,7 +79,7 @@ namespace Norris.UI.Controllers
                         Board = _GameRepo.GetGamestate(gameId).Board,
                         From = selectedTile,
                         To = clickedPosition,
-                        PlayerColor = activePlayerColor
+                        PlayerColor = userColor
                     };
                     if (_chessLogicManager.IsValidMove(movePlan))
                     {
@@ -109,7 +110,7 @@ namespace Norris.UI.Controllers
                 SelectedPieceDTO selectedPiece = new SelectedPieceDTO
                 {
                     Board = _GameRepo.GetGamestate(gameId).Board,
-                    PlayerColor = activePlayerColor,
+                    PlayerColor = userColor,
                     Selected = selectedTile
                 };
                 PossibleMovesDTO possibleMoves = _chessLogicManager.GetPossibleMoves(selectedPiece);
