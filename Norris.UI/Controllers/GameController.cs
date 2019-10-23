@@ -32,11 +32,8 @@ namespace Norris.UI.Controllers
         public IActionResult Index(string gameId)
         {
             ViewData["Message"] = "Game view.";
-            var friends = _GameRepo.GetFriendList("2");
-            if(gameId == null)
-            {
-                gameId = _GameRepo.AddNewGame("08de97bb-86c7-43e1-9be1-3eca64870d25", "4aec2080-7dee-464e-a3c9-a1875b5472d9");
-            }
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
 
@@ -46,7 +43,7 @@ namespace Norris.UI.Controllers
                 CanMoveToAndTakeTiles = emptyStringList,
                 CanMoveToTiles = emptyStringList,
                 GameId = gameId,
-                PlayerColor = _GameRepo.GetPlayerColor(gameId, _signInManager.UserManager.GetUserId(User))
+                PlayerColor = _GameRepo.GetPlayerColor(gameId, userId)
             };
 
             return View(new GameViewModel { UserList = friends, Board = board});
