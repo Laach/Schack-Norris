@@ -109,14 +109,15 @@ namespace Norris.Game {
 
     
 
-    public static IEnumerable<Point> GetAllMovesFor(ChessBoard board, Func<PieceModel, bool> f){
-      IEnumerable<Point> list = new List<Point>(){};
+    public static IEnumerable<MoveModel> GetAllMovesFor(ChessBoard board, Func<PieceModel, bool> f){
+      IEnumerable<MoveModel> list = new List<MoveModel>(){};
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
           if(board[i,j] != null && f(board[i, j])){
             var p = new Point(){ Y = i, X = j};
             list = list.Concat(
               Logic.GetMovesFor(board, board[i,j].Color, p)
+              .Select(point => new MoveModel(){From=p, To=point})
             );
           }
         }

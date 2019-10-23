@@ -13,6 +13,7 @@ using Norris.UI.Models;
 using Norris.UI.Services;
 using Norris.Data;
 using Norris.Data.Data.Entities;
+using Norris.Game;
 
 namespace Norris.UI
 {
@@ -41,7 +42,8 @@ namespace Norris.UI
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IGameRepository, GameRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IChessLogic, ChessLogic>();
             services.AddMvc();
         }
 
@@ -68,6 +70,9 @@ namespace Norris.UI
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "game",
+                    template: "{controller=Game}/{action=Index}/{id?}");
             });
         }
     }
