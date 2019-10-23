@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Norris.Data.Data.Entities;
+using Norris.Data.Models.DTO;
 
 namespace Norris.UI.Models.ManageViewModels
 {
     public class LobbyAndFriendsViewModel
     {
         public List<User> CurrentLobbyUsers { get; set; }
-        public List<User> Friends { get; set; }
+        public UserFriendsDTO Friends { get; set; }
 
     }
 }

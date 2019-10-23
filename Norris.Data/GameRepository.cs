@@ -24,6 +24,7 @@ namespace Norris.Data
               .Where(u => u.Id == currentUserID)
               .FirstOrDefault();
             if (user == null){return false;}
+            if (user.Friends.Any(f => f.FriendID == friendUserID)){ return false; }
 
             User friend = context.Users
               .Include(u => u.Friends)
@@ -112,7 +113,7 @@ namespace Norris.Data
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    gameboard.Concat(newMove.CurrentBoard[i, j] + ",");
+                    gameboard = gameboard + newMove.CurrentBoard[i, j] + ",";
                 }
             }
             //remove the last ','
@@ -143,20 +144,39 @@ namespace Norris.Data
             };
         }
 
-        public UserListDTO GetFriendList(string userID)
+        public UserFriendsDTO GetFriendList(string userID)
         {
-            var test = new UserListDTO();
-            test.Users = context.Users
+            var dto = new UserFriendsDTO();
+            var user = context.Users
               .Include(u => u.Friends)
+              .ThenInclude(f => f.Friend)
               .Where(u => u.Id == userID)
-              .FirstOrDefault()
+              .FirstOrDefault();
+            if (user == null){
+              throw new ArgumentException($"User {userID} not found");
+            }  
+
+            var friends = user
               ?.Friends
               .Select(f => f.Friend)
               .ToList();
-            if(test.Users == null){
-              test.Users = new List<User>();
+
+            if(friends == null){
+              dto.OnlineFriends = new List<User>();
+              dto.OfflineFriends = new List<User>();
             }
-            return test;
+            else{
+              dto.OnlineFriends = 
+                friends
+                .Where(u => UserActivity.IsOnline(u.Id))
+                .ToList();
+              dto.OfflineFriends = 
+                friends
+                .Where(u => !UserActivity.IsOnline(u.Id))
+                .ToList();
+            }
+
+            return dto;
         }
 
         public GameStateDTO GetGamestate(string id)
@@ -257,7 +277,27 @@ namespace Norris.Data
         }
         public bool IsActivePlayer(string gameID, string UserID)
         {
-            return true;
+            var gamesession = context.GameSessions.Where(g => g.Id.Equals(gameID)).FirstOrDefault();
+            if(gamesession.PlayerWhiteID == UserID && gamesession.IsWhitePlayerTurn)
+            {
+                return true;
+            } else if(gamesession.PlayerBlackID == UserID && !gamesession.IsWhitePlayerTurn)
+            {
+                return true;
+            }
+            return false;
+        }
+        public char GetPlayerColor(string gameID, string UserID)
+        {
+            var gamesession = context.GameSessions.Where(g => g.Id.Equals(gameID)).FirstOrDefault();
+            if (gamesession.PlayerWhiteID == UserID)
+            {
+                return 'w';
+            }
+            else 
+            {
+                return 'b';
+            }
         }
     }
 }

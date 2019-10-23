@@ -31,56 +31,109 @@
 <div class="grid-container">
     @{string c = "white-item";
         string fileext = ".png";
-        }
-    @for (int r = 8, i = 0; ; r--, i++)
-    {
-        int j = 0;
-        for (char f = 'a'; ; f++, j++)
+    }
+    @if (@Model.PlayerColor == 'w') //PLAYER IS WHITE
         {
-            <div class="grid-item @r @f @c" id="@f@r">
-                <div style="position:relative;">
-                    @{ string clickedPosition = f + r.ToString();}
-                    <a href='@Url.Action("ClickedTile", "Game", 
+            @for (int r = 8, i = 0; ; r--, i++)
+            {
+                int j = 0;
+                for (char f = 'a'; ; f++, j++)
+                {
+                    <div class="grid-item @r @f @c" id="@f@r">
+                        <div style="position:relative;">
+                            @{ string clickedPosition = f + r.ToString();}
+                            <a href='@Url.Action("ClickedTile", "Game",
                        new {
                             clickedPosition = clickedPosition,
                             gameId = @Model.GameId,
-                            activePlayerColor = @Model.GameState.ActivePlayerColor,
-                            log = @Model.GameState.Log,
                             selectedTile = @Model.SelectedTile
                         })'>
-                        <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]"/>
-                        <div>
-                            @if (Model.SelectedTile == clickedPosition)
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
-                            }
-                            else if (@Model.CanMoveToTiles.Contains(clickedPosition))
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
-                            }
-                            else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
-                            }
-                            else
-                            {
-                                <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
-                            }
+                                <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
+                                <div>
+                                    @if (Model.SelectedTile == clickedPosition)
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
+                                    }
+                                    else if (@Model.CanMoveToTiles.Contains(clickedPosition))
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
+                                    }
+                                    else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
+                                    }
+                                    else
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
+                                    }
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
 
-            </div>
-            if (f == 'h') { break; }
-            if (c == "white-item")
-            {
-                c = "black-item";
-            }
-            else
-            {
-                c = "white-item";
+                    </div>
+                    if (f == 'h') { break; }
+                    if (c == "white-item")
+                    {
+                        c = "black-item";
+                    }
+                    else
+                    {
+                        c = "white-item";
+                    }
+                }
+                if (r == 1) { break; }
             }
         }
-        if (r == 1) { break; }
-    }
-</div>
+        else //PLAYER IS BLACK!!!!
+        {
+            @for (int r = 1, i = 7; ; r++, i--)
+            {
+                int j = 7;
+                for (char f = 'h'; ; f--, j--)
+                {
+                    <div class="grid-item @r @f @c" id="@f@r">
+                        <div style="position:relative;">
+                            @{ string clickedPosition = f + r.ToString();}
+                            <a href='@Url.Action("ClickedTile", "Game",
+                       new {
+                            clickedPosition = clickedPosition,
+                            gameId = @Model.GameId,
+                            selectedTile = @Model.SelectedTile
+                        })'>
+                                <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
+                                <div>
+                                    @if (Model.SelectedTile == clickedPosition)
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
+                                    }
+                                    else if (@Model.CanMoveToTiles.Contains(clickedPosition))
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
+                                    }
+                                    else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
+                                    }
+                                    else
+                                    {
+                                        <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
+                                    }
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    if (f == 'a') { break; }
+                    if (c == "white-item")
+                    {
+                        c = "black-item";
+                    }
+                    else
+                    {
+                        c = "white-item";
+                    }
+                }
+                if (r == 8) { break; }
+            }
+        }
+    </div>
