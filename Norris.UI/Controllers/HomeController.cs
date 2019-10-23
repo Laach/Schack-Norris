@@ -51,7 +51,7 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             else
-                return RedirectToAction("Index", "Game", new { GameID = 13});
+                return RedirectToAction("Index", "Game");
             
         }
 

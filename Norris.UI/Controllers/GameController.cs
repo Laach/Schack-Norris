@@ -33,6 +33,10 @@ namespace Norris.UI.Controllers
         {
             ViewData["Message"] = "Game view.";
             var friends = _GameRepo.GetFriendList("2");
+            if(gameId == null)
+            {
+                gameId = _GameRepo.AddNewGame("08de97bb-86c7-43e1-9be1-3eca64870d25", "4aec2080-7dee-464e-a3c9-a1875b5472d9");
+            }
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
 
@@ -59,7 +63,7 @@ namespace Norris.UI.Controllers
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
                 userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
-                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
+                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), (clickedPosition[0] - 97)];
        
                 if (selectedTile == null)
                 {
@@ -126,13 +130,12 @@ namespace Norris.UI.Controllers
             }
 
             var gamestate = _GameRepo.GetGamestate(gameId);
-
             BoardViewModel board = new BoardViewModel
             {
                 GameState = gamestate,
                 SelectedTile = selectedTile,
-                CanMoveToAndTakeTiles = canMove,
-                CanMoveToTiles = canTake,
+                CanMoveToAndTakeTiles = canTake,
+                CanMoveToTiles = canMove,
                 GameId = gameId,
                 PlayerColor = _GameRepo.GetPlayerColor(gameId, _signInManager.UserManager.GetUserId(User))
             };

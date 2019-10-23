@@ -286,7 +286,7 @@ namespace Norris.Game {
       dto.PositionsPieceCanMoveTo = canMoveTo.Select(p => 
         Utils.PointToString(p)).ToList();
       
-      dto.PositionsPieceCanKillAt = canMoveTo.Select(p => 
+      dto.PositionsPieceCanKillAt = canKillAt.Select(p => 
         Utils.PointToString(p)).ToList();
 
       return dto;
