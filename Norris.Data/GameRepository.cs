@@ -24,6 +24,7 @@ namespace Norris.Data
               .Where(u => u.Id == currentUserID)
               .FirstOrDefault();
             if (user == null){return false;}
+            if (user.Friends.Any(f => f.FriendID == friendUserID)){ return false; }
 
             User friend = context.Users
               .Include(u => u.Friends)
