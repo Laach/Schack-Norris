@@ -100,7 +100,13 @@ namespace Norris.Data
         public UserListDTO GetFriendList(string userID)
         {
             var test = new UserListDTO();
-            test.Users = context.Users.Where(u => u.Id == userID).FirstOrDefault()?.Friends.Select(f => f.Friend).ToList();
+            test.Users = context.Users
+              .Include(u => u.Friends)
+              .Where(u => u.Id == userID)
+              .FirstOrDefault()
+              ?.Friends
+              .Select(f => f.Friend)
+              .ToList();
             if(test.Users == null){
               test.Users = new List<User>();
             }
