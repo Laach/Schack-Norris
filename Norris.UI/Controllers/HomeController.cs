@@ -23,6 +23,7 @@ namespace Norris.UI.Controllers
         {
             _signInManager = sim;
             _GameRepo = GameRepo;
+            // _GameRepo.AddFriend("643cc4da-31aa-41c7-addd-30f614429469", "5ef685b4-dd4f-45c8-9885-a93e92754efc");
         }
 
         public IActionResult Index()
@@ -35,14 +36,17 @@ namespace Norris.UI.Controllers
 
         public IActionResult Lobby()
         {
+            RefreshUser(User);
+
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
             ViewData["Message"] = "Lobby page.";
 
-            var friends = _GameRepo.GetFriendList("2");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
             var lobbyUsers = _GameRepo.GetPlayerLobby();
-            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends.Users };
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends };
             return View(lobbyAndFriends);
         }
 
@@ -57,6 +61,7 @@ namespace Norris.UI.Controllers
 
         public IActionResult FindFriends()
         {
+            RefreshUser(User);
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
@@ -90,6 +95,11 @@ namespace Norris.UI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void RefreshUser(System.Security.Claims.ClaimsPrincipal user){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            UserActivity.RefreshUser(uid);
         }
     }
 }
