@@ -60,7 +60,6 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
-
             var friends = _GameRepo.GetFriendList(2);
 
             return View("FindFriends",friends);
@@ -68,9 +67,7 @@ namespace Norris.UI.Controllers
 
         public void AddFriend(string userID)
         {
-            System.Console.WriteLine(userID);
-            //_GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
-
+            //bool result = _GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
         }
 
         [HttpGet]
