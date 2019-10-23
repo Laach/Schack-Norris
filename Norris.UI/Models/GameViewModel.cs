@@ -9,7 +9,8 @@ namespace Norris.UI.Models
 {
     public class GameViewModel
     {
-        public UserListDTO UserList;
-        public BoardViewModel Board;
+        public UserListDTO UserList { get; set; }
+        public BoardViewModel Board { get; set; }
+
     }
 }

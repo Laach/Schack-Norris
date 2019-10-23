@@ -142,7 +142,7 @@ namespace Norris.Data
                 //Log = Game.Log.Split(',').ToList(),
                 Log = new List<string>(),
                 Board = board,
-                ActivePlayerColor = 'W'
+                ActivePlayerColor = 'w'
             };
 
         }
