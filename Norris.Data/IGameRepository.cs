@@ -18,6 +18,8 @@ namespace Norris.Data
         string AddNewGame(string player1ID, string player2ID);
         bool AddFriend(string currentUserID, string friendUserID);
         UserListDTO GetPlayerLobby();
-        bool IsActivePlayer(string gameID, string userID);       
+        IEnumerable<UserActiveGamesDTO> GetUserGameList(string userID);
+        bool IsActivePlayer(string gameID, string userID);
+        
     }
 }
