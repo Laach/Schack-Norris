@@ -1,5 +1,4 @@
-﻿// Write your JavaScript code.
-function searchUsers(str) {
+﻿function searchUsers(str) {
     if (str.length == 0) {
         document.getElementById("searchResults").innerHTML = "";
         return;
