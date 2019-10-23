@@ -41,10 +41,19 @@ namespace Norris.UI.Controllers
 
         public IActionResult ClickedTile(string clickedPosition, string gameId, char activePlayerColor, List<string> log,  string selectedTile)
         {
-            if(selectedTile == null)
+            char userColor = activePlayerColor;
+            string piece;
+            if (userColor == 'w')
             {
-                char userColor = activePlayerColor;
-                var piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
+                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
+            }
+            else
+            {
+                piece = _GameRepo.GetGamestate(gameId).Board[clickedPosition[1] - 49, clickedPosition[0] - 97];
+            }
+
+            if (selectedTile == null)
+            {
 
                 if (userColor == piece[0])
                 {
@@ -57,30 +66,37 @@ namespace Norris.UI.Controllers
             {
                 //has selected a tile and has clicked any other tile
                 //Can the selected piece move there?
-                
-                MovePlanDTO movePlan = new MovePlanDTO
+                if(piece[0] == userColor)
                 {
-                    Board = _GameRepo.GetGamestate(gameId).Board,
-                    From = selectedTile,
-                    To = clickedPosition,
-                    PlayerColor = activePlayerColor
-                };
-                if (_chessLogicManager.IsValidMove(movePlan))
-                {
-                    string[,] newBoard = _chessLogicManager.DoMove(movePlan);
-                    NewMoveDTO newMove = new NewMoveDTO
-                    {
-                        CurrentBoard = newBoard,
-                        From = selectedTile,
-                        To = clickedPosition,
-                        GameID = gameId
-                    };
-                    _GameRepo.AddNewMove(newMove);
+                    selectedTile = clickedPosition;
                 }
                 else
                 {
-                    selectedTile = null;
+                    MovePlanDTO movePlan = new MovePlanDTO
+                    {
+                        Board = _GameRepo.GetGamestate(gameId).Board,
+                        From = selectedTile,
+                        To = clickedPosition,
+                        PlayerColor = activePlayerColor
+                    };
+                    if (_chessLogicManager.IsValidMove(movePlan))
+                    {
+                        string[,] newBoard = _chessLogicManager.DoMove(movePlan);
+                        NewMoveDTO newMove = new NewMoveDTO
+                        {
+                            CurrentBoard = newBoard,
+                            From = selectedTile,
+                            To = clickedPosition,
+                            GameID = gameId
+                        };
+                        _GameRepo.AddNewMove(newMove);
+                    }
+                    else
+                    {
+                        selectedTile = null;
+                    }
                 }
+                
             }
 
             List<string> canMove = new List<string>();
