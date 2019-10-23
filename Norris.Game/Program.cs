@@ -18,7 +18,7 @@ namespace Norris.Game
           // + " other's projects");
           // ChessBoard board = new ChessBoard(Chess.InitBoard());
           // Test.RunGameSample();
-          Test.PlayGame();
+          //Test.PlayGame();
           
 
 

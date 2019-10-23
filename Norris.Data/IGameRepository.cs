@@ -9,12 +9,12 @@ namespace Norris.Data
 {
     public interface IGameRepository
     {
-        GameStateDTO GetGamestate(GameID id);
+        GameStateDTO GetGamestate(string id);
         UserListDTO GetFriendList(int userID);      
         UserListDTO GetUserSearchResult(string searchterm);
         ViewUserModel GetUserData(int userID);
         GameStateDTO AddNewMove(NewMoveDTO newMove);
-        GameID AddNewGame(int player1ID, int player2ID);
+        string AddNewGame(string player1ID, string player2ID);
         bool AddFriend(int currentUserID, int friendUserID);
         UserListDTO GetPlayerLobby();
         
