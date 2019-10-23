@@ -59,13 +59,8 @@ namespace Norris.UI.Controllers
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
                 userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
-                if(true)
-                {
-                    piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
-                } else
-                {
-                    piece = _GameRepo.GetGamestate(gameId).Board[clickedPosition[1] - 49, clickedPosition[0] - 97];
-                }
+                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
+       
                 if (selectedTile == null)
                 {
 
