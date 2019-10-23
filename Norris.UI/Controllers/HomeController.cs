@@ -67,7 +67,10 @@ namespace Norris.UI.Controllers
 
         public void AddFriend(string userID)
         {
-            //bool result = _GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
+            if (userID != null && userID != _signInManager.UserManager.GetUserId(User))
+            {
+                //bool result = _GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
+            }
         }
 
         [HttpGet]
