@@ -19,6 +19,7 @@ namespace Norris.Data
         bool AddFriend(string currentUserID, string friendUserID);
         UserListDTO GetPlayerLobby();
         bool IsActivePlayer(string gameID, string userID);
-        
+        char GetPlayerColor(string gameID, string userID);
+
     }
 }

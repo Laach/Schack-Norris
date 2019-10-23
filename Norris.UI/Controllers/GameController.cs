@@ -35,19 +35,31 @@ namespace Norris.UI.Controllers
             var friends = _GameRepo.GetFriendList("2");
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
-            var board = new BoardViewModel { GameState = gamestate, SelectedTile = null, CanMoveToAndTakeTiles = emptyStringList, CanMoveToTiles = emptyStringList, GameId = gameId };
+
+            BoardViewModel board = new BoardViewModel {
+                GameState = gamestate,
+                SelectedTile = null,
+                CanMoveToAndTakeTiles = emptyStringList,
+                CanMoveToTiles = emptyStringList,
+                GameId = gameId,
+                PlayerColor = _GameRepo.GetPlayerColor(gameId, _signInManager.UserManager.GetUserId(User))
+            };
+
             return View(new GameViewModel { UserList = friends, Board = board});
         }
 
         public IActionResult ClickedTile(string clickedPosition, string gameId, string selectedTile)
         {
+            List<string> canMove = new List<string>();
+            List<string> canTake = new List<string>();
+
             var userId = _signInManager.UserManager.GetUserId(User);
             char userColor;
             string piece;
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
                 userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
-                if(userColor == 'w')
+                if(true)
                 {
                     piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
                 } else
@@ -102,29 +114,34 @@ namespace Norris.UI.Controllers
                     }
 
                 }
+
+                if (selectedTile != null)
+                {
+                    //Get the positions we can move to
+                    SelectedPieceDTO selectedPiece = new SelectedPieceDTO
+                    {
+                        Board = _GameRepo.GetGamestate(gameId).Board,
+                        PlayerColor = userColor,
+                        Selected = selectedTile
+                    };
+                    PossibleMovesDTO possibleMoves = _chessLogicManager.GetPossibleMoves(selectedPiece);
+                    canMove = possibleMoves.PositionsPieceCanMoveTo;
+                    canTake = possibleMoves.PositionsPieceCanKillAt;
+                }
             }
 
-
-
-            List<string> canMove = new List<string>();
-            List<string> canTake = new List<string>();
-
-            if (selectedTile != null)
-            {
-                //Get the positions we can move to
-                SelectedPieceDTO selectedPiece = new SelectedPieceDTO
-                {
-                    Board = _GameRepo.GetGamestate(gameId).Board,
-                    PlayerColor = userColor,
-                    Selected = selectedTile
-                };
-                PossibleMovesDTO possibleMoves = _chessLogicManager.GetPossibleMoves(selectedPiece);
-                canMove = possibleMoves.PositionsPieceCanMoveTo;
-                canTake = possibleMoves.PositionsPieceCanKillAt;
-            } 
-
             var gamestate = _GameRepo.GetGamestate(gameId);
-            var board = new BoardViewModel { GameState = gamestate, SelectedTile = selectedTile, CanMoveToAndTakeTiles = canTake, CanMoveToTiles = canMove, GameId = gameId };
+
+            BoardViewModel board = new BoardViewModel
+            {
+                GameState = gamestate,
+                SelectedTile = selectedTile,
+                CanMoveToAndTakeTiles = canMove,
+                CanMoveToTiles = canTake,
+                GameId = gameId,
+                PlayerColor = _GameRepo.GetPlayerColor(gameId, _signInManager.UserManager.GetUserId(User))
+            };
+
             var friends = _GameRepo.GetFriendList("2");
             return View("Index", new GameViewModel { UserList = friends, Board = board } );
 
