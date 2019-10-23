@@ -27,73 +27,231 @@ namespace Norris.UI
         public void SeedData()
         {
             //Checkes if database is empty of Users
-            var IsNotEmpty = _context.Users.Any();
+            var IsEmpty = !_context.Users.Any();
             //Only adds data if database is empty 
-            if (!IsNotEmpty)
+            if (IsEmpty)
             {
+                //Add cappe, alex, nick, emil, and philip as users
                 AddNewUsers();
                 _context.SaveChanges();
-                repo.AddNewGame(
-                    "d6c04d35-9f84-4095-a257-10e447dd194e",
-                    "d31b954c-687e-4f4e-8ef4-38a3039b603b"
-                    );
-                repo.AddFriend(
-                    "d6c04d35-9f84-4095-a257-10e447dd194e",
-                    "d31b954c-687e-4f4e-8ef4-38a3039b603b"
-                    );
+
+                //cappe and philip are friends with everyone else. Everyone else are only friends with cappe and philip
+                repo.AddFriend("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+
+                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+
+                repo.AddFriend("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+                repo.AddFriend( "bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
+
+                repo.AddFriend("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                                "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
+
+
+                //Some games
+                string gameId = repo.AddNewGame("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+                _context.GameSessions.Find(gameId).Board =      
+                        "br,ee,ee,ee,ee,ee,ee,br," +
+                        "bp,ee,bp,bk,ee,bp,ee,ee," +
+                        "ee,ee,bp,ee,ee,ee,ee,bp," +
+                        "ee,ee,ee,bp,ee,ee,wb,bb," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,wb,ee,ee,ee,ee," +
+                        "wp,wp,wp,ee,wr,bb,wp,wp," +
+                        "wr,wn,ee,ee,ee,ee,ee,wk";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+                _context.GameSessions.Find(gameId).Board =
+                        "ee,ee,ee,ee,ee,wb,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,wr,ee," +
+                        "ee,br,ee,ee,ee,ee,ee,bk," +
+                        "ee,br,ee,bp,ee,wr,ee,ee," +
+                        "bp,ee,ee,ee,ee,ee,wp,bp," +
+                        "wp,ee,wp,ee,ee,ee,bn,ee," +
+                        "ee,wp,ee,ee,ee,ee,wp,ee," +
+                        "ee,ee,ee,ee,ee,ee,wk,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+                gameId = repo.AddNewGame("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+                _context.GameSessions.Find(gameId).Board =
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+                _context.GameSessions.Find(gameId).Board =
+                        "be,ee,ee,ee,ee,br,bk,ee," +
+                        "bp,bp,ee,ee,ee,ee,bp,bp," +
+                        "ee,ee,bp,ee,ee,ee,bn,ee," +
+                        "ee,ee,ee,bp,ee,ee,wn,ee," +
+                        "ee,ee,wp,ee,ee,wp,wk,ee," +
+                        "ee,ee,ee,wb,ee,ee,wp,ee," +
+                        "wp,wp,ee,ee,ee,ee,ee,bq," +
+                        "wr,ee,wb,wq,ee,wr,ee,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+                gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+                _context.GameSessions.Find(gameId).Board =
+                       "br,ee,ee,ee,ee,br,ee,bk," +
+                        "ee,bp,bp,bq,wn,bp,bp,bp," +
+                        "bp,ee,bp,ee,bb,ee,ee,ee," +
+                        "ee,ee,ee,bn,ee,ee,wb,wq," +
+                        "ee,ee,ee,bp,wr,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "wp,wp,wp,ee,ee,wp,wp,wp," +
+                        "we,ee,ee,ee,ee,ee,wk,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                                "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
+                _context.GameSessions.Find(gameId).Board =
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,wk,ee,ee,ee,ee," +
+                        "ee,ee,ee,bk,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+                gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                                "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
+                _context.GameSessions.Find(gameId).Board =
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,wk,ee,ee,ee,ee," +
+                        "ee,ee,ee,bk,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,ee,ee,ee,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+
                 _context.SaveChanges();
             }
 
         }
 
-        //Creates and add 2 Users to the Database
         private void AddNewUsers()
         {
-            
-            var test1 = new User
+            //password: Mediumcook1!
+            var cappe = new User
             {
-                Id = "d6c04d35-9f84-4095-a257-10e447dd194e",
+                Id = "19cd7126-2f69-4b1d-9326-d92fcb438f2d",
                 AccessFailedCount = 0,
-                ConcurrencyStamp = "330b5e81-0750-4c84-8505-cf09e429e4d6",
-                Email = "test1@test1.com",
+                ConcurrencyStamp = "8878ab0d-53d9-455e-bd2b-415f61eb3edf",
+                Email = "cappe@male.com",
                 EmailConfirmed = false,
                 LockoutEnabled = true,
-                NormalizedEmail = "TEST1@TEST1.COM",
-                NormalizedUserName = "TEST1",
-                PasswordHash = "AQAAAAEAACcQAAAA" +
-                               "EN3dCY1fbjemhlrU" +
-                               "1XNuhLfqaOBXO1ua" +
-                               "EhBshy2Uyh25rsYx" +
-                               "wEDkvQZVwQ1BQDQCUw==",
+                NormalizedEmail = "CAPPE@MALE.COM",
+                NormalizedUserName = "CAPPE",
+                PasswordHash = "AQAAAAEAACcQAAAAEKRLoVQcXq3dPzAGrHmMb1sV02HDmiILMNawgqJLLUQXJCw5bwKjRxd23ISIX+d24g==",
                 PhoneNumberConfirmed = false,
-                SecurityStamp = "628edb52-be6a-40c7-a773-4272639a4024",
+                SecurityStamp = "5db147e1-f023-4dd2-8612-3f115a04b6db",
                 TwoFactorEnabled = false,
-                UserName = "test1"
+                UserName = "cappe"
             };
+            _context.Users.Add(cappe);
 
-            var test2 = new User
+            //password: XXXRedhead1!
+            var alex = new User
             {
-                Id = "d31b954c-687e-4f4e-8ef4-38a3039b603b",
+                Id = "bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
                 AccessFailedCount = 0,
-                ConcurrencyStamp = "70b6edd3-bd78-4244-98a9-4d6413707ebc",
-                Email = "test2@test2.com",
+                ConcurrencyStamp = "017b2f4e-84b5-4b42-a5a9-4ea4f1647fb9",
+                Email = "alex@male.com",
                 EmailConfirmed = false,
                 LockoutEnabled = true,
-                NormalizedEmail = "TEST2@TEST2.COM",
-                NormalizedUserName = "TEST2",
-                PasswordHash = "AQAAAAEAACcQAAA" +
-                   "AEEiMSw8XSP43mn" +
-                   "ruK9r94BkIva14A" +
-                   "SvH4KFrHMmEqF15" +
-                   "mmZvezIpwgzRE+" +
-                   "Tukun4JA ==",
+                NormalizedEmail = "ALEX@MALE.COM",
+                NormalizedUserName = "ALEX",
+                PasswordHash = "AQAAAAEAACcQAAAAEOBSLL9MI3bvDbiOVJinWutxLmJFCcrd2rGZc6Qw2F5uPi6K/tfBQKJaODGl8pvf+A==",
                 PhoneNumberConfirmed = false,
-                SecurityStamp = "2a355eca-c2dc-432d-98ec-aa23a818b6c3",
+                SecurityStamp = "2eb6cb9f-4f8b-4968-8ce7-2594f374b45e",
                 TwoFactorEnabled = false,
-                UserName = "test2"
+                UserName = "alex"
             };
-            _context.Users.Add(test1);
-            _context.Users.Add(test2);
+            _context.Users.Add(alex);
+
+            //password: Password1!
+            var nick = new User
+            {
+                Id = "7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                AccessFailedCount = 0,
+                ConcurrencyStamp = "4bfdf30d-294e-479b-ac6f-bf44efac6732",
+                Email = "nick@male.com",
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                NormalizedEmail = "NICK@MALE.COM",
+                NormalizedUserName = "NICK",
+                PasswordHash = "AQAAAAEAACcQAAAAEIB5IOWx9+gUXS+vBCNxtfKzoFEVaF5QCKSEmvdIJERICJVwvIhJw4pJDw2rnXMnLw==",
+                PhoneNumberConfirmed = false,
+                SecurityStamp = "86373a87-e6d3-4ed1-8322-b0a3d0383bef",
+                TwoFactorEnabled = false,
+                UserName = "nick"
+            };
+            _context.Users.Add(nick);
+
+            //password: STHLMlove1!
+            var emil = new User
+            {
+                Id = "08e03d0c-bfb1-437a-a877-1d370bd92cc5",
+                AccessFailedCount = 0,
+                ConcurrencyStamp = "d860197b-e594-42bf-9422-6a8dfcd811dc",
+                Email = "emil@male.com",
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                NormalizedEmail = "EMIL@MALE.COM",
+                NormalizedUserName = "EMIL",
+                PasswordHash = "AQAAAAEAACcQAAAAEA7iUp/6A4MnDJlrrwhldY0l8zmjI0QIc8eZNk2BiydK59mSTgd/czQYaQ150AwVtA==",
+                PhoneNumberConfirmed = false,
+                SecurityStamp = "5c6657eb-24ae-4e74-9d59-9b0c03655987",
+                TwoFactorEnabled = false,
+                UserName = "emil"
+            };
+            _context.Users.Add(emil);
+
+            //password: Kattungar1!
+            var philip = new User
+            {
+                Id = "b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                AccessFailedCount = 0,
+                ConcurrencyStamp = "ea6cba8f-ca15-4b97-a8e0-d9906ae57c7d",
+                Email = "philip@male.com",
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                NormalizedEmail = "PHILIP@MALE.COM",
+                NormalizedUserName = "PHILIP",
+                PasswordHash = "AQAAAAEAACcQAAAAEBf0Z2hB+1rXo5bsWU4poxpficZ/CyK4/STEpN6/wegH00+6bxjzjCnvr8il6ilAVw==",
+                PhoneNumberConfirmed = false,
+                SecurityStamp = "413732b7-c15c-4419-8f6f-5fdb337ec9fd",
+                TwoFactorEnabled = false,
+                UserName = "philip"
+            };
+            _context.Users.Add(philip);
         }
     }
 }
