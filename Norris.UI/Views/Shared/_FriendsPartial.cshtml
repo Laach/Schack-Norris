@@ -1,7 +1,7 @@
 ﻿@using Norris.Data.Data.Entities
-@using Norris.Data.Models
+@using Norris.Data.Models.DTO
 
-@model List<User>
+@model UserFriendsDTO
 
     <div>
         <div class="friends">
@@ -9,9 +9,9 @@
             <ul class="list-group">
                 <li class="list-group-item">Online</li>
                 
-                @if (Model.Any())
+                @if (Model.OnlineFriends.Any())
                 {
-                    foreach (var user in Model)
+                    foreach (var user in Model.OnlineFriends)
                     {
                         <li class="list-group-item"> @user.UserName </li>
                         
@@ -25,10 +25,10 @@
         </div>
         <ul class="list-group friends">
             <li class="list-group-item">Offline</li>
-            @if (Model.Any())
+            @if (Model.OfflineFriends.Any())
             {
                 
-                foreach (var user in Model)
+                foreach (var user in Model.OfflineFriends)
                 {
                     <li class="list-group-item disabled">@user.UserName</li>
                 }
