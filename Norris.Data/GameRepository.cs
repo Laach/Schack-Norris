@@ -198,7 +198,7 @@ namespace Norris.Data
             var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
             if(user == null){return null;}
 
-            string search = "%" + searchterm + "%";
+            string search = searchterm + "%";
             UserListDTO users = new UserListDTO();
             users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
 
