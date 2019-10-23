@@ -35,6 +35,8 @@ namespace Norris.UI.Controllers
 
         public IActionResult Lobby()
         {
+            RefreshUser(User);
+
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
@@ -57,6 +59,7 @@ namespace Norris.UI.Controllers
 
         public IActionResult FindFriends()
         {
+            RefreshUser(User);
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
@@ -86,6 +89,11 @@ namespace Norris.UI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void RefreshUser(System.Security.Claims.ClaimsPrincipal user){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            UserActivity.RefreshUser(uid);
         }
     }
 }
