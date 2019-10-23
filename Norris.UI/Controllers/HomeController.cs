@@ -66,6 +66,11 @@ namespace Norris.UI.Controllers
             return View("FindFriends",friends);
         }
 
+        public void AddFriend(string userID)
+        {
+            System.Console.WriteLine(userID);
+            //_GameRepo.AddFriend(_signInManager.UserManager.GetUserId(User), toAddID);
+        }
 
         [HttpGet]
         public PartialViewResult Search(string searchString)
