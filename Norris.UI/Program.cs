@@ -14,7 +14,9 @@ namespace Norris.UI
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args)
+                .SeedData()
+                .Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
