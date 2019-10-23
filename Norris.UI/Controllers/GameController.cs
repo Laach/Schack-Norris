@@ -47,59 +47,64 @@ namespace Norris.UI.Controllers
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
                 userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
-                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
-            }
-            else
-            {
-                piece = _GameRepo.GetGamestate(gameId).Board[clickedPosition[1] - 49, clickedPosition[0] - 97];
-            }
-
-            if (selectedTile == null)
-            {
-
-                if (userColor == piece[0])
+                if(userColor == 'w')
                 {
-                    selectedTile = clickedPosition;
+                    piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), 7 - (clickedPosition[0] - 97)];
+                } else
+                {
+                    piece = _GameRepo.GetGamestate(gameId).Board[clickedPosition[1] - 49, clickedPosition[0] - 97];
                 }
-            } else if (selectedTile == clickedPosition)
-            {
-                selectedTile = null;
-            } else
-            {
-                //has selected a tile and has clicked any other tile
-                //Can the selected piece move there?
-                if(piece[0] == userColor)
+                if (selectedTile == null)
                 {
-                    selectedTile = clickedPosition;
+
+                    if (userColor == piece[0])
+                    {
+                        selectedTile = clickedPosition;
+                    }
+                }
+                else if (selectedTile == clickedPosition)
+                {
+                    selectedTile = null;
                 }
                 else
                 {
-                    MovePlanDTO movePlan = new MovePlanDTO
+                    //has selected a tile and has clicked any other tile
+                    //Can the selected piece move there?
+                    if (piece[0] == userColor)
                     {
-                        Board = _GameRepo.GetGamestate(gameId).Board,
-                        From = selectedTile,
-                        To = clickedPosition,
-                        PlayerColor = userColor
-                    };
-                    if (_chessLogicManager.IsValidMove(movePlan))
-                    {
-                        string[,] newBoard = _chessLogicManager.DoMove(movePlan);
-                        NewMoveDTO newMove = new NewMoveDTO
-                        {
-                            CurrentBoard = newBoard,
-                            From = selectedTile,
-                            To = clickedPosition,
-                            GameID = gameId
-                        };
-                        _GameRepo.AddNewMove(newMove);
+                        selectedTile = clickedPosition;
                     }
                     else
                     {
-                        selectedTile = null;
+                        MovePlanDTO movePlan = new MovePlanDTO
+                        {
+                            Board = _GameRepo.GetGamestate(gameId).Board,
+                            From = selectedTile,
+                            To = clickedPosition,
+                            PlayerColor = userColor
+                        };
+                        if (_chessLogicManager.IsValidMove(movePlan))
+                        {
+                            string[,] newBoard = _chessLogicManager.DoMove(movePlan);
+                            NewMoveDTO newMove = new NewMoveDTO
+                            {
+                                CurrentBoard = newBoard,
+                                From = selectedTile,
+                                To = clickedPosition,
+                                GameID = gameId
+                            };
+                            _GameRepo.AddNewMove(newMove);
+                        }
+                        else
+                        {
+                            selectedTile = null;
+                        }
                     }
+
                 }
-                
             }
+
+
 
             List<string> canMove = new List<string>();
             List<string> canTake = new List<string>();
