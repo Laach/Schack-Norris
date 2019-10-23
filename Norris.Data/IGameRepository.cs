@@ -20,6 +20,7 @@ namespace Norris.Data
         UserListDTO GetPlayerLobby();
         IEnumerable<UserActiveGamesDTO> GetUserGameList(string userID);
         bool IsActivePlayer(string gameID, string userID);
-        
+        char GetPlayerColor(string gameID, string userID);
+
     }
 }

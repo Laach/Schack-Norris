@@ -104,7 +104,7 @@ namespace Norris.Data
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    gameboard.Concat(newMove.CurrentBoard[i, j] + ",");
+                    gameboard = gameboard + newMove.CurrentBoard[i, j] + ",";
                 }
             }
             game.Board = gameboard.Substring(0, gameboard.Length - 1);
@@ -249,7 +249,27 @@ namespace Norris.Data
         }
         public bool IsActivePlayer(string gameID, string UserID)
         {
-            return true;
+            var gamesession = context.GameSessions.Where(g => g.Id.Equals(gameID)).FirstOrDefault();
+            if(gamesession.PlayerWhiteID == UserID && gamesession.IsWhitePlayerTurn)
+            {
+                return true;
+            } else if(gamesession.PlayerBlackID == UserID && !gamesession.IsWhitePlayerTurn)
+            {
+                return true;
+            }
+            return false;
+        }
+        public char GetPlayerColor(string gameID, string UserID)
+        {
+            var gamesession = context.GameSessions.Where(g => g.Id.Equals(gameID)).FirstOrDefault();
+            if (gamesession.PlayerWhiteID == UserID)
+            {
+                return 'w';
+            }
+            else 
+            {
+                return 'b';
+            }
         }
     }
 }
