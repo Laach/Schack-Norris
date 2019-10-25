@@ -84,9 +84,10 @@
                         {
                             foreach (var user in Model.UserFriends.OfflineFriends)
                             {
-                                <li class="list-group-item disabled"> @user.UserName 
-                                    <a href='#' class="btn btn-success btn-sm playGameBtn">New game</a>
-                                </li>
+                        <li class="list-group-item disabled">
+                            @user.UserName
+                            <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-danger btn-sm playGameBtn">New game</a>
+                        </li>
                             }
                         }
                         else
