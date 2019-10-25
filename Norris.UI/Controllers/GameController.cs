@@ -85,6 +85,8 @@ namespace Norris.UI.Controllers
             var canTake = data.CanTake;
 
             List<string> changedTiles = new List<string>();
+            changedTiles.AddRange(canMove);
+            changedTiles.AddRange(canTake);
 
             string userId = _signInManager.UserManager.GetUserId(User);
             RefreshUser(User);
