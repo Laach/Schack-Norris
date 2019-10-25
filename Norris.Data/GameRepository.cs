@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -279,12 +279,25 @@ namespace Norris.Data
 
         public IEnumerable<ChatMessageDTO> GetMessageLog(string GameID)
         {
-            throw new NotImplementedException();
+            var session = context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            var ChatLog = new List<ChatMessageDTO>();
+            foreach (var msg in session.Chatlog)
+            {
+                ChatLog.Add(new ChatMessageDTO { Message = msg.Message, Username = msg.Username, TimeStamp = msg.TimeStamp });
+            }
+            return ChatLog;
         }
 
         public int GetMessageLogLenght(string GameID)
         {
-            throw new NotImplementedException();
+            var session = context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            return session.Chatlog.Count();
         }
     }
 }
