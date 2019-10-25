@@ -81,19 +81,5 @@ function updateBoard(gameid, clickedtile) {
         
 
       }
-
-
-      // for(let i = 0; i < 8; i++){
-      //   for(let j = 0; j < 8; j++){
-      //     const piece = data.gameState.board[i][j];
-      //     const file = intToFile(j);
-      //     const rank = intToRank(i);
-      //     const tile = document.getElementById(file + rank);
-      //     const img = tile.getElementsByClassName("piece")[0];
-      //     img.setAttribute("src", "/images/pieces/" + piece + ".png")
-      //     // <img style="position:absolute" class="piece-image piece" src="~/images/pieces/ee.png" alt="@board[i, j]" />
-      //   }
-      // }
-
     });
 }
