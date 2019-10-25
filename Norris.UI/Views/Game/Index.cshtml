@@ -12,8 +12,9 @@
 </style>
 
 <div class="row">
-    <div class="col-sm-9">@await Html.PartialAsync("_ChessboardPartial", Model.Board)</div>
-    <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-sm-2">@await Html.PartialAsync("_ChatPartial", Model.ChatMessages)</div>
+    <div class="col-sm-8">@await Html.PartialAsync("_ChessboardPartial", Model.Board)</div>
+    <div class="col-sm-2">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
 

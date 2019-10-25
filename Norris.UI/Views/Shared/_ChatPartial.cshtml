@@ -1,0 +1,17 @@
+﻿@using Norris.Data.Models.DTO;
+@using Norris.UI.Models;
+@using Norris.Data.Data.Entities;
+
+@model List<ChatMessageDTO>
+<div>
+     <div class="ChatBox">
+         @if(Model != null)
+         {
+             foreach(var item in Model)
+             {
+                 <span>@item.TimeStamp <b>@item.Username</b></span>
+                 <p>@item.Message</p>
+             }
+         }
+     </div>
+</div>
