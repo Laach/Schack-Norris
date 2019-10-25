@@ -1,6 +1,7 @@
 ﻿@using Norris.Data.Models.DTO;
 @using Norris.UI.Models;
 @using Norris.Data.Data.Entities;
+<script src="~/js/ChatSystem.js"></script>
 
 @model List<ChatMessageDTO>
 <div class="ChatBox">
@@ -13,7 +14,7 @@
         }
     }
     <div class="ChatBoxLower">
-        <input type="text" placeholder="Type here..."/>
-        <button><b>Send</b></button>
+        <input type="text" id="ChatBoxInput" placeholder="Type here..."/>
+        <button onclick="SendMessage()"><b>Send</b></button>
     </div>
 </div>  
