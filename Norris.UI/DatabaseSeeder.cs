@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 
 namespace Norris.UI
 {
-    //Adds 2 Users
-    //Sets both Users to each others friends
-    //Adds 1 Gamesession in which both userser are players
     public class DatabaseSeeder
     {
         private readonly NContext _context;
@@ -88,15 +85,15 @@ namespace Norris.UI
                 gameId = repo.AddNewGame("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
                                 "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
                 _context.GameSessions.Find(gameId).Board =
+                        "br,bk,ee,ee,ee,ee,ee,br," +
+                        "bp,bp,ee,wq,ee,bp,ee,bp," +
+                        "ee,bq,ee,bp,ee,wn,ee,ee," +
                         "ee,ee,ee,ee,ee,ee,ee,ee," +
                         "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+                        "ee,ee,ee,ee,ee,ee,wp,ee," +
+                        "wp,wp,ee,ee,ee,wp,wb,wp," +
+                        "ee,ee,wr,ee,ee,ee,wk,ee,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
 
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
                                 "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
@@ -127,29 +124,28 @@ namespace Norris.UI
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
                                 "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
                 _context.GameSessions.Find(gameId).Board =
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,wk,ee,ee,ee,ee," +
-                        "ee,ee,ee,bk,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee,";
+                        "br,ee,bb,bk,ee,ee,bn,br," +
+                        "bp,ee,ee,bp,ee,bp,wn,bp," +
+                        "bn,ee,ee,wb,ee,ee,ee,ee," +
+                        "ee,bp,ee,wn,wp,ee,ee,wp," +
+                        "ee,ee,ee,ee,ee,ee,wp,ee," +
+                        "ee,ee,ee,wp,ee,wq,ee,ee," +
+                        "wp,ee,wp,ee,wk,ee,ee,ee," +
+                        "bq,ee,ee,ee,ee,ee,bb,ee,";
                 _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
 
                 gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
                                 "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
                 _context.GameSessions.Find(gameId).Board =
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,wk,ee,ee,ee,ee," +
-                        "ee,ee,ee,bk,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
-
+                        "ee,ee,ee,bq,ee,ee,ee,ee," +
+                        "ee,ee,ee,ee,bb,ee,ee,ee," +
+                        "ee,ee,bp,ee,ee,ee,ee,bp," +
+                        "bp,bk,ee,bp,ee,wb,ee,ee," +
+                        "wn,ee,ee,bk,ee,wp,ee,ee," +
+                        "wp,ee,wq,ee,ee,ee,wp,ee," +
+                        "ee,wp,ee,ee,ee,ee,ee,wp," +
+                        "ee,ee,ee,ee,ee,ee,ee,wk,";
+                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
 
                 _context.SaveChanges();
             }

@@ -32,7 +32,6 @@ namespace Norris.UI.Controllers
         public IActionResult Index(string gameId)
         {
             RefreshUser(User);
-            ViewData["Message"] = "Game view.";
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
             var games = _GameRepo.GetUserGameList(userId);
