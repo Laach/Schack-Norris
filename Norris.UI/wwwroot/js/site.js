@@ -18,7 +18,8 @@
 function addUser(userID) {
     fetch('/Home/AddFriend', {
         method: 'POST',
-        body: "userid : " + userID,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userID: userID })
     })
         .then(data => {
             return data.text()
