@@ -35,10 +35,17 @@ namespace Norris.UI.Controllers
             ViewData["Message"] = "Game view.";
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
+            var games = _GameRepo.GetUserGameList(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
 
-            BoardViewModel board = new BoardViewModel {
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games
+            };
+
+            ChessboardPartialViewModel board = new ChessboardPartialViewModel {
                 GameState = gamestate,
                 SelectedTile = null,
                 CanMoveToAndTakeTiles = emptyStringList,
@@ -47,7 +54,7 @@ namespace Norris.UI.Controllers
                 PlayerColor = _GameRepo.GetPlayerColor(gameId, userId)
             };
 
-            return View(new GameViewModel { UserList = friends, Board = board});
+            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board});
         }
 
         public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile)
@@ -130,7 +137,16 @@ namespace Norris.UI.Controllers
             }
 
             gamestate = _GameRepo.GetGamestate(gameId);
-            BoardViewModel board = new BoardViewModel
+            var friends = _GameRepo.GetFriendList(userId);
+            var games = _GameRepo.GetUserGameList(userId);
+
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games
+            };
+
+            ChessboardPartialViewModel board = new ChessboardPartialViewModel
             {
                 GameState = gamestate,
                 SelectedTile = selectedTile,
@@ -140,8 +156,7 @@ namespace Norris.UI.Controllers
                 PlayerColor = userColor
             };
 
-            var friends = _GameRepo.GetFriendList(userId);
-            return View("Index", new GameViewModel { UserList = friends, Board = board } );
+            return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
 
         }
 
