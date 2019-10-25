@@ -5,29 +5,39 @@
 
 
 <div>
-    <ul class="list-group games">
-        <li class="list-group-item">Games</li>
-        @if (Model.UserGames.Any())
-        {
+    <div class="panel-group" role="tablist">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+                <a href="#games" class="" role="button" data-toggle="collapse"
+                   aria-expanded="true" aria-controls="games" onclick="changeIcon('icon1')">
+                    Games <i id="icon1" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="panel-collapse collapse in" role="tabpanel" id="games" aria-labelledby="games" aria-expanded="true">
+                <ul class="list-group games">
+                    @if (Model.UserGames.Any())
+                    {
 
-            foreach (var game in Model.UserGames)
-            {
-                <li class="list-group-item disabled"><a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })'>vs. @game.OpponentName.</a> Your turn: @game.IsMyTurn.ToString()</li>
-            }
-        }
-        else
-        {
-            //no friends
-        }
-    </ul>
+                        foreach (var game in Model.UserGames)
+                        {
+                            <li class="list-group-item"><a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })'>vs. @game.OpponentName.</a> Your turn: @game.IsMyTurn.ToString()</li>
+                        }
+                    }
+                    else
+                    {
+                        //no friends
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="friends">
-        Friends
         <div class="panel-group" role="tablist">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab">
                     <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon1')">
-                        Online <i id="icon1" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+                       aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2')">
+                        Online <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                     </a>
                 </div>
                 <div class="panel-collapse collapse in" role="tabpanel" id="friendsOnline" aria-labelledby="friendsOnline" aria-expanded="true">
@@ -48,14 +58,13 @@
             </div>
         </div>
 
-
         <div class="panel-group" role="tablist">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab">
                     <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon2')">
+                       aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3')">
                         Offline
-                        <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+                        <i id="icon3" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                     </a>
                 </div>
                 <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
