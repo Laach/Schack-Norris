@@ -93,93 +93,70 @@ namespace Norris.UI.Controllers
             GameStateDTO gamestate = _GameRepo.GetGamestate(gameId);
             char userColor = _GameRepo.GetPlayerColor(gameId, userId);
 
-            if (_GameRepo.IsActivePlayer(gameId, userId))
-            {
-                // clickedPieceType contains color and type, ex "wk" (white king)
-                string clickedPieceType = gamestate.Board[7 - (clickedTile[1] - 49), (clickedTile[0] - 97)];
+            if (!_GameRepo.IsActivePlayer(gameId, userId)){
+              // Not players turn
+              return Json("");
+            }
 
-                if (selectedTile == clickedTile)
-                {
-                    //Clicked the selected tile
-                    //it is unselected
-                    changedTiles.Add(selectedTile);
-                    selectedTile = null;
-                }
-                else if (userColor == clickedPieceType[0])
-                {
-                    //Clicked one of their own pieces
-                    //it is selected.
-                    changedTiles.Add(selectedTile);
-                    changedTiles.Add(clickedTile);
-                    selectedTile = clickedTile;
+            else if(selectedTile == clickedTile){
+              // Clicked already selected tile. Deselect it.
+              changedTiles.Add(selectedTile);
+              selectedTile = null;
+              canMove = new List<string>();
+              canTake = new List<string>();
+            }
 
-                }
-                else if(selectedTile != null)
-                {
-                    //a tile is already selected, and clicked an enemy or empty tile
-                    //Can the selected piece move there?
+            else if(_chessLogicManager.PositionIsColor(gamestate.Board, clickedTile, userColor)){
+              // Clicked own piece. Get possible moves.
+              SelectedPieceDTO selectedPiece = new SelectedPieceDTO {
+                  Board = gamestate.Board,
+                  PlayerColor = userColor,
+                  Selected = clickedTile
+                };
+              var moves = _chessLogicManager.GetPossibleMoves(selectedPiece);
+              canMove = moves.PositionsPieceCanMoveTo;
+              canTake = moves.PositionsPieceCanKillAt;
+              changedTiles.AddRange(canMove);
+              changedTiles.AddRange(canTake);
+              if(selectedTile != null){
+                changedTiles.Add(selectedTile);
+              }
+              changedTiles.Add(clickedTile);
+              selectedTile = clickedTile;
+            }
 
-                    MovePlanDTO movePlan = new MovePlanDTO
-                    {
-                        Board = gamestate.Board,
-                        From = selectedTile,
-                        To = clickedTile,
-                        PlayerColor = userColor
-                    };
+            else if(selectedTile != null){
+              //a tile is already selected, and clicked an enemy or empty tile
+              //Can the selected piece move there?
+              MovePlanDTO movePlan = new MovePlanDTO
+              {
+                  Board = gamestate.Board,
+                  From = selectedTile,
+                  To = clickedTile,
+                  PlayerColor = userColor
+              };
 
-                    if (_chessLogicManager.IsValidMove(movePlan))
-                    {
-                        //yes, the selected piece can move there
-                        //Apply the game logic, save the new board state, and log the move.
-                        string[,] newBoard = _chessLogicManager.DoMove(movePlan);
-                        NewMoveDTO newMove = new NewMoveDTO
-                        {
-                            NewBoard = newBoard,
-                            From = selectedTile,
-                            To = clickedTile,
-                            GameID = gameId
-                        };
-                        _GameRepo.AddNewMove(newMove);
-
-                        changedTiles.Add(clickedTile);
-                        changedTiles.Add(selectedTile);
-                        changedTiles.AddRange(canMove);
-                        changedTiles.AddRange(canTake);
-
-                        //unselect the old tile
-                        selectedTile = null;
-
-                    }
-                    else
-                    {
-                        //clicked a tile that can't be moved to
-                        //the selected tile is unselected.
-                        changedTiles.Add(selectedTile);
-                        selectedTile = null;
-                    }
-                }
-
-                if (selectedTile != null)
-                {
-                    //Get the positions we can move to
-                    SelectedPieceDTO selectedPiece = new SelectedPieceDTO
-                    {
-                        Board = gamestate.Board,
-                        PlayerColor = userColor,
-                        Selected = selectedTile
-                    };
-                    PossibleMovesDTO possibleMoves = _chessLogicManager.GetPossibleMoves(selectedPiece);
-                    canMove = possibleMoves.PositionsPieceCanMoveTo;
-                    canTake = possibleMoves.PositionsPieceCanKillAt;
-
-                    changedTiles.AddRange(canMove);
-                    changedTiles.AddRange(canTake);
-                } else
-                {
-                    
-                    canMove = new List<string>();
-                    canTake = new List<string>();
-                }
+              if (_chessLogicManager.IsValidMove(movePlan))
+              {
+                  //yes, the selected piece can move there
+                  //Apply the game logic, save the new board state, and log the move.
+                  string[,] newBoard = _chessLogicManager.DoMove(movePlan);
+                  NewMoveDTO newMove = new NewMoveDTO
+                  {
+                      NewBoard = newBoard,
+                      From = selectedTile,
+                      To = clickedTile,
+                      GameID = gameId
+                  };
+                  _GameRepo.AddNewMove(newMove);
+              }
+              // Either a move was made, or the tile was deselected by clicking 
+              // a tile where a move wasn't possible. Remove highlights.
+              changedTiles.Add(clickedTile);
+              changedTiles.Add(selectedTile);
+              canMove = new List<string>();
+              canTake = new List<string>();
+              selectedTile = null;
             }
 
             gamestate = _GameRepo.GetGamestate(gameId);
