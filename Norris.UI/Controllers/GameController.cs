@@ -67,8 +67,23 @@ namespace Norris.UI.Controllers
             return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board});
         }
 
-        public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile, List<string> canMove, List<string> canTake)
+        public class TileClick{
+          public string ClickedTile    {get; set;}
+          public string GameID         {get; set;}
+          public string SelectedTile   {get; set;}
+          public List<string> CanMove  {get; set;}
+          public List<string> CanTake  {get; set;}
+        }
+
+        // public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile, List<string> canMove, List<string> canTake)
+        public IActionResult ClickedTile([FromBody] TileClick data)
         {
+            var gameId = data.GameID;
+            var clickedTile = data.ClickedTile;
+            var selectedTile = data.SelectedTile;
+            var canMove = data.CanMove;
+            var canTake = data.CanTake;
+
             List<string> changedTiles = new List<string>();
 
             string userId = _signInManager.UserManager.GetUserId(User);
@@ -185,9 +200,9 @@ namespace Norris.UI.Controllers
                 ChangedTiles = changedTiles
             };
                 
-            //return JsonConvert.SerializeObject(board);
+            return Json(board);
 
-            return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
+            // return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
 
         }
 
