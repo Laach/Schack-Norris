@@ -113,7 +113,7 @@ namespace Norris.Data
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    gameboard = gameboard + newMove.CurrentBoard[i, j] + ",";
+                    gameboard = gameboard + newMove.NewBoard[i, j] + ",";
                 }
             }
             //remove the last ','
