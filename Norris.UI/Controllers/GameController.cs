@@ -50,67 +50,68 @@ namespace Norris.UI.Controllers
             return View(new GameViewModel { UserList = friends, Board = board});
         }
 
-        public IActionResult ClickedTile(string clickedPosition, string gameId, string selectedTile)
+        public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile)
         {
             List<string> canMove = new List<string>();
             List<string> canTake = new List<string>();
 
-            var userId = _signInManager.UserManager.GetUserId(User);
-            char userColor;
+            string userId = _signInManager.UserManager.GetUserId(User);
             RefreshUser(User);
-            string piece;
+            GameStateDTO gamestate = _GameRepo.GetGamestate(gameId);
+            char userColor = _GameRepo.GetPlayerColor(gameId, userId);
+
             if (_GameRepo.IsActivePlayer(gameId, userId))
             {
-                userColor = _GameRepo.GetGamestate(gameId).ActivePlayerColor;
-                piece = _GameRepo.GetGamestate(gameId).Board[7 - (clickedPosition[1] - 49), (clickedPosition[0] - 97)];
-       
-                if (selectedTile == null)
-                {
+                // clickedPieceType contains color and type, ex "wk" (white king)
+                string clickedPieceType = gamestate.Board[7 - (clickedTile[1] - 49), (clickedTile[0] - 97)];
 
-                    if (userColor == piece[0])
-                    {
-                        selectedTile = clickedPosition;
-                    }
-                }
-                else if (selectedTile == clickedPosition)
+                if (selectedTile == clickedTile)
                 {
+                    //Clicked the selected tile
+                    //it is unselected
                     selectedTile = null;
                 }
-                else
+                else if (userColor == clickedPieceType[0])
                 {
-                    //has selected a tile and has clicked any other tile
+                    //Clicked one of their own pieces
+                    //it is selected.
+                    selectedTile = clickedTile;
+                }
+                else if(selectedTile != null)
+                {
+                    //a tile is already selected, and clicked an enemy or empty tile
                     //Can the selected piece move there?
-                    if (piece[0] == userColor)
+
+                    MovePlanDTO movePlan = new MovePlanDTO
                     {
-                        selectedTile = clickedPosition;
+                        Board = gamestate.Board,
+                        From = selectedTile,
+                        To = clickedTile,
+                        PlayerColor = userColor
+                    };
+
+                    if (_chessLogicManager.IsValidMove(movePlan))
+                    {
+                        //yes, the selected piece can move there
+                        //Apply the game logic, save the new board state, and log the move.
+                        string[,] newBoard = _chessLogicManager.DoMove(movePlan);
+                        NewMoveDTO newMove = new NewMoveDTO
+                        {
+                            NewBoard = newBoard,
+                            From = selectedTile,
+                            To = clickedTile,
+                            GameID = gameId
+                        };
+                        _GameRepo.AddNewMove(newMove);
+                        //unselect the old tile
+                        selectedTile = null;
                     }
                     else
                     {
-                        MovePlanDTO movePlan = new MovePlanDTO
-                        {
-                            Board = _GameRepo.GetGamestate(gameId).Board,
-                            From = selectedTile,
-                            To = clickedPosition,
-                            PlayerColor = userColor
-                        };
-                        if (_chessLogicManager.IsValidMove(movePlan))
-                        {
-                            string[,] newBoard = _chessLogicManager.DoMove(movePlan);
-                            NewMoveDTO newMove = new NewMoveDTO
-                            {
-                                CurrentBoard = newBoard,
-                                From = selectedTile,
-                                To = clickedPosition,
-                                GameID = gameId
-                            };
-                            _GameRepo.AddNewMove(newMove);
-                        }
-                        else
-                        {
-                            selectedTile = null;
-                        }
+                        //clicked a tile that can't be moved to
+                        //the selected tile is unselected.
+                        selectedTile = null;
                     }
-
                 }
 
                 if (selectedTile != null)
@@ -118,7 +119,7 @@ namespace Norris.UI.Controllers
                     //Get the positions we can move to
                     SelectedPieceDTO selectedPiece = new SelectedPieceDTO
                     {
-                        Board = _GameRepo.GetGamestate(gameId).Board,
+                        Board = gamestate.Board,
                         PlayerColor = userColor,
                         Selected = selectedTile
                     };
@@ -128,7 +129,7 @@ namespace Norris.UI.Controllers
                 }
             }
 
-            var gamestate = _GameRepo.GetGamestate(gameId);
+            gamestate = _GameRepo.GetGamestate(gameId);
             BoardViewModel board = new BoardViewModel
             {
                 GameState = gamestate,
@@ -136,7 +137,7 @@ namespace Norris.UI.Controllers
                 CanMoveToAndTakeTiles = canTake,
                 CanMoveToTiles = canMove,
                 GameId = gameId,
-                PlayerColor = _GameRepo.GetPlayerColor(gameId, _signInManager.UserManager.GetUserId(User))
+                PlayerColor = userColor
             };
 
             var friends = _GameRepo.GetFriendList(userId);

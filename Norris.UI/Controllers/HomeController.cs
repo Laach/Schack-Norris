@@ -55,8 +55,11 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             else
-                return RedirectToAction("Index", "Game", new { GameID = 13});
-            
+            {
+                var gid = _GameRepo.GetUserGameList(_signInManager.UserManager.GetUserId(User)).FirstOrDefault().GameID;
+                return RedirectToAction("Index", "Game", new { gameId = gid });            
+
+            }
         }
 
         public IActionResult FindFriends()
