@@ -159,6 +159,7 @@ namespace Norris.UI.Controllers
                     changedTiles.AddRange(canTake);
                 } else
                 {
+                    
                     canMove = new List<string>();
                     canTake = new List<string>();
                 }
