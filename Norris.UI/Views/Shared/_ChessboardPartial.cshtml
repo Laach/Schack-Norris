@@ -75,28 +75,12 @@
                                         canMove = @Model.CanMoveToTiles,
                                         catTake = @Model.CanMoveToAndTakeTiles
                                     })'>
-                        <img style="position:absolute" class="piece-image" src="~/images/pieces/@board[i, j]@fileext" alt="@board[i, j]" />
-                        <div>
-                            @if (Model.SelectedTile == clickedPosition)
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
-                            }
-                            else if (@Model.CanMoveToTiles.Contains(clickedPosition))
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
-                            }
-                            else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
-                            {
-                                <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
-                            }
-                            else
-                            {
-                                <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
-                            }
+                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/ee.png" alt="@board[i, j]" />
+                        <div>     
+                            <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
                     </a>
                 </div>
-
             </div>
 
             if (j == 7) { break; }
