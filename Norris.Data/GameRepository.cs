@@ -138,7 +138,7 @@ namespace Norris.Data
             
             return new GameStateDTO
             {
-                Board = newMove.CurrentBoard,
+                Board = newMove.NewBoard,
                 Log = ListLog,
                 ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b'
             };
