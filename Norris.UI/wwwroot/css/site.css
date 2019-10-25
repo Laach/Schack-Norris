@@ -29,6 +29,11 @@
     
 }
 
+.playGameBtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
