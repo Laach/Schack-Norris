@@ -18,18 +18,42 @@ function fileToInt(file){
   return null;
 }
 
+function intToRank(rank){
+  return (8 - rank).toString();
+}
 
-function updateBoard(gameid, clickedtile, selectedtile, canmove, cantake) {
+function intToFile(file){
+  switch(file){
+    case 0: return "a";
+    case 1: return "b";
+    case 2: return "c";
+    case 3: return "d";
+    case 4: return "e";
+    case 5: return "f";
+    case 6: return "g";
+    case 7: return "h";
+  }
+  return null;
+}
+
+let selected = null;
+
+let canMoveTo = [];
+
+let canTakeAt = [];
+
+function updateBoard(gameid, clickedtile) {
+    data = { 
+          ClickedTile : clickedtile,
+          GameID : gameid,
+          SelectedTile : selected,
+          CanMove : canMoveTo,
+          CanTake : canTakeAt
+        };
     fetch('/game/clickedtile', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { 
-          ClickedTile : clickedtile,
-          GameID : gameid,
-          SelectedTile : selectedtile,
-          CanMove : canmove,
-          CanTake : cantake
-        })
+        body: JSON.stringify(data)
     })
     .then(data => {
         return data.json()
@@ -37,8 +61,59 @@ function updateBoard(gameid, clickedtile, selectedtile, canmove, cantake) {
     .then(data => {
       console.log(data);
 
+      selected  = data.selectedTile;
+      canMoveTo = data.canMoveToTiles;
+      canTakeAt = data.canMoveToAndTakeTiles;
+
+      console.log("changedTiles");
+      for(let i = 0; i < data.changedTiles.length; i++){
+        if(data.changedTiles[i] == null){
+          continue;
+        }
+        const file = data.changedTiles[i][0];
+        const rank = data.changedTiles[i][1];
+        const x = fileToInt(file);
+        const y = rankToInt(rank);
 
 
+        console.log(y + " " + x)
+        const piece = data.gameState.board[y][x];
+
+        const highlight = document.getElementById(file + rank);
+        const highlight_img = highlight.getElementsByClassName("highlight")[0];
+
+        if(canMoveTo.includes(data.changedTiles[i])){
+          highlight_img.setAttribute("src", "/images/pieces/highlight-green.png")
+        } else if(canTakeAt.includes(data.changedTiles[i])){
+          highlight_img.setAttribute("src", "/images/pieces/highlight-red.png")
+        } else if(data.changedTiles[i] == selected){
+          highlight_img.setAttribute("src", "/images/pieces/highlight-blue.png")
+        } else{
+          highlight_img.setAttribute("src", "/images/pieces/ee.png")
+        }
+
+        console.log(piece);
+
+        const tile = document.getElementById(file + rank);
+        const img = tile.getElementsByClassName("piece")[0];
+        img.setAttribute("src", "/images/pieces/" + piece + ".png")
+
+        
+
+      }
+
+
+      // for(let i = 0; i < 8; i++){
+      //   for(let j = 0; j < 8; j++){
+      //     const piece = data.gameState.board[i][j];
+      //     const file = intToFile(j);
+      //     const rank = intToRank(i);
+      //     const tile = document.getElementById(file + rank);
+      //     const img = tile.getElementsByClassName("piece")[0];
+      //     img.setAttribute("src", "/images/pieces/" + piece + ".png")
+      //     // <img style="position:absolute" class="piece-image piece" src="~/images/pieces/ee.png" alt="@board[i, j]" />
+      //   }
+      // }
 
     });
 }
