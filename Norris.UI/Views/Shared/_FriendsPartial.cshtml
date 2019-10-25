@@ -17,11 +17,21 @@
                 <ul class="list-group games">
                     @if (Model.UserGames.Any())
                     {
-
                         foreach (var game in Model.UserGames)
                         {
-                            <li class="list-group-item"><a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })'>vs. @game.OpponentName.</a> Your turn: @game.IsMyTurn.ToString()</li>
+                    <li class="list-group-item">
+                        vs. @game.OpponentName.
+
+                        @if (game.IsMyTurn)
+                        {
+                            <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">Play</a>
                         }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm playGameBtn">Play</button>
+                        }
+                    </li>
+                        }      
                     }
                     else
                     {
