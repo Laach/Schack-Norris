@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Norris.UI.Models
 {
-    public class BoardViewModel
+    public class ChessboardPartialViewModel
     {
         public GameStateDTO GameState;
         public string SelectedTile;

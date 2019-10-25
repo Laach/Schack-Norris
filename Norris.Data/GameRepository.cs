@@ -104,7 +104,7 @@ namespace Norris.Data
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    gameboard = gameboard + newMove.CurrentBoard[i, j] + ",";
+                    gameboard = gameboard + newMove.NewBoard[i, j] + ",";
                 }
             }
             game.Board = gameboard.Substring(0, gameboard.Length - 1);
@@ -118,7 +118,7 @@ namespace Norris.Data
 
             return new GameStateDTO
             {
-                Board = newMove.CurrentBoard,
+                Board = newMove.NewBoard,
                 Log = default, //WIP no implemenations yet 
                 ActivePlayerColor = game.IsWhitePlayerTurn == true ? 'w' : 'b'
             };

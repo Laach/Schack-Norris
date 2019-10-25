@@ -3,7 +3,7 @@
 @using Norris.Data.Data.Entities
 @using Norris.Data.Models.DTO
 
-@model BoardViewModel
+@model ChessboardPartialViewModel
 <style>
     .grid-container {
         display: grid;
@@ -44,7 +44,7 @@
                             @{ string clickedPosition = f + r.ToString();}
                             <a href='@Url.Action("ClickedTile", "Game",
                        new {
-                            clickedPosition = clickedPosition,
+                            clickedTile = clickedPosition,
                             gameId = @Model.GameId,
                             selectedTile = @Model.SelectedTile
                         })'>
@@ -96,7 +96,7 @@
                             @{ string clickedPosition = f + r.ToString();}
                             <a href='@Url.Action("ClickedTile", "Game",
                        new {
-                            clickedPosition = clickedPosition,
+                            clickedTile = clickedPosition,
                             gameId = @Model.GameId,
                             selectedTile = @Model.SelectedTile
                         })'>
