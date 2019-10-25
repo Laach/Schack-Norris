@@ -183,14 +183,6 @@ namespace Norris.UI.Controllers
             }
 
             gamestate = _GameRepo.GetGamestate(gameId);
-            var friends = _GameRepo.GetFriendList(userId);
-            var games = _GameRepo.GetUserGameList(userId);
-
-            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
-            {
-                UserFriends = friends,
-                UserGames = games
-            };
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel
             {
@@ -204,9 +196,6 @@ namespace Norris.UI.Controllers
             };
                 
             return Json(board);
-
-            // return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
-
         }
 
         private void RefreshUser(System.Security.Claims.ClaimsPrincipal user){
