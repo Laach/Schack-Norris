@@ -1,20 +1,35 @@
 ﻿@using Norris.Data.Data.Entities
 @using Norris.Data.Models.DTO
 
-@model UserFriendsDTO
+@model FriendsPartialViewModel
 
     <div>
+        <ul class="list-group games">
+            <li class="list-group-item">Games</li>
+            @if (Model.UserGames.Any())
+            {
+
+                foreach (var game in Model.UserGames)
+                {
+                    <li class="list-group-item disabled"><a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })'>vs. @game.OpponentName.</a> Your turn: @game.IsMyTurn.ToString()</li>
+                }
+            }
+            else
+            {
+                //no friends
+            }
+        </ul>
         <div class="friends">
             Friends
             <ul class="list-group">
                 <li class="list-group-item">Online</li>
-                
-                @if (Model.OnlineFriends.Any())
+
+                @if (Model.UserFriends.OnlineFriends.Any())
                 {
-                    foreach (var user in Model.OnlineFriends)
+                    foreach (var user in Model.UserFriends.OnlineFriends)
                     {
                         <li class="list-group-item"> @user.UserName </li>
-                        
+
                     }
                 }
                 else
@@ -25,10 +40,10 @@
         </div>
         <ul class="list-group friends">
             <li class="list-group-item">Offline</li>
-            @if (Model.OfflineFriends.Any())
+            @if (Model.UserFriends.OfflineFriends.Any())
             {
-                
-                foreach (var user in Model.OfflineFriends)
+
+                foreach (var user in Model.UserFriends.OfflineFriends)
                 {
                     <li class="list-group-item disabled">@user.UserName</li>
                 }
@@ -38,4 +53,5 @@
                 //no friends
             }
         </ul>
+
     </div>

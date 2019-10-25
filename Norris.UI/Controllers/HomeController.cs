@@ -46,7 +46,15 @@ namespace Norris.UI.Controllers
             var uid = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(uid);
             var lobbyUsers = _GameRepo.GetPlayerLobby();
-            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friends };
+            var games = _GameRepo.GetUserGameList(uid);
+
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games
+            };
+
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames };
             return View(lobbyAndFriends);
         }
 
@@ -55,8 +63,11 @@ namespace Norris.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             else
-                return RedirectToAction("Index", "Game", new { GameID = 13});
-            
+            {
+                var gid = _GameRepo.GetUserGameList(_signInManager.UserManager.GetUserId(User)).FirstOrDefault().GameID;
+                return RedirectToAction("Index", "Game", new { gameId = gid });            
+
+            }
         }
 
         public IActionResult FindFriends()

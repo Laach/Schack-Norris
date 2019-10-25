@@ -10,7 +10,7 @@ namespace Norris.UI.Models.ManageViewModels
     public class LobbyAndFriendsViewModel
     {
         public List<User> CurrentLobbyUsers { get; set; }
-        public UserFriendsDTO Friends { get; set; }
+        public FriendsPartialViewModel Friends { get; set; }
 
     }
 }
