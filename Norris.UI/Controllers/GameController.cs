@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Norris.Data;
 using Norris.Data.Data.Entities;
 using Norris.Data.Models.DTO;
@@ -37,6 +38,15 @@ namespace Norris.UI.Controllers
             var games = _GameRepo.GetUserGameList(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
+            List<string> changedTiles = new List<string>();
+
+            foreach(char f in Enumerable.Range('a', 8))
+            {
+                foreach(char r in Enumerable.Range('1', 8))
+                {
+                    changedTiles.Add(f.ToString() + r.ToString());
+                }
+            }
 
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
@@ -50,16 +60,16 @@ namespace Norris.UI.Controllers
                 CanMoveToAndTakeTiles = emptyStringList,
                 CanMoveToTiles = emptyStringList,
                 GameId = gameId,
-                PlayerColor = _GameRepo.GetPlayerColor(gameId, userId)
+                PlayerColor = _GameRepo.GetPlayerColor(gameId, userId),
+                ChangedTiles = changedTiles
             };
 
             return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board});
         }
 
-        public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile)
+        public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile, List<string> canMove, List<string> canTake)
         {
-            List<string> canMove = new List<string>();
-            List<string> canTake = new List<string>();
+            List<string> changedTiles = new List<string>();
 
             string userId = _signInManager.UserManager.GetUserId(User);
             RefreshUser(User);
@@ -75,13 +85,17 @@ namespace Norris.UI.Controllers
                 {
                     //Clicked the selected tile
                     //it is unselected
+                    changedTiles.Add(selectedTile);
                     selectedTile = null;
                 }
                 else if (userColor == clickedPieceType[0])
                 {
                     //Clicked one of their own pieces
                     //it is selected.
+                    changedTiles.Add(selectedTile);
+                    changedTiles.Add(clickedTile);
                     selectedTile = clickedTile;
+
                 }
                 else if(selectedTile != null)
                 {
@@ -109,13 +123,21 @@ namespace Norris.UI.Controllers
                             GameID = gameId
                         };
                         _GameRepo.AddNewMove(newMove);
+
+                        changedTiles.Add(clickedTile);
+                        changedTiles.Add(selectedTile);
+                        changedTiles.AddRange(canMove);
+                        changedTiles.AddRange(canTake);
+
                         //unselect the old tile
                         selectedTile = null;
+
                     }
                     else
                     {
                         //clicked a tile that can't be moved to
                         //the selected tile is unselected.
+                        changedTiles.Add(selectedTile);
                         selectedTile = null;
                     }
                 }
@@ -132,6 +154,13 @@ namespace Norris.UI.Controllers
                     PossibleMovesDTO possibleMoves = _chessLogicManager.GetPossibleMoves(selectedPiece);
                     canMove = possibleMoves.PositionsPieceCanMoveTo;
                     canTake = possibleMoves.PositionsPieceCanKillAt;
+
+                    changedTiles.AddRange(canMove);
+                    changedTiles.AddRange(canTake);
+                } else
+                {
+                    canMove = new List<string>();
+                    canTake = new List<string>();
                 }
             }
 
@@ -152,8 +181,11 @@ namespace Norris.UI.Controllers
                 CanMoveToAndTakeTiles = canTake,
                 CanMoveToTiles = canMove,
                 GameId = gameId,
-                PlayerColor = userColor
+                PlayerColor = userColor,
+                ChangedTiles = changedTiles
             };
+                
+            //return JsonConvert.SerializeObject(board);
 
             return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
 

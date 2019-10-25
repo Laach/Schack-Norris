@@ -46,7 +46,9 @@
                        new {
                             clickedTile = clickedPosition,
                             gameId = @Model.GameId,
-                            selectedTile = @Model.SelectedTile
+                            selectedTile = @Model.SelectedTile,
+                            canMove = @Model.CanMoveToTiles,
+                            catTake = @Model.CanMoveToAndTakeTiles
                         })'>
                                 <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
                                 <div>
@@ -98,7 +100,9 @@
                        new {
                             clickedTile = clickedPosition,
                             gameId = @Model.GameId,
-                            selectedTile = @Model.SelectedTile
+                            selectedTile = @Model.SelectedTile,
+                            canMove = @Model.CanMoveToTiles,
+                            catTake = @Model.CanMoveToAndTakeTiles
                         })'>
                                 <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
                                 <div>
