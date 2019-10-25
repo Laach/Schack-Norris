@@ -271,5 +271,20 @@ namespace Norris.Data
                 return 'b';
             }
         }
+
+        public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ChatMessageDTO> GetMessageLog(string GameID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetMessageLogLenght(string GameID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
