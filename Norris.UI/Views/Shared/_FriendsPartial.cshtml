@@ -35,7 +35,7 @@
                     }
                     else
                     {
-                        //no friends
+                        <li class="list-group-item">No active games</li>
                     }
                 </ul>
             </div>
@@ -56,7 +56,9 @@
                         {
                             foreach (var user in Model.UserFriends.OnlineFriends)
                             {
-                                <li class="list-group-item"> @user.UserName </li>
+                                <li class="list-group-item"> @user.UserName 
+                                    <a href='#' class="btn btn-success btn-sm playGameBtn">New game</a>
+                                </li>
                             }
                         }
                         else
@@ -67,7 +69,6 @@
                 </div>
             </div>
         </div>
-
         <div class="panel-group" role="tablist">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab">
@@ -79,11 +80,13 @@
                 </div>
                 <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
                     <ul class="list-group">
-                        @if (Model.UserFriends.OnlineFriends.Any())
+                        @if (Model.UserFriends.OfflineFriends.Any())
                         {
-                            foreach (var user in Model.UserFriends.OnlineFriends)
+                            foreach (var user in Model.UserFriends.OfflineFriends)
                             {
-                                <li class="list-group-item disabled"> @user.UserName </li>
+                                <li class="list-group-item disabled"> @user.UserName 
+                                    <a href='#' class="btn btn-success btn-sm playGameBtn">New game</a>
+                                </li>
                             }
                         }
                         else
