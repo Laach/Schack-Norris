@@ -57,6 +57,13 @@ namespace Norris.Game {
       return Logic.IsCheckMate(new ChessBoard(board), Color.Black);
     }
 
+    public bool PositionIsColor(string[,] b, string position, char color){
+      ChessBoard board = new ChessBoard(b);
+      Point pos = Utils.StringToPoint(position);
+      Color player = Utils.CharToColor(color);
+      return board[pos]?.Color == player;
+    }
+
   }
 
 }
