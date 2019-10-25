@@ -35,6 +35,10 @@
     top: 5px;
 }
 
+#panel-group-override{
+    margin-bottom:0px;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
