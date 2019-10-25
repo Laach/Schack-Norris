@@ -34,6 +34,7 @@ namespace Norris.UI.Controllers
             RefreshUser(User);
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
+            var chat = _GameRepo.GetMessageLog(userId);
             var games = _GameRepo.GetUserGameList(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
@@ -53,7 +54,7 @@ namespace Norris.UI.Controllers
                 PlayerColor = _GameRepo.GetPlayerColor(gameId, userId)
             };
 
-            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board});
+            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, ChatMessages = chat});
         }
 
         public IActionResult ClickedTile(string clickedTile, string gameId, string selectedTile)
@@ -136,6 +137,7 @@ namespace Norris.UI.Controllers
             }
 
             gamestate = _GameRepo.GetGamestate(gameId);
+            var chat = _GameRepo.GetMessageLog(gameId);
             var friends = _GameRepo.GetFriendList(userId);
             var games = _GameRepo.GetUserGameList(userId);
 
@@ -155,7 +157,7 @@ namespace Norris.UI.Controllers
                 PlayerColor = userColor
             };
 
-            return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board } );
+            return View("Index", new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, ChatMessages = chat } );
 
         }
 
