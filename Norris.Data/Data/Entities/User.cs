@@ -11,6 +11,6 @@ namespace Norris.Data.Data.Entities
         public List<Friends> Friends { get; set; }
         public List<GameSession> WhiteGameSessions { get; set; }
         public List<GameSession> BlackGameSessions { get; set; }
-
+        public bool IsInLobby { get; set; }
     }
 }

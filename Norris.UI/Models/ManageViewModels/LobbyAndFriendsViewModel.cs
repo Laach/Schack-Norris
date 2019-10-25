@@ -11,6 +11,7 @@ namespace Norris.UI.Models.ManageViewModels
     {
         public List<User> CurrentLobbyUsers { get; set; }
         public FriendsPartialViewModel Friends { get; set; }
+        public bool IsInLobby { get; set; }
 
     }
 }
