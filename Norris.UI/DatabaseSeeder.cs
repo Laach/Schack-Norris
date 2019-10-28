@@ -98,7 +98,7 @@ namespace Norris.UI
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
                                 "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
                 _context.GameSessions.Find(gameId).Board =
-                        "be,ee,ee,ee,ee,br,bk,ee," +
+                        "ee,ee,ee,ee,ee,br,bk,ee," +
                         "bp,bp,ee,ee,ee,ee,bp,bp," +
                         "ee,ee,bp,ee,ee,ee,bn,ee," +
                         "ee,ee,ee,bp,ee,ee,wn,ee," +
@@ -118,7 +118,7 @@ namespace Norris.UI
                         "ee,ee,ee,bp,wr,ee,ee,ee," +
                         "ee,ee,ee,ee,ee,ee,ee,ee," +
                         "wp,wp,wp,ee,ee,wp,wp,wp," +
-                        "we,ee,ee,ee,ee,ee,wk,ee,";
+                        "ee,ee,ee,ee,ee,ee,wk,ee,";
                 _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
 
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
