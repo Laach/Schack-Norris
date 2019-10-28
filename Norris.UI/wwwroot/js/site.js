@@ -17,14 +17,22 @@
 
 function addUser(userID) {
     fetch('/Home/AddFriend', {
-        method: 'post',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userID: userID })
     })
-    .then(data => {
-        return data.text()
-    })
-    .then(text => {
-        console.log(text);
-    });
+        .then(data => {
+            return data.text()
+        })
+        .then(text => {
+            console.log(text);
+        });
+}
+
+function changeIcon(iconID) {
+    if (document.getElementById(iconID).className == "glyphicon glyphicon-minus") {
+        document.getElementById(iconID).className = "glyphicon glyphicon-plus";
+    } else {
+        document.getElementById(iconID).className = "glyphicon glyphicon-minus";
+    }
 }
