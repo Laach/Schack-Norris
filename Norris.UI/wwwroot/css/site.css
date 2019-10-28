@@ -3,6 +3,18 @@
     padding-bottom: 20px;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --nav-text-color: #282c37;
+    --nav-text-color-rgb: 40, 44, 55;
+    --list-disabled-bg-color: #9baec8;
+    --list-bg-color: #d9e1e8;
+    --nav-bg-color: #2b90d9;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -37,6 +49,30 @@
 
 #panel-group-override{
     margin-bottom:0px;
+}
+#panel-heading-override{
+    background-color:var(--nav-bg-color);
+}
+#list-group-item-override{
+    background-color:var(--list-bg-color);
+    border:none;
+}
+#list-group-item-disabled-override{
+    background-color:var(--list-disabled-bg-color);
+    border:none;
+}
+#navbar-override{
+    background-color:var(--nav-bg-color);
+    border:none;
+    
+}
+#nav-txt-override {
+    color: var(--nav-text-color);
+    text-decoration:none;
+}
+
+#nav-txt-override:hover {
+    color: rgba(var(--nav-text-color-rgb), 0.5);
 }
 
 /* Hide/rearrange for smaller screens */
