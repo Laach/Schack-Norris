@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -136,6 +136,8 @@ namespace Norris.UI.Controllers
                   PlayerColor = userColor
               };
 
+              changedTiles.Add(clickedTile);
+              changedTiles.Add(selectedTile);
               if (_chessLogicManager.IsValidMove(movePlan))
               {
                   //yes, the selected piece can move there
@@ -149,11 +151,10 @@ namespace Norris.UI.Controllers
                       GameID = gameId
                   };
                   _GameRepo.AddNewMove(newMove);
+                  _GameRepo.SetChangedTiles(gameId, changedTiles);
               }
               // Either a move was made, or the tile was deselected by clicking 
               // a tile where a move wasn't possible. Remove highlights.
-              changedTiles.Add(clickedTile);
-              changedTiles.Add(selectedTile);
               canMove = new List<string>();
               canTake = new List<string>();
               selectedTile = null;

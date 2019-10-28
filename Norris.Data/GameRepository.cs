@@ -299,5 +299,20 @@ namespace Norris.Data
                 return 'b';
             }
         }
+
+        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
+          str = str.Remove(str.Length - 1);
+          game.ChangedTiles = str;
+
+          context.GameSessions.Update(game);
+          context.SaveChanges();
+        }
+
+        public IEnumerable<string> GetChangedTiles(string gameID){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          return game.ChangedTiles.Split(',').ToList();
+        }
     }
 }

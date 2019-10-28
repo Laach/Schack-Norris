@@ -28,6 +28,7 @@ namespace Norris.Data.Data.Entities
         [Required]
         public string Log { get; set; }
         public bool IsWhitePlayerTurn { get; set; }
+        public string ChangedTiles { get; set; }
 
     }
 }
