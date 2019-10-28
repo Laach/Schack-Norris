@@ -27,7 +27,10 @@ namespace Norris.Data.Data.Entities
         public string Board { get; set; }
         [Required]
         public string Log { get; set; }
+        [Required]
         public bool IsWhitePlayerTurn { get; set; }
+        [Required]
+        public List<ChatMessage> Chatlog { get; set; }
 
     }
 }
