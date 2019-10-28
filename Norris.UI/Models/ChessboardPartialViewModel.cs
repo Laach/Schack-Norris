@@ -14,6 +14,6 @@ namespace Norris.UI.Models
         public List<string> CanMoveToAndTakeTiles;
         public char PlayerColor;
         public string GameId { get; set; }
-
+        public List<string> ChangedTiles { get; internal set; }
     }
 }
