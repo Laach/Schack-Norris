@@ -118,7 +118,7 @@ namespace Norris.UI
                         "ee,ee,ee,bp,wr,ee,ee,ee," +
                         "ee,ee,ee,ee,ee,ee,ee,ee," +
                         "wp,wp,wp,ee,ee,wp,wp,wp," +
-                        "we,ee,ee,ee,ee,ee,wk,ee,";
+                        "ee,ee,ee,ee,ee,ee,wk,ee,";
                 _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
 
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
