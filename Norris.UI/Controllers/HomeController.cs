@@ -77,9 +77,9 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
 
 
-            var friends = _GameRepo.GetFriendList("2");
+         
 
-            return View("FindFriends",friends);
+            return View("FindFriends");
         }
 
         public class userToAdd
