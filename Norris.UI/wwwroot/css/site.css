@@ -1,18 +1,31 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color:var(--nav-text-color);
 }
 
 * {
     box-sizing: border-box;
 }
 
+footer {
+    color: var(--text-hover);
+}
+hr.footer {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/*Global variables for colors.*/
 :root {
     --nav-text-color: #282c37;
     --nav-text-color-rgb: 40, 44, 55;
+    --text-hover: #bfbfbf;
     --list-disabled-bg-color: #9baec8;
     --list-bg-color: #d9e1e8;
-    --nav-bg-color: #2b90d9;
+    --nav-bg-color: #2b79d9;
 }
 
 /* Wrapping element */
@@ -47,32 +60,47 @@
     top: 5px;
 }
 
+#panel-override{
+    border:none;
+}
+
 #panel-group-override{
     margin-bottom:0px;
+    border:none;
 }
+
 #panel-heading-override{
     background-color:var(--nav-bg-color);
+    border:none;
 }
+
+#list-group-override{
+    border:none;
+}
+
 #list-group-item-override{
     background-color:var(--list-bg-color);
     border:none;
 }
+
 #list-group-item-disabled-override{
     background-color:var(--list-disabled-bg-color);
     border:none;
 }
-#navbar-override{
+
+#nav-override{
     background-color:var(--nav-bg-color);
-    border:none;
-    
+    border:none; 
 }
+
 #nav-txt-override {
     color: var(--nav-text-color);
     text-decoration:none;
 }
 
 #nav-txt-override:hover {
-    color: rgba(var(--nav-text-color-rgb), 0.5);
+    /*color: rgba(var(--nav-text-color-rgb), 0.5);*/
+    color:var(--text-hover);
 }
 
 /* Hide/rearrange for smaller screens */

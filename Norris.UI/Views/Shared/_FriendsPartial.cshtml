@@ -6,7 +6,7 @@
 
 <div>
     <div class="panel-group" id="panel-group-override" role="tablist">
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="panel-override">
             <div class="panel-heading" id="panel-heading-override" role="tab">
                 <a href="#games" class="" role="button" data-toggle="collapse"
                    aria-expanded="true" aria-controls="games" onclick="changeIcon('icon1')" id="nav-txt-override">
@@ -43,7 +43,7 @@
     </div>
     <div class="friends">
         <div class="panel-group" id="panel-group-override" role="tablist">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="panel-override">
                 <div class="panel-heading" id="panel-heading-override" role="tab">
                     <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
                        aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2')" id="nav-txt-override">
@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="panel-group" role="tablist">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="panel-override">
                 <div class="panel-heading" id="panel-heading-override" role="tab">
                     <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
                        aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3')" id="nav-txt-override">
@@ -80,7 +80,7 @@
                     </a>
                 </div>
                 <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
-                    <ul class="list-group">
+                    <ul class="list-group" id="list-group-override">
                         @if (Model.UserFriends.OfflineFriends.Any())
                         {
                             foreach (var user in Model.UserFriends.OfflineFriends)
