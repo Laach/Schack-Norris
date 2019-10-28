@@ -22,5 +22,12 @@ namespace Norris.Data
         bool IsActivePlayer(string gameID, string userID);
         char GetPlayerColor(string gameID, string userID);
 
+        bool AddChatMessage(ChatMessageDTO chatMessage, string GameID);
+
+        IEnumerable<ChatMessageDTO> GetMessageLog(string GameID);
+
+        int GetMessageLogLenght(string GameID);
+
+        string GetUserNameFromId(string UserID);
     }
 }

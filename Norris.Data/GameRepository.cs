@@ -299,5 +299,60 @@ namespace Norris.Data
                 return 'b';
             }
         }
+
+        public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
+        {
+            var session = context.GameSessions
+                .Include(gs => gs.Chatlog)
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            if (session.Chatlog == null) { session.Chatlog = new List<ChatMessage>(); }
+
+                context.GameSessions.Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault()
+                .Chatlog
+                .Add(new ChatMessage
+                    {
+                        Message = chatMessage.Message,
+                        TimeStamp = chatMessage.TimeStamp,
+                        Username = chatMessage.Username
+                    });
+            return context.SaveChanges() > 0 ? true : false;
+        }
+
+        public IEnumerable<ChatMessageDTO> GetMessageLog(string GameID)
+        {
+            var session = context.GameSessions
+                .Include(gs => gs.Chatlog)
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            var ChatLog = new List<ChatMessageDTO>();
+            if (session.Chatlog != null)
+            {
+                foreach (var msg in session.Chatlog)
+                {
+                    ChatLog.Add(new ChatMessageDTO { Message = msg.Message, Username = msg.Username, TimeStamp = msg.TimeStamp });
+                }
+            }
+            return ChatLog;
+        }
+
+        public int GetMessageLogLenght(string GameID)
+        {
+            var session = context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            if (session.Chatlog == null) { return 0; }
+
+            return session.Chatlog.Count();
+        }
+
+        public string GetUserNameFromId(string UserID)
+        {
+            return context.Users.Where(u => u.Id.Equals(UserID)).FirstOrDefault().UserName;
+        }
     }
 }

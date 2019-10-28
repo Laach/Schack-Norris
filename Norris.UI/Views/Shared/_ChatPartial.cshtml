@@ -1,0 +1,20 @@
+﻿@using Norris.Data.Models.DTO;
+@using Norris.UI.Models;
+@using Norris.Data.Data.Entities;
+<script src="~/js/ChatSystem.js"></script>
+
+@model ChatPartialViewModel
+<div class="ChatBox">
+    @if(Model != null)
+    {
+        foreach(var item in Model.ChatMessages)
+        {
+            <span>@item.TimeStamp <b>@item.Username</b></span>
+            <p>@item.Message</p>
+        }
+    }
+    <div class="ChatBoxLower">
+        <input type="text" id="ChatBoxInput" placeholder="Type here..."/>
+        <button onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
+    </div>
+</div>  
