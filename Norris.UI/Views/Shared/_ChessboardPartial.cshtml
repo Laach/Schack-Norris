@@ -4,6 +4,7 @@
 @using Norris.Data.Models.DTO
 
 @model ChessboardPartialViewModel
+<script src="/js/game.js"></script>
 <style>
     .grid-container {
         display: grid;
@@ -49,7 +50,7 @@
     }
     @for (int i = 0; i < 8; i++)
     {
-        for (int j = 0; ; j++)
+        @for (int j = 0; ; j++)
         {
             int r;
             char f;
@@ -66,16 +67,8 @@
             <div class="grid-item @r @f @c" id="@f@r">
                 <div style="position:relative;">
                     @{ string clickedPosition = f + r.ToString();}
-                    <a href='@Url.Action("ClickedTile", "Game",
-                                    new
-                                    {
-                                        clickedTile = clickedPosition,
-                                        gameId = @Model.GameId,
-                                        selectedTile = @Model.SelectedTile,
-                                        canMove = @Model.CanMoveToTiles,
-                                        catTake = @Model.CanMoveToAndTakeTiles
-                                    })'>
-                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/ee.png" alt="@board[i, j]" />
+                    <a onclick='updateBoard("@Model.GameId", "@f@r")'>
+                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/@board[i,j]@fileext" alt="@board[i, j]" />
                         <div>     
                             <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
@@ -97,7 +90,5 @@
     }
 </div>
 
-<script src="/js/game.js">
-  updateBoard("@Model.GameId", "a2", null, [], []);
 
-</script>
+

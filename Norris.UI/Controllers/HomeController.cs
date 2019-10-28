@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -36,10 +36,10 @@ namespace Norris.UI.Controllers
 
         public IActionResult Lobby()
         {
-            RefreshUser(User);
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
+            RefreshUser(User);
 
             ViewData["Message"] = "Lobby page.";
 
@@ -72,9 +72,9 @@ namespace Norris.UI.Controllers
 
         public IActionResult FindFriends()
         {
-            RefreshUser(User);
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
+            RefreshUser(User);
 
 
             var friends = _GameRepo.GetFriendList("2");
