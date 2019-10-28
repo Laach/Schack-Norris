@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Norris.Data.Migrations
 {
-    public partial class AddedChat : Migration
+    public partial class ChatDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,9 +15,8 @@ namespace Norris.Data.Migrations
                 {
                     MessageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    GameID = table.Column<string>(nullable: true),
+                    GameSessionId = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
-                    PartOfSessionId = table.Column<string>(nullable: true),
                     TimeStamp = table.Column<DateTime>(nullable: false),
                     Username = table.Column<string>(nullable: true)
                 },
@@ -25,17 +24,17 @@ namespace Norris.Data.Migrations
                 {
                     table.PrimaryKey("PK_ChatMessage", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_ChatMessage_GameSessions_PartOfSessionId",
-                        column: x => x.PartOfSessionId,
+                        name: "FK_ChatMessage_GameSessions_GameSessionId",
+                        column: x => x.GameSessionId,
                         principalTable: "GameSessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessage_PartOfSessionId",
+                name: "IX_ChatMessage_GameSessionId",
                 table: "ChatMessage",
-                column: "PartOfSessionId");
+                column: "GameSessionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

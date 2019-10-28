@@ -133,11 +133,9 @@ namespace Norris.Data.Migrations
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameID");
+                    b.Property<string>("GameSessionId");
 
                     b.Property<string>("Message");
-
-                    b.Property<string>("PartOfSessionId");
 
                     b.Property<DateTime>("TimeStamp");
 
@@ -145,7 +143,7 @@ namespace Norris.Data.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("PartOfSessionId");
+                    b.HasIndex("GameSessionId");
 
                     b.ToTable("ChatMessage");
                 });
@@ -291,9 +289,9 @@ namespace Norris.Data.Migrations
 
             modelBuilder.Entity("Norris.Data.Data.Entities.ChatMessage", b =>
                 {
-                    b.HasOne("Norris.Data.Data.Entities.GameSession", "PartOfSession")
+                    b.HasOne("Norris.Data.Data.Entities.GameSession")
                         .WithMany("Chatlog")
-                        .HasForeignKey("PartOfSessionId");
+                        .HasForeignKey("GameSessionId");
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>

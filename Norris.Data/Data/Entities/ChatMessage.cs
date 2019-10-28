@@ -13,9 +13,5 @@ namespace Norris.Data.Data.Entities
         public string Username { get; set; }
         public string  Message { get; set; }
         public DateTime TimeStamp { get; set; }
-
-        public string GameID { get; set; }
-        public GameSession PartOfSession { get; set; }
-
     }
 }
