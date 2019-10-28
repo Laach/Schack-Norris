@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -274,7 +274,23 @@ namespace Norris.Data
 
         public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
         {
-            throw new NotImplementedException();
+            var session = context.GameSessions
+                .Include(gs => gs.Chatlog)
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            if (session.Chatlog == null) { session.Chatlog = new List<ChatMessage>(); }
+
+                context.GameSessions.Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault()
+                .Chatlog
+                .Add(new ChatMessage
+                    {
+                        Message = chatMessage.Message,
+                        TimeStamp = chatMessage.TimeStamp,
+                        Username = chatMessage.Username
+                    });
+            return context.SaveChanges() > 0 ? true : false;
         }
 
         public IEnumerable<ChatMessageDTO> GetMessageLog(string GameID)
@@ -284,9 +300,12 @@ namespace Norris.Data
                 .FirstOrDefault();
             if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
             var ChatLog = new List<ChatMessageDTO>();
-            foreach (var msg in session.Chatlog)
+            if (session.Chatlog != null)
             {
-                ChatLog.Add(new ChatMessageDTO { Message = msg.Message, Username = msg.Username, TimeStamp = msg.TimeStamp });
+                foreach (var msg in session.Chatlog)
+                {
+                    ChatLog.Add(new ChatMessageDTO { Message = msg.Message, Username = msg.Username, TimeStamp = msg.TimeStamp });
+                }
             }
             return ChatLog;
         }
@@ -297,6 +316,8 @@ namespace Norris.Data
                 .Where(g => g.Id.Equals(GameID))
                 .FirstOrDefault();
             if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            if (session.Chatlog == null) { return 0; }
+
             return session.Chatlog.Count();
         }
     }
