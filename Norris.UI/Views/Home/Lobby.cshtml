@@ -31,9 +31,7 @@
                     <tr>
                         <td>@item.UserName</td>
                         <td>
-                            <button class="btn btn-success btn-sm btn-block" type="submit">
-                                <a class="btn btn-success btn-sm btn-block" href="@Url.Action("JoinGame", new { opponentId = item.Id})">Join game</a>
-                            </button>
+                            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-success btn-sm btn-block">Join game</a>
                         </td>
                     </tr>
                     }

@@ -36,9 +36,10 @@ namespace Norris.UI.Controllers
 
         public IActionResult JoinGame(string opponentId)
         {
-            string gameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
-            return RedirectToAction("Index", "Game", gameId);
+            string newGameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
+            return RedirectToAction("Index", "Game", new { gameId = newGameId });
         }
+
         public IActionResult Lobby(bool? joinLobby)
         {
 
