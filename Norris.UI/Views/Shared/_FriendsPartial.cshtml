@@ -57,7 +57,7 @@
                             foreach (var user in Model.UserFriends.OnlineFriends)
                             {
                                 <li class="list-group-item"> @user.UserName 
-                                    <a href='#' class="btn btn-success btn-sm playGameBtn">New game</a>
+                                    <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-success btn-sm playGameBtn">New game</a>
                                 </li>
                             }
                         }
