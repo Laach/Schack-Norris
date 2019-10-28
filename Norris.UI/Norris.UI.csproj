@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-Norris.UI-8D122C06-0818-4748-8927-A1D61996F757</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="us-500.csv" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
