@@ -21,6 +21,8 @@ namespace Norris.Game {
 
     bool IsBlackCheckMate(string[,] board);
 
+    bool PositionIsColor(string[,] b, string position, char color);
+
   }
 
 

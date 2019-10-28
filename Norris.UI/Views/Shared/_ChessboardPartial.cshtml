@@ -4,16 +4,28 @@
 @using Norris.Data.Models.DTO
 
 @model ChessboardPartialViewModel
+<script src="/js/game.js"></script>
 <style>
     .grid-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        background-color: black;
+        grid-template-columns: 0.25fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0.25fr;
+        background-color: white;
         padding: 1px;
+        align-items: center;
     }
 
     .grid-item {
         font-size: 10px;
+    }
+
+    .side-border-item {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .top-bottom-border-item {
+        text-align: center;
+        vertical-align: middle;
     }
 
     .white-item {
@@ -28,112 +40,117 @@
         width: 100%;
     }
 </style>
+
+<div class="grid-container">
+    <div class="top-bottom-border-item"></div>
+    @if (@Model.PlayerColor == 'w')
+    {
+        @for(char j = 'A'; j <= 'H'; j++)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    else
+    {
+        @for(char j = 'H'; j >= 'A'; j--)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    <div class="top-bottom-border-item"></div>
+</div>
+
 <div class="grid-container">
     @{string c = "white-item";
         string fileext = ".png";
     }
-    @if (@Model.PlayerColor == 'w') //PLAYER IS WHITE
+    @{string[,] board = @Model.GameState.Board;}
+    @if (@Model.PlayerColor == 'b')
+    {
+        //Reverse the board
+        string[,] originalBoard = board;
+        string[,] reversedBoard = new string[8, 8];
+        foreach (char i in Enumerable.Range(0, 8))
         {
-            @for (int r = 8, i = 0; ; r--, i++)
+            foreach (char j in Enumerable.Range(0, 8))
             {
-                int j = 0;
-                for (char f = 'a'; ; f++, j++)
-                {
-                    <div class="grid-item @r @f @c" id="@f@r">
-                        <div style="position:relative;">
-                            @{ string clickedPosition = f + r.ToString();}
-                            <a href='@Url.Action("ClickedTile", "Game",
-                       new {
-                            clickedTile = clickedPosition,
-                            gameId = @Model.GameId,
-                            selectedTile = @Model.SelectedTile
-                        })'>
-                                <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
-                                <div>
-                                    @if (Model.SelectedTile == clickedPosition)
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
-                                    }
-                                    else if (@Model.CanMoveToTiles.Contains(clickedPosition))
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
-                                    }
-                                    else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
-                                    }
-                                    else
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
-                                    }
-                                </div>
-                            </a>
-                        </div>
-
-                    </div>
-                    if (f == 'h') { break; }
-                    if (c == "white-item")
-                    {
-                        c = "black-item";
-                    }
-                    else
-                    {
-                        c = "white-item";
-                    }
-                }
-                if (r == 1) { break; }
+                reversedBoard[i, j] = originalBoard[7 - i, 7 - j];
             }
         }
-        else //PLAYER IS BLACK!!!!
+        board = reversedBoard;
+    }
+    @for (int i = 0; i < 8; i++)
+    {
+        int r;
+        @if (@Model.PlayerColor == 'w')
         {
-            @for (int r = 1, i = 7; ; r++, i--)
+            r = 8 - i;
+        }
+        else
+        {
+            r = i + 1;
+        }
+        <div class="side-border-item">
+            @r
+        </div>
+        @for (int j = 0; ; j++)
+        {
+            char f;
+            @if (@Model.PlayerColor == 'w')
             {
-                int j = 7;
-                for (char f = 'h'; ; f--, j--)
-                {
-                    <div class="grid-item @r @f @c" id="@f@r">
-                        <div style="position:relative;">
-                            @{ string clickedPosition = f + r.ToString();}
-                            <a href='@Url.Action("ClickedTile", "Game",
-                       new {
-                            clickedTile = clickedPosition,
-                            gameId = @Model.GameId,
-                            selectedTile = @Model.SelectedTile
-                        })'>
-                                <img style="position:absolute" class="piece-image" src="~/images/pieces/@Model.GameState.Board[i, j]@fileext" alt="@Model.GameState.Board[i, j]" />
-                                <div>
-                                    @if (Model.SelectedTile == clickedPosition)
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-blue.png" alt="selected tile" />
-                                    }
-                                    else if (@Model.CanMoveToTiles.Contains(clickedPosition))
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-green.png" alt="selected tile" />
-                                    }
-                                    else if (@Model.CanMoveToAndTakeTiles.Contains(clickedPosition))
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/highlight-red.png" alt="selected tile" />
-                                    }
-                                    else
-                                    {
-                                        <img class="piece-image" src="~/images/pieces/ee.png" alt="empty tile" />
-                                    }
-                                </div>
-                            </a>
+                f = (char)((int)'a' + j);
+            }
+            else
+            {
+                f = (char)((int)'h' - j);
+            }
+            <div class="grid-item @r @f @c" id="@f@r">
+                <div style="position:relative;">
+                    @{ string clickedPosition = f + r.ToString();}
+                    <a onclick='updateBoard("@Model.GameId", "@f@r")'>
+                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/@board[i,j]@fileext" alt="@board[i, j]" />
+                        <div>
+                            <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
+                    </a>
+                </div>
+            </div>
 
-                    </div>
-                    if (f == 'a') { break; }
-                    if (c == "white-item")
-                    {
-                        c = "black-item";
-                    }
-                    else
-                    {
-                        c = "white-item";
-                    }
-                }
-                if (r == 8) { break; }
+            if (j == 7) { break; }
+
+            if (c == "white-item")
+            {
+                c = "black-item";
+            }
+            else
+            {
+                c = "white-item";
             }
         }
-    </div>
+        <div class="side-border-item">
+            @r
+        </div>
+    }
+</div>
+
+<div class="grid-container">
+    <div class="top-bottom-border-item"></div>
+    @if (@Model.PlayerColor == 'w')
+    {
+        @for (char j = 'A'; j <= 'H'; j++)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    else
+    {
+        @for (char j = 'H'; j >= 'A'; j--)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    <div class="top-bottom-border-item"></div>
+</div>
+
+
+
