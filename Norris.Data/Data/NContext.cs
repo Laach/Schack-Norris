@@ -36,7 +36,11 @@ namespace Norris.Data.Data
                 .WithMany(pt => pt.BlackGameSessions)
                 .HasForeignKey(pt => pt.PlayerWhiteID)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
+            builder.Entity<ChatMessage>()
+                .Property(p => p.MessageId)
+                .ValueGeneratedOnAdd();
+
         }
     }
 }
