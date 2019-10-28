@@ -11,9 +11,10 @@ using System;
 namespace Norris.Data.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20191025121703_lobby-update")]
+    partial class lobbyupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,26 +127,6 @@ namespace Norris.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.ChatMessage", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("GameSessionId");
-
-                    b.Property<string>("Message");
-
-                    b.Property<DateTime>("TimeStamp");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("GameSessionId");
-
-                    b.ToTable("ChatMessage");
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
@@ -287,13 +268,6 @@ namespace Norris.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.ChatMessage", b =>
-                {
-                    b.HasOne("Norris.Data.Data.Entities.GameSession")
-                        .WithMany("Chatlog")
-                        .HasForeignKey("GameSessionId");
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
