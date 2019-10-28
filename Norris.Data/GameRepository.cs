@@ -60,6 +60,7 @@ namespace Norris.Data
 
         public string AddNewGame(string playerWhiteID, string playerBlackID)
         {
+            
             string DefaultGameState = 
                 "br,bn,bb,bq,bk,bb,bn,br," +
                 "bp,bp,bp,bp,bp,bp,bp,bp," +
@@ -69,36 +70,44 @@ namespace Norris.Data
                 "ee,ee,ee,ee,ee,ee,ee,ee," +
                 "wp,wp,wp,wp,wp,wp,wp,wp," +
                 "wr,wn,wb,wq,wk,wb,wn,wr";
-
+            //creates a new GameSession
             GameSession newgame = new GameSession
             {
                 Id = Guid.NewGuid().ToString(),
                 Board = DefaultGameState,
                 PlayerBlackID = playerBlackID,
-                PlayerBlack = context.Users.Where(e => e.Id.Equals(playerBlackID)).FirstOrDefault(),
-                PlayerWhite = context.Users.Where(e => e.Id.Equals(playerWhiteID)).FirstOrDefault(),
+                PlayerBlack = context.Users
+                    .Where(e => e.Id.Equals(playerBlackID))
+                    .FirstOrDefault(),
                 PlayerWhiteID = playerWhiteID,
+                PlayerWhite = context.Users
+                    .Where(e => e.Id.Equals(playerWhiteID))
+                    .FirstOrDefault(),
                 IsActive = true,
                 Log = "",
                 IsWhitePlayerTurn = true
             };
+
+            //if any of the desired users didn't exist: error
+            if (newgame.PlayerWhite == null || newgame.PlayerBlack == null)
+            {
+                throw new ArgumentException($"One of the PlayerID's was not found");
+            }
+            //Add the new gamesession to the database
             context.GameSessions.Add(newgame);
             context.SaveChanges();
             return newgame.Id;
         }
 
-
-
-
-
-
-
         public GameStateDTO AddNewMove(NewMoveDTO newMove)
-
         {
-            var game = context.GameSessions.Where(u => u.Id == newMove.GameID).FirstOrDefault();
-            if (game == null) { throw new KeyNotFoundException(); }
-            
+            //tries to fetch the requested Gameseesion from the Database
+            var desiredgame = context.GameSessions
+                .Where(u => u.Id == newMove.GameID)
+                .FirstOrDefault();
+            //if requested Gamesession does not exits: error
+            if (desiredgame == null) throw new ArgumentException($"Game {newMove.GameID} not found");
+            //converts a string[,] to a string
             string gameboard = "";
             for (int i = 0; i < 8; i++)
             {
@@ -107,20 +116,31 @@ namespace Norris.Data
                     gameboard = gameboard + newMove.NewBoard[i, j] + ",";
                 }
             }
-            game.Board = gameboard.Substring(0, gameboard.Length - 1);
-            var temp = game.Log;
-            temp.Concat(newMove.From + newMove.To + ",");
-            game.Log = temp;
-            game.IsWhitePlayerTurn = game.IsWhitePlayerTurn ? false : true;
-            context.GameSessions.Update(game);
+            //remove the last ','
+            desiredgame.Board = gameboard.Substring(0, gameboard.Length - 1);
+
+            var temp = desiredgame.Log;
+            //if it the first move, no leading ',' should be added
+            if (desiredgame.Log.Length > 0) { temp.Concat("," + newMove.From + newMove.To); }
+            else                     { temp.Concat(newMove.From + newMove.To); }
+            desiredgame.Log = temp;
+            //Toggle the curent turn
+            desiredgame.IsWhitePlayerTurn = desiredgame.IsWhitePlayerTurn ? false : true;
+
+            //Save the changes to the database
+            context.GameSessions.Update(desiredgame);
             var successfullUpdate = context.SaveChanges();
+            //if no changes was made: error
             if (successfullUpdate == 0) { throw new Exception("Database did not update"); }
 
+            //convert the log from string to List<string>
+            var ListLog = desiredgame.Log.Split(',').ToList();
+            
             return new GameStateDTO
             {
                 Board = newMove.NewBoard,
-                Log = default, //WIP no implemenations yet 
-                ActivePlayerColor = game.IsWhitePlayerTurn == true ? 'w' : 'b'
+                Log = ListLog,
+                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b'
             };
         }
 
@@ -161,22 +181,28 @@ namespace Norris.Data
 
         public GameStateDTO GetGamestate(string id)
         {
-            GameSession Game = context.GameSessions.Where(e => e.Id.Equals(id)).FirstOrDefault();            
-            var pieces = Game.Board.Split(',').ToList();
+            //Fetches the desired gamesession
+                        GameSession desiredGame = context.GameSessions
+                .Where(e => e.Id.Equals(id))
+                .FirstOrDefault();
+            //If the desired game was not found: error
+            if (desiredGame == null) throw new ArgumentException($"Game {id} not found");
 
+            //Coverts a string to a string[,]
+            var piecesList = desiredGame.Board.Split(',').ToList();
             var board = new string[8, 8];
             int k = 0;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    board[i, j] = pieces.ElementAt(k++);
+                    board[i, j] = piecesList.ElementAt(k++);
                 }
             }
             return new GameStateDTO {
-                Log = Game.Log.Split(',').ToList(),
+                Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
-                ActivePlayerColor = Game.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b'
             };
 
         }
@@ -209,6 +235,7 @@ namespace Norris.Data
        
         public UserListDTO GetPlayerLobby()
         {
+            //Mock data
             var test = new UserListDTO
             {
                 Users = new List<User>()
@@ -229,6 +256,7 @@ namespace Norris.Data
 
         public ViewUserModel GetUserData(string userID)
         {
+            //might be removable later?
             throw new NotImplementedException();
         }
 

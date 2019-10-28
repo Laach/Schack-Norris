@@ -163,5 +163,12 @@ namespace Norris.UI.Controllers
             var uid = _signInManager.UserManager.GetUserId(User);
             UserActivity.RefreshUser(uid);
         }
+
+        public IActionResult NewGame(string userID)
+        {
+            var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
+
+            return RedirectToAction("Index", new { gameId = newGameID });
+        }
     }
 }
