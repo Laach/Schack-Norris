@@ -3,11 +3,11 @@
 @using Norris.Data.Data.Entities;
 <script src="~/js/ChatSystem.js"></script>
 
-@model List<ChatMessageDTO>
+@model ChatPartialViewModel
 <div class="ChatBox">
     @if(Model != null)
     {
-        foreach(var item in Model)
+        foreach(var item in Model.ChatMessages)
         {
             <span>@item.TimeStamp <b>@item.Username</b></span>
             <p>@item.Message</p>
@@ -15,6 +15,6 @@
     }
     <div class="ChatBoxLower">
         <input type="text" id="ChatBoxInput" placeholder="Type here..."/>
-        <button onclick="SendMessage()"><b>Send</b></button>
+        <button onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
     </div>
 </div>  

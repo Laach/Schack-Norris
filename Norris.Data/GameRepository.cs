@@ -324,6 +324,7 @@ namespace Norris.Data
         public IEnumerable<ChatMessageDTO> GetMessageLog(string GameID)
         {
             var session = context.GameSessions
+                .Include(gs => gs.Chatlog)
                 .Where(g => g.Id.Equals(GameID))
                 .FirstOrDefault();
             if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
@@ -347,6 +348,11 @@ namespace Norris.Data
             if (session.Chatlog == null) { return 0; }
 
             return session.Chatlog.Count();
+        }
+
+        public string GetUserNameFromId(string UserID)
+        {
+            return context.Users.Where(u => u.Id.Equals(UserID)).FirstOrDefault().UserName;
         }
     }
 }

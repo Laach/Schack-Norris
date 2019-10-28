@@ -27,5 +27,7 @@ namespace Norris.Data
         IEnumerable<ChatMessageDTO> GetMessageLog(string GameID);
 
         int GetMessageLogLenght(string GameID);
+
+        string GetUserNameFromId(string UserID);
     }
 }
