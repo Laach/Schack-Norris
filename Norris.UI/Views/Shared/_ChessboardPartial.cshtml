@@ -4,16 +4,28 @@
 @using Norris.Data.Models.DTO
 
 @model ChessboardPartialViewModel
+<script src="/js/game.js"></script>
 <style>
     .grid-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        background-color: black;
+        grid-template-columns: 0.25fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0.25fr;
+        background-color: white;
         padding: 1px;
+        align-items: center;
     }
 
     .grid-item {
         font-size: 10px;
+    }
+
+    .side-border-item {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .top-bottom-border-item {
+        text-align: center;
+        vertical-align: middle;
     }
 
     .white-item {
@@ -28,6 +40,26 @@
         width: 100%;
     }
 </style>
+
+<div class="grid-container">
+    <div class="top-bottom-border-item"></div>
+    @if (@Model.PlayerColor == 'w')
+    {
+        @for(char j = 'A'; j <= 'H'; j++)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    else
+    {
+        @for(char j = 'H'; j >= 'A'; j--)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    <div class="top-bottom-border-item"></div>
+</div>
+
 <div class="grid-container">
     @{string c = "white-item";
         string fileext = ".png";
@@ -49,34 +81,35 @@
     }
     @for (int i = 0; i < 8; i++)
     {
-        for (int j = 0; ; j++)
+        int r;
+        @if (@Model.PlayerColor == 'w')
         {
-            int r;
+            r = 8 - i;
+        }
+        else
+        {
+            r = i + 1;
+        }
+        <div class="side-border-item">
+            @r
+        </div>
+        @for (int j = 0; ; j++)
+        {
             char f;
             @if (@Model.PlayerColor == 'w')
             {
-                r = 8 - i;
                 f = (char)((int)'a' + j);
             }
             else
             {
-                r = i + 1;
                 f = (char)((int)'h' - j);
             }
             <div class="grid-item @r @f @c" id="@f@r">
                 <div style="position:relative;">
                     @{ string clickedPosition = f + r.ToString();}
-                    <a href='@Url.Action("ClickedTile", "Game",
-                                    new
-                                    {
-                                        clickedTile = clickedPosition,
-                                        gameId = @Model.GameId,
-                                        selectedTile = @Model.SelectedTile,
-                                        canMove = @Model.CanMoveToTiles,
-                                        catTake = @Model.CanMoveToAndTakeTiles
-                                    })'>
-                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/ee.png" alt="@board[i, j]" />
-                        <div>     
+                    <a onclick='updateBoard("@Model.GameId", "@f@r")'>
+                        <img style="position:absolute" class="piece-image piece" src="~/images/pieces/@board[i,j]@fileext" alt="@board[i, j]" />
+                        <div>
                             <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
                     </a>
@@ -94,10 +127,30 @@
                 c = "white-item";
             }
         }
+        <div class="side-border-item">
+            @r
+        </div>
     }
 </div>
 
-<script src="/js/game.js">
-  updateBoard("@Model.GameId", "a2", null, [], []);
+<div class="grid-container">
+    <div class="top-bottom-border-item"></div>
+    @if (@Model.PlayerColor == 'w')
+    {
+        @for (char j = 'A'; j <= 'H'; j++)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    else
+    {
+        @for (char j = 'H'; j >= 'A'; j--)
+        {
+            <div class="top-bottom-border-item">@j</div>
+        }
+    }
+    <div class="top-bottom-border-item"></div>
+</div>
 
-</script>
+
+

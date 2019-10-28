@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -41,10 +41,10 @@ namespace Norris.UI.Controllers
         }
         public IActionResult Lobby(bool? joinLobby)
         {
-            RefreshUser(User);
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
+            RefreshUser(User);
 
             var uid = _signInManager.UserManager.GetUserId(User);
 
@@ -93,14 +93,14 @@ namespace Norris.UI.Controllers
 
         public IActionResult FindFriends()
         {
-            RefreshUser(User);
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
+            RefreshUser(User);
 
 
-            var friends = _GameRepo.GetFriendList("2");
+         
 
-            return View("FindFriends",friends);
+            return View("FindFriends");
         }
 
         public class userToAdd

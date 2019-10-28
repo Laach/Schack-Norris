@@ -143,6 +143,11 @@ namespace Norris.Game {
         Point forward = new Point(){ Y = point.Y - 1, X = point.X};
         if(board[forward] == null){
           list = list.Append(forward);
+          IEnumerable<Point> startPositions = PawnStartPositions(6);
+          Point doublestep = new Point(){ Y = point.Y - 2, X = point.X};
+          if(startPositions.Contains(point) && board[doublestep] == null){
+            list = list.Append(doublestep);
+          }
         }
 
         var attack1 = new Point(){ Y = point.Y - 1, X = point.X + 1};
@@ -155,17 +160,17 @@ namespace Norris.Game {
           list = list.Append(attack2);
         }
 
-        IEnumerable<Point> startPositions = PawnStartPositions(6);
-        Point doublestep = new Point(){ Y = point.Y - 2, X = point.X};
-        if(startPositions.Contains(point) && board[doublestep] == null){
-          list = list.Append(doublestep);
-        }
 
       }
       else{
         Point forward = new Point(){ Y = point.Y + 1, X = point.X};
         if(board[forward] == null){
           list = list.Append(forward);
+          IEnumerable<Point> startPositions = PawnStartPositions(1);
+          Point doublestep = new Point(){ Y = point.Y + 2, X = point.X};
+          if(startPositions.Contains(point) && board[doublestep] == null){
+            list = list.Append(doublestep);
+          }
         }
 
         var attack1 = new Point(){ Y = point.Y + 1, X = point.X + 1};
@@ -178,11 +183,6 @@ namespace Norris.Game {
           list = list.Append(attack2);
         }
 
-        IEnumerable<Point> startPositions = PawnStartPositions(1);
-        Point doublestep = new Point(){ Y = point.Y + 2, X = point.X};
-        if(startPositions.Contains(point) && board[doublestep] == null){
-          list = list.Append(doublestep);
-        }
 
       }
       return list;
