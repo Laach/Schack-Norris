@@ -1,0 +1,58 @@
+﻿#chat-panel-override {
+    border: none;
+}
+
+#chat-panel-group-override {
+    margin-bottom: 0px;
+    border: none;
+}
+
+#chat-panel-heading-override {
+    background-color: var(--nav-bg-color);
+    border: none;
+}
+
+#list-group-override {
+    border: none;
+}
+
+
+#chat {
+    overflow-y:scroll;
+    height:450px;
+}
+
+#chat-scroll {
+}
+
+#chat-list-group-item-override {
+    margin-top:0px;
+    background-color: var(--list-bg-color);
+    border: none;
+    margin-bottom:0px;
+
+}
+
+#time-and-username {
+    padding-left:15px;
+    color: black;
+    word-break:break-word;
+}
+
+#messages {
+    padding-left: 15px;
+    word-break:break-word;
+}
+
+#chat-box-input{
+    width:100%;
+}
+
+.flex{
+    display: flex;
+    flex-direction:row;
+}
+
+#chat-input-area {
+
+}

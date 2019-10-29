@@ -2,19 +2,39 @@
 @using Norris.UI.Models;
 @using Norris.Data.Data.Entities;
 <script src="~/js/ChatSystem.js"></script>
+<link rel="stylesheet" href="~/css/chat.css" />
 
 @model ChatPartialViewModel
-<div class="ChatBox">
-    @if(Model != null)
-    {
-        foreach(var item in Model.ChatMessages)
-        {
-            <span>@item.TimeStamp <b>@item.Username</b></span>
-            <p>@item.Message</p>
-        }
-    }
-    <div class="ChatBoxLower">
-        <input type="text" id="ChatBoxInput" placeholder="Type here..."/>
-        <button onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
+<div class="panel-group" id="chat-panel-group-override" role="tablist">
+    <div class="panel panel-default" id="chat-panel-override">
+        <div class="panel-heading" id="chat-panel-heading-override" role="tab">
+            <a href="#chat" class="" role="button" data-toggle="collapse"
+               aria-expanded="true" aria-controls="chat" onclick="changeIcon('icon1')" id="nav-txt-override">
+                Chat <i id="icon1" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+            </a>
+            </div>
+        <div class="panel-collapse collapse in" role="tabpanel" id="chat" aria-labelledby="Chat" aria-expanded="true" >
+            <ul class="list-group chat">
+                <dl id="chat-list-group-item-override">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model.ChatMessages)
+                        {
+                        <dt id="time-and-username"><small><em>@item.TimeStamp</em></small> <b>@item.Username:</b></dt>
+                        <dd id="messages">@item.Message</dd>    
+                        }
+                    }
+                </dl>
+            </ul>   
+            </div>
+        <div class="flex" id="chat-flex">
+            <div>
+                <input type="text" id="chat-box-input" placeholder="Type here..." stype/>
+            </div>
+            <div>
+                <button onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
+            </div>
+        </div>
     </div>
-</div>  
+</div>
+
