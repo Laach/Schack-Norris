@@ -353,5 +353,47 @@ namespace Norris.Data
         {
             return context.Users.Where(u => u.Id.Equals(UserID)).FirstOrDefault().UserName;
         }
+
+        public IEnumerable<ArchivedGamesDTO> GetArchivedGameList(string userID)
+        {
+            var sessions = context.GameSessions
+              .Include(gs => gs.PlayerBlack)
+              .Include(gs => gs.PlayerWhite)
+              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .Where(a => a.IsActive == false)
+              .ToList();
+
+            if (sessions == null)
+            {
+                throw new ArgumentException($"User {userID} not found");
+            }
+
+            var games = new List<ArchivedGamesDTO>();
+
+            games = sessions.Select(s => new ArchivedGamesDTO
+            {
+                GameID = s.Id,
+                OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
+                AmIWinner = 
+                    s.PlayerWhiteID == userID && s.IsWhitePlayerTurn
+                    || s.PlayerBlackID == userID && !s.IsWhitePlayerTurn ? false : true
+            })
+              .ToList();
+
+            return games;
+        }
+
+        public void SetGameToFinished(string GameID)
+        {
+            var session = context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault()
+                .IsActive = false;
+            context.SaveChanges();
+        }
     }
 }
