@@ -32,6 +32,8 @@ namespace Norris.UI.Controllers
 
         public IActionResult Index(string gameId)
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
             RefreshUser(User);
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
