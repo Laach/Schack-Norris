@@ -31,7 +31,7 @@
                             <p>You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
                         }
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" id="movecounter">
                         @Model.Board.GameState.MovesCounter Moves Made.
                     </div>
                 </div>
@@ -40,11 +40,11 @@
 
                 @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
                 {
-                    <div class="alert alert-success" role="alert">It's <strong>your turn</strong> </div>
+                    <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
                 }
                 else
                 {
-                    <div class="alert alert-info" role="alert">Waiting for your <strong>opponents move</strong></div>
+                    <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
 
 
                 }
@@ -59,7 +59,10 @@
                 </div>
             </div>
     </div>
-    <div class="col-sm-2">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-sm-2" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
+<script>
+  const timer = setInterval(tryGetUpdates, 1000, "@Model.Board.GameId");
+</script>
 

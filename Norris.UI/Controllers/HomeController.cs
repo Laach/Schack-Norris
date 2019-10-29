@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -56,6 +56,18 @@ namespace Norris.UI.Controllers
 
             var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames };
             return View(lobbyAndFriends);
+        }
+
+        public PartialViewResult Sidebar(){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
+            var games = _GameRepo.GetUserGameList(uid);
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games
+            };
+            return PartialView("_FriendsPartial", friendsAndGames);
         }
 
         public IActionResult Game()

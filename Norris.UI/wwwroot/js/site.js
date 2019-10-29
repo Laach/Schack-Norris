@@ -36,3 +36,21 @@ function changeIcon(iconID) {
         document.getElementById(iconID).className = "glyphicon glyphicon-minus";
     }
 }
+
+function refreshSidebar(){
+  fetch('/Home/Sidebar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify({ userID: userID })
+  })
+  .then(data => {
+      return data.text()
+  })
+  .then(text => {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.innerHTML = text;
+  });
+
+}
+
+setInterval(refreshSidebar, 1000);

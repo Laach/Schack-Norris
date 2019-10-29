@@ -304,6 +304,24 @@ namespace Norris.Data
             }
         }
 
+        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
+          str = str.Remove(str.Length - 1);
+          game.ChangedTiles = str;
+
+          context.GameSessions.Update(game);
+          context.SaveChanges();
+        }
+
+        public IEnumerable<string> GetChangedTiles(string gameID){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          if(game.ChangedTiles == null){
+            return new List<string>();
+          }
+          return game.ChangedTiles.Split(',').ToList();
+        }
+
         public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
         {
             var session = context.GameSessions
