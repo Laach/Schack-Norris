@@ -32,6 +32,7 @@ namespace Norris.Data.Data.Entities
         public string ChangedTiles { get; set; }
         [Required]
         public List<ChatMessage> Chatlog { get; set; }
+        public int MovesCounter { get; set; }
 
     }
 }
