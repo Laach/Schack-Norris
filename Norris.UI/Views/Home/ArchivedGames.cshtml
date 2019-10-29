@@ -1,5 +1,5 @@
 @using Norris.Data.Models.DTO;
-@model IEnumerable<UserActiveGamesDTO>
+@model IEnumerable<ArchivedGamesDTO>
 
 @{
     ViewData["Title"] = "Archived Games";
@@ -18,7 +18,7 @@
                 <li class="list-group-item">
                     vs. @game.OpponentName
 
-                    @if (game.IsMyTurn)
+                    @if (game.AmIWinner)
                     {
                         <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">View</a>
                     }

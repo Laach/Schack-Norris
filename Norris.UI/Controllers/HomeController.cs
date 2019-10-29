@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -121,8 +121,7 @@ namespace Norris.UI.Controllers
 
           var uid = _signInManager.UserManager.GetUserId(User);
 
-          // var games = _GameRepo.GetArchivedGameList(uid);
-          var games = _GameRepo.GetUserGameList(uid);
+          var games = _GameRepo.GetArchivedGameList(uid);
 
           return View(games);
         }
