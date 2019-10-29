@@ -31,6 +31,7 @@ namespace Norris.Data.Data.Entities
         public bool IsWhitePlayerTurn { get; set; }
         [Required]
         public List<ChatMessage> Chatlog { get; set; }
+        public int MovesCounter { get; set; }
 
     }
 }

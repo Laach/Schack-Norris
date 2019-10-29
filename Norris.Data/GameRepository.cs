@@ -85,7 +85,8 @@ namespace Norris.Data
                     .FirstOrDefault(),
                 IsActive = true,
                 Log = "",
-                IsWhitePlayerTurn = true
+                IsWhitePlayerTurn = true,
+                MovesCounter = 0
             };
 
             //if any of the desired users didn't exist: error
@@ -126,6 +127,7 @@ namespace Norris.Data
             desiredgame.Log = temp;
             //Toggle the curent turn
             desiredgame.IsWhitePlayerTurn = desiredgame.IsWhitePlayerTurn ? false : true;
+            desiredgame.MovesCounter++;
 
             //Save the changes to the database
             context.GameSessions.Update(desiredgame);
@@ -135,12 +137,13 @@ namespace Norris.Data
 
             //convert the log from string to List<string>
             var ListLog = desiredgame.Log.Split(',').ToList();
-            
+
             return new GameStateDTO
             {
                 Board = newMove.NewBoard,
                 Log = ListLog,
-                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredgame.MovesCounter
             };
         }
 
@@ -202,7 +205,8 @@ namespace Norris.Data
             return new GameStateDTO {
                 Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
-                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredGame.MovesCounter
             };
 
         }
