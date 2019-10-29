@@ -100,15 +100,23 @@ function tryGetUpdates(gameid) {
     })
     .then(data => { return data.json() })
     .then(data => {
+      const banner = document.getElementById("banner");
       if(data.game != null){
         // Refresh board
         setTiles(data.game);
+        // Display your-turn banner
+        banner.innerHTML = "It\'s <strong>your turn</strong>";
+        banner.className = "alert alert-success";
+      }
+      else{
+        banner.innerHTML = "Waiting for your <strong>opponents turn</strong>";
+        banner.className = "alert alert-info";
       }
       if(data.chat != null){
         // Append chat
       }
-
+      // Update movecounter
+      const movecounter = document.getElementById("movecounter")
+      movecounter.innerText = data.moveCount + " Moves Made.";
     });
-    // console.log("Hello");
-    // setInterval(tryGetUpdates(gameid), 5000);
 }

@@ -168,7 +168,6 @@ namespace Norris.UI.Controllers
               canTake = new List<string>();
               selectedTile = null;
             }
-
             gamestate = _GameRepo.GetGamestate(gameId);
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel
@@ -223,6 +222,7 @@ namespace Norris.UI.Controllers
 
         public class GameViewData{
           public ChessboardPartialViewModel Game {get; set;}
+          public int MoveCount {get; set;}
         }
 
         public IActionResult GameRefresh([FromBody] GameRefreshData data){
@@ -233,12 +233,11 @@ namespace Norris.UI.Controllers
 
             ChessboardPartialViewModel game = null;
 
+            var gamestate = _GameRepo.GetGamestate(data.GameID);
             if(IsMyTurn){
               var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
               char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
-              var gamestate = _GameRepo.GetGamestate(data.GameID);
-              
-              
+
               game = new ChessboardPartialViewModel
               {
                   GameState = gamestate,
@@ -249,13 +248,10 @@ namespace Norris.UI.Controllers
                   PlayerColor = userColor,
                   ChangedTiles = changedTiles.ToList()
               };
-
             }
-
-
-
-          return Json(new GameViewData{Game=game});
-          
+        
+          // Game will be null if not users turn.
+          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter});
         }
     }
 }
