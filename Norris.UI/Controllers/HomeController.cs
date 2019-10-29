@@ -112,5 +112,19 @@ namespace Norris.UI.Controllers
             var uid = _signInManager.UserManager.GetUserId(User);
             UserActivity.RefreshUser(uid);
         }
+
+
+        public IActionResult ArchivedGames(){
+          if (!_signInManager.IsSignedIn(User))
+              return RedirectToAction("Login", "Account");
+          RefreshUser(User);
+
+          var uid = _signInManager.UserManager.GetUserId(User);
+
+          // var games = _GameRepo.GetArchivedGameList(uid);
+          var games = _GameRepo.GetUserGameList(uid);
+
+          return View(games);
+        }
     }
 }
