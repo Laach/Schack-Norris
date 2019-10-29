@@ -26,6 +26,7 @@
                         JoinLobbyString = "Escape Lobby";
                     }
                     <a class="btn btn-success btn-sm btn-block" href="@Url.Action("Lobby", new { joinLobby = JoinLobby })">@JoinLobbyString</a>
+
                     @foreach(var item in Model.CurrentLobbyUsers)
                     {
                     <tr>
