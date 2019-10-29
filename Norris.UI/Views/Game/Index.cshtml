@@ -13,51 +13,48 @@
     <div class="col-sm-2">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
     <div class="col-sm-8">
         <div class="panel panel-default">
-
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-4">
-                        Chess game vs.
-                        @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                        <p class="lobbyInfo">
+                            Chess game vs.
+                            @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                        </p>
                     </div>
                     <div class="col-sm-4">
-
                         @if (@Model.Board.PlayerColor == 'w')
                         {
-                            <p>You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
+                            <p class="lobbyInfo" id="lobbyInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
                         }
                         else
                         {
-                            <p>You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
+                            <p class="lobbyInfo" id="lobbyInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
                         }
                     </div>
                     <div class="col-sm-4">
-                        @Model.Board.GameState.MovesCounter Moves Made.
+                        <p class="lobbyInfo" id="lobbyInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
-                </div>
-                @await Html.PartialAsync("_ChessboardPartial", Model.Board)
-
-                @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
-                {
-                    <div class="alert alert-success" role="alert">It's <strong>your turn</strong> </div>
-                }
-                else
-                {
-                    <div class="alert alert-info" role="alert">Waiting for your <strong>opponents move</strong></div>
-
-
-                }
-
-                <div class="panel-body">
-                    <p>
-                        Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
-                        Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
-                        Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                        Nullam id dolor id nibh ultricies vehicula ut id elit.
-                    </p>
-                </div>
             </div>
+            @await Html.PartialAsync("_ChessboardPartial", Model.Board)
+
+            @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
+            {
+                <div class="alert alert-success" role="alert">It's <strong>your turn</strong> </div>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">Waiting for your <strong>opponents move</strong></div>
+            }
+            <div class="panel-body">   
+                <p class="lobbyInfo">
+                    Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
+                    Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
+                    Pellentesque ornare sem lacinia quam venenatis vestibulum.
+                    Nullam id dolor id nibh ultricies vehicula ut id elit.
+                </p>               
+            </div>
+        </div>
     </div>
     <div class="col-sm-2">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
