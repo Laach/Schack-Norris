@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -186,6 +186,50 @@ namespace Norris.UI.Controllers
             var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
 
             return RedirectToAction("Index", new { gameId = newGameID });
+        }
+
+
+
+        public class GameRefreshData{
+          public string GameID  {get; set;}
+          public int chatLength {get; set;}
+        }
+
+        public class GameViewData{
+          public ChessboardPartialViewModel Game {get; set;}
+        }
+
+        public IActionResult GameRefresh([FromBody] GameRefreshData data){
+
+            string userID = _signInManager.UserManager.GetUserId(User);
+
+            bool IsMyTurn = _GameRepo.IsActivePlayer(data.GameID, userID);
+
+            ChessboardPartialViewModel game = null;
+
+            if(IsMyTurn){
+              var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
+              char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
+              var gamestate = _GameRepo.GetGamestate(data.GameID);
+              
+              
+              game = new ChessboardPartialViewModel
+              {
+                  GameState = gamestate,
+                  SelectedTile = null,
+                  CanMoveToAndTakeTiles = new List<string>(),
+                  CanMoveToTiles = new List<string>(),
+                  GameId = data.GameID,
+                  PlayerColor = userColor,
+                  ChangedTiles = changedTiles.ToList()
+              };
+
+            }
+
+
+
+          return Json(new GameViewData{Game=game});
+          
         }
     }
 }

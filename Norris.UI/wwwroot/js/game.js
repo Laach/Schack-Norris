@@ -26,6 +26,7 @@ let canMoveTo = [];
 let canTakeAt = [];
 
 function updateBoard(gameid, clickedtile) {
+    tryGetUpdates(gameid);
     data = { 
           ClickedTile : clickedtile,
           GameID : gameid,
@@ -48,38 +49,66 @@ function updateBoard(gameid, clickedtile) {
       selected  = data.selectedTile;
       canMoveTo = data.canMoveToTiles;
       canTakeAt = data.canMoveToAndTakeTiles;
-
-      for(let i = 0; i < data.changedTiles.length; i++){
-        if(data.changedTiles[i] == null){
-          continue;
-        }
-        const file = data.changedTiles[i][0];
-        const rank = data.changedTiles[i][1];
-        const x = fileToInt(file);
-        const y = rankToInt(rank);
-
-
-        const piece = data.gameState.board[y][x];
-
-        const highlight = document.getElementById(file + rank);
-        const highlight_img = highlight.getElementsByClassName("highlight")[0];
-
-        if(canMoveTo.includes(data.changedTiles[i])){
-          highlight_img.setAttribute("src", "/images/pieces/highlight-green.png")
-        } else if(canTakeAt.includes(data.changedTiles[i])){
-          highlight_img.setAttribute("src", "/images/pieces/highlight-red.png")
-        } else if(data.changedTiles[i] == selected){
-          highlight_img.setAttribute("src", "/images/pieces/highlight-blue.png")
-        } else{
-          highlight_img.setAttribute("src", "/images/pieces/ee.png")
-        }
-
-        const tile = document.getElementById(file + rank);
-        const img = tile.getElementsByClassName("piece")[0];
-        img.setAttribute("src", "/images/pieces/" + piece + ".png")
-
-        
-
-      }
+      setTiles(data);
     });
+}
+
+function setTiles(data){
+  for(let i = 0; i < data.changedTiles.length; i++){
+    if(data.changedTiles[i] == null){
+      continue;
+    }
+    const file = data.changedTiles[i][0];
+    const rank = data.changedTiles[i][1];
+    const x = fileToInt(file);
+    const y = rankToInt(rank);
+
+
+    const piece = data.gameState.board[y][x];
+
+    const highlight = document.getElementById(file + rank);
+    const highlight_img = highlight.getElementsByClassName("highlight")[0];
+
+    if(data.canMoveToTiles.includes(data.changedTiles[i])){
+      highlight_img.setAttribute("src", "/images/pieces/highlight-green.png")
+    } else if(data.canMoveToAndTakeTiles.includes(data.changedTiles[i])){
+      highlight_img.setAttribute("src", "/images/pieces/highlight-red.png")
+    } else if(data.changedTiles[i] == data.selectedTile){
+      highlight_img.setAttribute("src", "/images/pieces/highlight-blue.png")
+    } else{
+      highlight_img.setAttribute("src", "/images/pieces/ee.png")
+    }
+
+    const tile = document.getElementById(file + rank);
+    const img = tile.getElementsByClassName("piece")[0];
+    img.setAttribute("src", "/images/pieces/" + piece + ".png")
+  }
+}
+
+
+function tryGetUpdates(gameid) {
+
+    data = { 
+      GameID : gameid,
+      chatLength : 0
+        };
+        
+    fetch('/game/GameRefresh', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(data => { return data.json() })
+    .then(data => {
+      if(data.game != null){
+        // Refresh board
+        setTiles(data.game);
+      }
+      if(data.chat != null){
+        // Append chat
+      }
+
+    });
+    // console.log("Hello");
+    // setInterval(tryGetUpdates(gameid), 5000);
 }

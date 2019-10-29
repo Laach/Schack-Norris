@@ -16,4 +16,7 @@
     <div class="col-sm-3">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
+<script>
+  const timer = setInterval(tryGetUpdates, 5000, "@Model.Board.GameId");
+</script>
 
