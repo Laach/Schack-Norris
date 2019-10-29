@@ -14,10 +14,10 @@
 <div class="row">
     <div class="col-sm-2">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
     <div class="col-sm-8">@await Html.PartialAsync("_ChessboardPartial", Model.Board)</div>
-    <div class="col-sm-2">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-sm-2" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
 <script>
-  const timer = setInterval(tryGetUpdates, 5000, "@Model.Board.GameId");
+  const timer = setInterval(tryGetUpdates, 1000, "@Model.Board.GameId");
 </script>
 
