@@ -272,7 +272,6 @@ namespace Norris.Data
             string search = searchterm + "%";
             UserListDTO users = new UserListDTO();
             users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
-
             return users;
         }
         public bool IsActivePlayer(string gameID, string UserID)
