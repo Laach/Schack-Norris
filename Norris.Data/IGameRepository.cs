@@ -24,5 +24,12 @@ namespace Norris.Data
         IEnumerable<string> GetChangedTiles(string gameID);
         void SetChangedTiles(string gameID, IEnumerable<string> changedtiles);
 
+        bool AddChatMessage(ChatMessageDTO chatMessage, string GameID);
+
+        IEnumerable<ChatMessageDTO> GetMessageLog(string GameID);
+
+        int GetMessageLogLenght(string GameID);
+
+        string GetUserNameFromId(string UserID);
     }
 }
