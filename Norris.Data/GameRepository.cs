@@ -316,6 +316,9 @@ namespace Norris.Data
 
         public IEnumerable<string> GetChangedTiles(string gameID){
           var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          if(game.ChangedTiles == null){
+            return new List<string>();
+          }
           return game.ChangedTiles.Split(',').ToList();
         }
 
