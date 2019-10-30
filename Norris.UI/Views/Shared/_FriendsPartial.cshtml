@@ -5,10 +5,10 @@
 
 
     <div class="panel-group" id="panel-group-override" role="tablist">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override" role="tab">
                 <a href="#games" class="" role="button" data-toggle="collapse"
-                   aria-expanded="true" aria-controls="games" onclick="changeIcon('icon1')">
+                   aria-expanded="true" aria-controls="games" onclick="changeIcon('icon1')" id="nav-txt-override">
                     Games <i id="icon1" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                 </a>
             </div>
@@ -18,7 +18,7 @@
                     {
                         @foreach (var game in Model.UserGames)
                         {
-                        <li class="list-group-item">
+                        <li class="list-group-item" id="list-group-item-override">
                             vs. @game.OpponentName
 
                             @if (game.IsMyTurn)
@@ -34,7 +34,7 @@
                     }
                     else
                     {
-                        <li class="list-group-item">No active games</li>
+                        <li class="list-group-item" id="list-group-item-override">No active games</li>
                     }
                 </ul>
             </div>
@@ -42,10 +42,10 @@
     </div>
     <div class="friends">
         <div class="panel-group" id="panel-group-override" role="tablist">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
+            <div class="panel panel-default" id="panel-override">
+                <div class="panel-heading" id="panel-heading-override" role="tab">
                     <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2')">
+                       aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2')" id="nav-txt-override">
                         Friends online <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -55,35 +55,36 @@
                         {
                             @foreach (var user in Model.UserFriends.OnlineFriends)
                             {
-                                <li class="list-group-item"> @user.UserName 
+                                <li class="list-group-item" id="list-group-item-override"> 
+                                    @user.UserName 
                                     <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-success btn-sm playGameBtn">New game</a>
                                 </li>
                             }
                         }
                         else
                         {
-                            <li class="list-group-item">No active friends</li>
+                            <li class="list-group-item" id="list-group-item-override">No active friends</li>
                         }
                     </ul>
                 </div>
             </div>
         </div>
         <div class="panel-group" role="tablist">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
+            <div class="panel panel-default" id="panel-override">
+                <div class="panel-heading" id="panel-heading-override" role="tab">
                     <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3')">
+                       aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3')" id="nav-txt-override">
                         Friends offline
                         <i id="icon3" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                     </a>
                 </div>
                 <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
-                    <ul class="list-group">
+                    <ul class="list-group" id="list-group-override">
                         @if (Model.UserFriends.OfflineFriends.Any())
                         {
                             @foreach (var user in Model.UserFriends.OfflineFriends)
                             {
-                        <li class="list-group-item disabled">
+                        <li class="list-group-item" id="list-group-item-disabled-override">
                             @user.UserName
                             <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-danger btn-sm playGameBtn">New game</a>
                         </li>
@@ -91,7 +92,7 @@
                         }
                         else
                         {
-                            <li class="list-group-item disabled">No active friends</li>
+                            <li class="list-group-item" id="list-group-item-override">No active friends</li>
                         }
                     </ul>
                 </div>

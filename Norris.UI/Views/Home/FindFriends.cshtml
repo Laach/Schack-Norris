@@ -1,5 +1,9 @@
 ﻿@using Norris.Data.Models.DTO;
 
+<environment include="Development">
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+
 @{
     ViewData["Title"] = "Find Friends";
 }
@@ -8,7 +12,7 @@
 
 <p>Here you can search for your friends to add to your list.</p>
 
-<input type="text" placeholder="Search user" onkeyup="searchUsers(this.value)" />
+<input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
 
 <div>
     <span id="searchResults"></span>
