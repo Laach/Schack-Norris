@@ -25,12 +25,19 @@
                                     @if (game.PlayerColor == 'w')
                                     {
                                         <img src="~/images/pieces/wn.png" style="width:17px;" />
-                                    }
-                                    else{
+                                        <span>vs.</span>
                                         <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                        @game.OpponentName
                                     }
-                                    vs.
-                                    @game.OpponentName
+                                    else
+                                    {
+                                        <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                        <span>vs.</span>
+                                        <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                        @game.OpponentName
+                                    }
+
+
 
                                     @if (game.IsMyTurn)
                                     {
