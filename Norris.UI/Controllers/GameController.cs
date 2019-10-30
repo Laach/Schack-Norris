@@ -54,7 +54,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = gameId
             };
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel {

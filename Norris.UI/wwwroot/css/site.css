@@ -27,7 +27,7 @@ hr.footer {
     --text-hover: white;
     --list-disabled-bg-color: #c0c6cc;
     --list-bg-color: #d9e1e8;
-    --list-hover-color: #e6eef5;
+    --list-hover-color: #ebf3fa;
     --list-disabled-hover-color: #d9e1e8;
     --nav-bg-color: #2b79d9;
 }
@@ -78,12 +78,12 @@ a.playGame {
 }
 
 
-#yTurn{
+.yTurn{
     color:var(--nav-bg-color);
     font-weight:bold;
 }
 
-#oTurn {
+.oTurn {
     color: gray;
 }
 
@@ -92,9 +92,8 @@ a.playGame {
 }
 
 .friends-right {
-    flex: 0 0 100px;
-    padding: 8px;
-    margin: -10px -15px -10px 0;
+    flex: 0 0 97px;
+
 }
 
 .friends-left {
@@ -107,6 +106,9 @@ a.playGame {
 
 .games-left {
     flex:1;
+}
+.activeGame#list-group-item-override {
+    background-color: var(--list-hover-color);
 }
 h1 {
     color: var(--heading-color);

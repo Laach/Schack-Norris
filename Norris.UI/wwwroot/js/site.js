@@ -40,11 +40,12 @@ function changeIcon(iconID) {
     }
 }
 
-function refreshSidebar(){
+function refreshSidebar() {
+    const id = document.getElementById("activeGame").innerText;
   fetch('/Home/Sidebar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // body: JSON.stringify({ userID: userID })
+      body: JSON.stringify({ GameID: id })
   })
   .then(data => {
       return data.text()
