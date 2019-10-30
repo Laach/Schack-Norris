@@ -2,6 +2,10 @@
 @using Norris.Data.Models.DTO
 @model GameViewModel
 
+<environment include="Development">
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
