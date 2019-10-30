@@ -4,20 +4,20 @@
 @using Norris.Data.Models.DTO
 
 @model ChessboardPartialViewModel
-<script src="/js/game.js"></script>
+<link rel="stylesheet" href="~/css/chessBoard.css" />
 
 <div class="grid-container">
     <div class="top-bottom-border-item"></div>
     @if (@Model.PlayerColor == 'w')
     {
-        @for(char j = 'A'; j <= 'H'; j++)
+        @for (char j = 'A'; j <= 'H'; j++)
         {
             <div class="top-bottom-border-item">@j</div>
         }
     }
     else
     {
-        @for(char j = 'H'; j >= 'A'; j--)
+        @for (char j = 'H'; j >= 'A'; j--)
         {
             <div class="top-bottom-border-item">@j</div>
         }
@@ -116,6 +116,7 @@
     }
     <div class="top-bottom-border-item"></div>
 </div>
+<script src="/js/game.js"></script>
 
 
 
