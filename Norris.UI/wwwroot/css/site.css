@@ -22,10 +22,13 @@ hr.footer {
 :root {
     --nav-text-color: #e3e3e3;
     --heading-color: #e3e3e3;
+    --content-text-color: black;
     --nav-text-color-rgb: 40, 44, 55;
     --text-hover: white;
-    --list-disabled-bg-color: #9baec8;
+    --list-disabled-bg-color: #c0c6cc;
     --list-bg-color: #d9e1e8;
+    --list-hover-color: #e6eef5;
+    --list-disabled-hover-color: #d9e1e8;
     --nav-bg-color: #2b79d9;
 }
 
@@ -55,10 +58,36 @@ hr.footer {
     
 }
 
-.playGameBtn {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+a.playGame {
+    text-decoration: none;
+    color: var(--content-text-color);
+}
+
+.list-group-item.playGame#list-group-item-override:hover{
+    background-color:var(--list-hover-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover {
+    background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
+    
+}
+.list-group-item.playGame#list-group-item-override:hover .playGameRight {
+    
+}
+
+.playGameRight {
+    float: right;
+}
+
+#yTurn{
+    color:var(--nav-bg-color);
+    font-weight:bold;
+}
+
+#oTurn {
+    color: gray;
 }
 
 h1 {
@@ -85,8 +114,8 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo{
-    color:black;
+p.lobbyInfo {
+    color: var(--content-text-color);
 }
 
 p#lobbyInfoCenter{
@@ -99,11 +128,13 @@ p#lobbyInfoRight{
 
 #panel-override{
     border:none;
+    background-color:none;
 }
 
 #panel-group-override{
     margin-bottom:0px;
     border:none;
+    background-color:none;
 }
 
 #panel-heading-override{
@@ -115,9 +146,10 @@ p#lobbyInfoRight{
     border:none;
 }
 
-#list-group-item-override{
-    background-color:var(--list-bg-color);
-    border:none;
+#list-group-item-override {
+    color: var(--content-text-color);
+    background-color: var(--list-bg-color);
+    border: none;
 }
 
 #list-group-item-disabled-override{
@@ -139,6 +171,27 @@ p#lobbyInfoRight{
     /*color: rgba(var(--nav-text-color-rgb), 0.5);*/
     color:var(--text-hover);
 }
+
+
+.flex {
+    display: flex;
+}
+
+.friends-right {
+    border-left: 1px solid black;
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    background-color:red;
+    flex: 0 0 100px;
+    padding:8px;
+    margin:-10px -15px -10px 0;
+}
+
+
+.friends-left {
+    flex: 1;
+}
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
