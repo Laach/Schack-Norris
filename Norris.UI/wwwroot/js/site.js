@@ -40,6 +40,10 @@ function changeIcon(iconID) {
     }
 }
 
+let activeGamesOpen    = true;
+let onlineFriendsOpen  = true;
+let offlineFriendsOpen = true;
+
 function refreshSidebar() {
     const id = document.getElementById("activeGame").innerText;
   fetch('/Home/Sidebar', {
@@ -48,13 +52,23 @@ function refreshSidebar() {
       body: JSON.stringify({ GameID: id })
   })
   .then(data => {
-      return data.text()
+      return data.json()
   })
-  .then(text => {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.innerHTML = text;
+  .then(data => {
+    if(activeGamesOpen){
+      const games = document.getElementById("activegames");
+      games.innerHTML = data.activeGames;
+    }
+    if(onlineFriendsOpen){
+      const onlinefriends = document.getElementById("online-friends");
+      onlinefriends.innerHTML = data.onlineFriends;
+    }
+    if(offlineFriendsOpen){
+      const offlinefriends = document.getElementsByClassName("offline-friends")[0];
+      offlinefriends.innerHTML = data.offlineFriends;
+    }
   });
 
 }
 
-setInterval(refreshSidebar, 1000);
+setInterval(refreshSidebar, 5000);
