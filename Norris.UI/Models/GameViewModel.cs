@@ -11,6 +11,6 @@ namespace Norris.UI.Models
     {
         public FriendsPartialViewModel FriendsAndGames { get; set; }
         public ChessboardPartialViewModel Board { get; set; }
-
+        public ChatPartialViewModel Chat { get; set; }
     }
 }

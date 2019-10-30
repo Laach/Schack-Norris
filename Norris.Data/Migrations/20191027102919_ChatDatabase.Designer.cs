@@ -11,13 +11,15 @@ using System;
 namespace Norris.Data.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20191027102919_ChatDatabase")]
+    partial class ChatDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -37,7 +39,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -167,16 +170,12 @@ namespace Norris.Data.Migrations
                     b.Property<string>("Board")
                         .IsRequired();
 
-                    b.Property<string>("ChangedTiles");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsWhitePlayerTurn");
 
                     b.Property<string>("Log")
                         .IsRequired();
-
-                    b.Property<int>("MovesCounter");
 
                     b.Property<string>("PlayerBlackID")
                         .IsRequired();
@@ -238,7 +237,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });

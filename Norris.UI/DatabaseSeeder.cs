@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Norris.UI
 {
@@ -28,6 +29,7 @@ namespace Norris.UI
             //Only adds data if database is empty 
             if (IsEmpty)
             {
+
                 //Add cappe, alex, nick, emil, and philip as users
                 AddNewUsers();
                 _context.SaveChanges();
@@ -98,7 +100,7 @@ namespace Norris.UI
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
                                 "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
                 _context.GameSessions.Find(gameId).Board =
-                        "be,ee,ee,ee,ee,br,bk,ee," +
+                        "ee,ee,ee,ee,ee,br,bk,ee," +
                         "bp,bp,ee,ee,ee,ee,bp,bp," +
                         "ee,ee,bp,ee,ee,ee,bn,ee," +
                         "ee,ee,ee,bp,ee,ee,wn,ee," +
@@ -118,7 +120,7 @@ namespace Norris.UI
                         "ee,ee,ee,bp,wr,ee,ee,ee," +
                         "ee,ee,ee,ee,ee,ee,ee,ee," +
                         "wp,wp,wp,ee,ee,wp,wp,wp," +
-                        "we,ee,ee,ee,ee,ee,wk,ee,";
+                        "ee,ee,ee,ee,ee,ee,wk,ee,";
                 _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
 
                 gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
@@ -154,6 +156,36 @@ namespace Norris.UI
 
         private void AddNewUsers()
         {
+            using (var reader = new StreamReader(@"us-500.csv"))
+            {
+                reader.ReadLine();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    line = line.Replace("\\", "");
+                    line = line.Replace("\"", "");
+                    var values = line.Split(',');
+                    string username = values[0] + "_" + values[1];
+                    User user = new User
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        AccessFailedCount = 0,
+                        ConcurrencyStamp = Guid.NewGuid().ToString(),
+                        Email = values[10],
+                        EmailConfirmed = false,
+                        LockoutEnabled = true,
+                        NormalizedEmail = values[11].ToUpper(),
+                        NormalizedUserName = username.ToUpper(),
+                        PasswordHash = "AQAAAAEAACcQAAAAEA7iUp/6A4MnDJlrrwhldY0l8zmjI0QIc8eZNk2BiydK59mSTgd/czQYaQ150AwVtA==",
+                        PhoneNumberConfirmed = false,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        TwoFactorEnabled = false,
+                        UserName = username
+                    };
+                    _context.Users.Add(user);
+                }
+            }
+
             //password: Mediumcook1!
             var cappe = new User
             {
