@@ -17,8 +17,8 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-4">
-                        Chess game vs.
-                        @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                        Chess game vs. @Model.OpponentName
+                        @* @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName*@
                     </div>
                     <div class="col-sm-4">
 
@@ -38,15 +38,25 @@
                 </div>
                 @await Html.PartialAsync("_ChessboardPartial", Model.Board)
 
-                @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
+                @if(!@Model.Board.GameState.IsActive)
+                {
+                  @if(@Model.Board.PlayerColor == 'w')
+                  {
+                    <div class="alert alert-danger" role="alert" id="banner"><strong>You lost</strong></div>
+                  }
+                  else
+                  {
+                    <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
+                  }
+                  
+                }
+                else if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
                 {
                     <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
                 }
                 else
                 {
                     <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
-
-
                 }
 
                 <div class="panel-body">

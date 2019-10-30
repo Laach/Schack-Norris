@@ -105,12 +105,25 @@ function tryGetUpdates(gameid) {
         // Refresh board
         setTiles(data.game);
         // Display your-turn banner
+      }
+      if(data.isActive && data.isMyTurn){
+        // Active game, my turn
         banner.innerHTML = "It\'s <strong>your turn</strong>";
         banner.className = "alert alert-success";
       }
-      else{
-        banner.innerHTML = "Waiting for your <strong>opponents turn</strong>";
+      else if(data.isMyTurn){
+        // Archived game, my turn, I lost
+        banner.innerHTML = "<strong>You lost</strong>";
+        banner.className = "alert alert-danger";
+      }
+      else if(data.isActive && !data.isMyTurn){
+        // Active game, not my turn.
+        banner.innerHTML = "waiting for your <strong>opponents turn</strong>";
         banner.className = "alert alert-info";
+      }
+      else{
+        banner.innerHTML = "<strong>You won</strong>";
+        banner.className = "alert alert-success";
       }
       if(data.chat != null){
         // Append chat

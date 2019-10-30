@@ -185,7 +185,7 @@ namespace Norris.Data
         public GameStateDTO GetGamestate(string id)
         {
             //Fetches the desired gamesession
-                        GameSession desiredGame = context.GameSessions
+            GameSession desiredGame = context.GameSessions
                 .Where(e => e.Id.Equals(id))
                 .FirstOrDefault();
             //If the desired game was not found: error
@@ -206,7 +206,8 @@ namespace Norris.Data
                 Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
                 ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b',
-                MovesCounter = desiredGame.MovesCounter
+                MovesCounter = desiredGame.MovesCounter,
+                IsActive = desiredGame.IsActive
             };
 
         }
@@ -217,7 +218,9 @@ namespace Norris.Data
             var sessions = context.GameSessions
               .Include(gs => gs.PlayerBlack)
               .Include(gs => gs.PlayerWhite)
-              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .Where(gs => (gs.PlayerWhiteID == userID || 
+                            gs.PlayerBlackID == userID) &&
+                            gs.IsActive == true)
               .ToList();
 
             if(sessions == null){
@@ -416,6 +419,29 @@ namespace Norris.Data
                 .FirstOrDefault()
                 .IsActive = false;
             context.SaveChanges();
+        }
+
+        public IEnumerable<UserActiveGamesDTO> GetAllGames(string userID){
+            var sessions = context.GameSessions
+              .Include(gs => gs.PlayerBlack)
+              .Include(gs => gs.PlayerWhite)
+              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .ToList();
+
+            if(sessions == null){
+              throw new ArgumentException($"User {userID} not found");
+            }
+
+            var games = new List<UserActiveGamesDTO>();
+
+            games = sessions.Select(s => new UserActiveGamesDTO{
+                GameID = s.Id,
+                OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
+                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn
+              })
+              .ToList();
+
+            return games;
         }
     }
 }
