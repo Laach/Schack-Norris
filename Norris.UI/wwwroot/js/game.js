@@ -116,7 +116,7 @@ function tryGetUpdates(gameid) {
         // Append chat
       }
       // Update movecounter
-      const movecounter = document.getElementById("movecounter")
+      const movecounter = document.getElementById("lobbyInfoRight")
       movecounter.innerText = data.moveCount + " Moves Made.";
     });
 }
