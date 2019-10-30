@@ -53,5 +53,4 @@ function refreshSidebar(){
 
 }
 
-refreshSidebar();
 setInterval(refreshSidebar, 1000);
