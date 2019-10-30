@@ -21,8 +21,16 @@
                         {
                             <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
                                 <li class="list-group-item playGame" id="list-group-item-override">
-                                    <img src="~/images/pieces/wn.png" style="width:17px;"/>vs. 
-                                    <img src="~/images/pieces/bn.png" style="width:17px;"/>@game.OpponentName
+
+                                    @if (game.PlayerColor == 'w')
+                                    {
+                                        <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                    }
+                                    else{
+                                        <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                    }
+                                    vs.
+                                    @game.OpponentName
 
                                     @if (game.IsMyTurn)
                                     {

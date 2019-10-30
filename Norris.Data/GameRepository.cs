@@ -226,11 +226,12 @@ namespace Norris.Data
 
             var games = new List<UserActiveGamesDTO>();
 
-            games = sessions.Select(s => new UserActiveGamesDTO{
+            games = sessions.Select(s => new UserActiveGamesDTO {
                 GameID = s.Id,
                 OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
-                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn
-              })
+                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn,
+                PlayerColor = s.PlayerWhiteID == userID ? 'w' : 'b'
+            })
               .ToList();
 
             return games;
