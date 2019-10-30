@@ -18,8 +18,9 @@
 
 
 #chat {
-    overflow-y:scroll;
-    height:450px;
+    overflow-y: scroll;
+    height: 450px;
+    background-color: var(--list-bg-color);
 }
 
 #chat-scroll {
@@ -53,7 +54,7 @@
 }
 #chat-right {
     border:1px solid black;
-    flex: 0 0 30%;
+    flex: 0 0 50px;
 }
 #chat-left {
     flex: 1;

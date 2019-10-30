@@ -20,7 +20,7 @@
                     {
                         foreach (var item in Model.ChatMessages)
                         {
-                        <dt id="time-and-username"><small><em>@item.TimeStamp</em></small> <b>@item.Username:</b></dt>
+                        <dt id="time-and-username"><small><em>@item.TimeStamp</em></small> <b>| @item.Username:</b></dt>
                         <dd id="messages">@item.Message</dd>    
                         }
                     }
@@ -29,10 +29,10 @@
             </div>
         <div class="flex" id="chat-flex">
             <div id="chat-left">
-                <input type="text" id="chat-box-input" placeholder="Type here..." stype/>
+                <input type="text" id="chat-box-input" placeholder="Type here..." onkeydown="if (event.keyCode == 13)document.getElementById('chat-send-btn').click()"/>
             </div>
             <div id="chat-right">
-                <button onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
+                <button id="chat-send-btn" onclick="SendMessage('@Model.GameID')"><b>Send</b></button>
             </div>
         </div>
     </div>
