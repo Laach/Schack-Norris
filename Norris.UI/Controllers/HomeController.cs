@@ -56,7 +56,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = ""
             };
 
             var lobbyAndFriends = new LobbyAndFriendsViewModel{
@@ -79,14 +80,15 @@ namespace Norris.UI.Controllers
             return View(lobbyAndFriends);
         }
 
-        public PartialViewResult Sidebar(){
+        public PartialViewResult Sidebar([FromBody] GameController.GameRefreshData data){
             var uid = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(uid);
             var games = _GameRepo.GetUserGameList(uid);
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = data.GameID
             };
             return PartialView("_FriendsPartial", friendsAndGames);
         }

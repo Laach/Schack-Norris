@@ -22,10 +22,13 @@ hr.footer {
 :root {
     --nav-text-color: #e3e3e3;
     --heading-color: #e3e3e3;
+    --content-text-color: black;
     --nav-text-color-rgb: 40, 44, 55;
     --text-hover: white;
-    --list-disabled-bg-color: #9baec8;
+    --list-disabled-bg-color: #c0c6cc;
     --list-bg-color: #d9e1e8;
+    --list-hover-color: #ebf3fa;
+    --list-disabled-hover-color: #d9e1e8;
     --nav-bg-color: #2b79d9;
 }
 
@@ -55,12 +58,58 @@ hr.footer {
     
 }
 
-.playGameBtn {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+a.playGame {
+    text-decoration: none;
+    color: var(--content-text-color);
 }
 
+.list-group-item.playGame#list-group-item-override:hover{
+    background-color:var(--list-hover-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover {
+    background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
+    
+}
+.list-group-item.playGame#list-group-item-override:hover .playGameRight {
+    
+}
+
+
+.yTurn{
+    color:var(--nav-bg-color);
+    font-weight:bold;
+}
+
+.oTurn {
+    color: gray;
+}
+
+.flex {
+    display: flex;
+}
+
+.friends-right {
+    flex: 0 0 97px;
+
+}
+
+.friends-left {
+    flex: 1;
+}
+
+.games-right {
+    flex: 0 0 97px;
+}
+
+.games-left {
+    flex:1;
+}
+.activeGame#list-group-item-override {
+    background-color: var(--list-hover-color);
+}
 h1 {
     color: var(--heading-color);
 }
@@ -85,8 +134,8 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo{
-    color:black;
+p.lobbyInfo {
+    color: var(--content-text-color);
 }
 
 p#lobbyInfoCenter{
@@ -99,11 +148,13 @@ p#lobbyInfoRight{
 
 #panel-override{
     border:none;
+    background-color:none;
 }
 
 #panel-group-override{
     margin-bottom:0px;
     border:none;
+    background-color:none;
 }
 
 #panel-heading-override{
@@ -115,9 +166,10 @@ p#lobbyInfoRight{
     border:none;
 }
 
-#list-group-item-override{
-    background-color:var(--list-bg-color);
-    border:none;
+#list-group-item-override {
+    color: var(--content-text-color);
+    background-color: var(--list-bg-color);
+    border: none;
 }
 
 #list-group-item-disabled-override{
@@ -139,6 +191,8 @@ p#lobbyInfoRight{
     /*color: rgba(var(--nav-text-color-rgb), 0.5);*/
     color:var(--text-hover);
 }
+
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

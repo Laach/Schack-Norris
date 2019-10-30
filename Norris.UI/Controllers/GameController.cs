@@ -54,7 +54,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = gameId
             };
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel {
@@ -206,6 +207,20 @@ namespace Norris.UI.Controllers
             _GameRepo.AddChatMessage(messageDTO, message.gameID);
         }
 
+        public class GetChatMessages{
+          public string GameID {get; set;}
+          public int chatLength {get; set;}
+        }
+
+        public IActionResult GetChat([FromBody] GetChatMessages data){
+          var uid = _signInManager.UserManager.GetUserId(User);
+          var chat = _GameRepo.GetMessageLog(data.GameID);
+          if(chat.Count() > data.chatLength){
+            return PartialView("_ChatWindow", chat);
+          }
+          return Json("");
+        }
+
         public IActionResult NewGame(string userID)
         {
             var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
@@ -217,7 +232,6 @@ namespace Norris.UI.Controllers
 
         public class GameRefreshData{
           public string GameID  {get; set;}
-          public int chatLength {get; set;}
         }
 
         public class GameViewData{

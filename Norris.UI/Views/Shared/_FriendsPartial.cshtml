@@ -18,18 +18,76 @@
                     {
                         @foreach (var game in Model.UserGames)
                         {
-                        <li class="list-group-item" id="list-group-item-override">
-                            vs. @game.OpponentName
+                            <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
+                                @if (Model.ActiveGame == game.GameID)
+                                {
+                                    <li class="list-group-item playGame activeGame" id="list-group-item-override">
+                                        <div hidden id="activeGame">@game.GameID</div>
+                                        <div class="flex" id="games-flex">
+                                            <div class="games-left">
+                                                @if (game.PlayerColor == 'w')
+                                                {
+                                                    <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                    <span>vs.</span>
+                                                    <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                    @game.OpponentName
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                    <span>vs.</span>
+                                                    <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                    @game.OpponentName
+                                                }
+                                            </div>
+                                            <div class="games-right">
+                                                @if (game.IsMyTurn)
+                                                {
+                                                    <span class="yTurn">Your turn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="oTurn">Opponents turn</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="list-group-item playGame" id="list-group-item-override">
+                                        <div class="flex" id="games-flex">
+                                            <div class="games-left">
+                                                @if (game.PlayerColor == 'w')
+                                                {
+                                                    <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                    <span>vs.</span>
+                                                    <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                    @game.OpponentName
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                    <span>vs.</span>
+                                                    <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                    @game.OpponentName
+                                                }
+                                            </div>
+                                            <div class="games-right">
+                                                @if (game.IsMyTurn)
+                                                {
+                                                    <span class="yTurn">Your turn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="oTurn">Opponents turn</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
 
-                            @if (game.IsMyTurn)
-                            {
-                                <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">Play</a>
-                            }
-                            else
-                            {
-                                <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-danger btn-sm playGameBtn">Play</a>
-                            }
-                        </li>
+                            </a>
                         }      
                     }
                     else
@@ -55,10 +113,12 @@
                         {
                             @foreach (var user in Model.UserFriends.OnlineFriends)
                             {
-                                <li class="list-group-item" id="list-group-item-override"> 
-                                    @user.UserName 
-                                    <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-success btn-sm playGameBtn">New game</a>
-                                </li>
+                                <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="playGame">
+                                    <li class="list-group-item playGame" id="list-group-item-override">
+                                        @user.UserName
+                                        <span class="playGameRight">New game</span>
+                                    </li>
+                                </a>
                             }
                         }
                         else
@@ -84,10 +144,18 @@
                         {
                             @foreach (var user in Model.UserFriends.OfflineFriends)
                             {
-                        <li class="list-group-item" id="list-group-item-disabled-override">
-                            @user.UserName
-                            <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-danger btn-sm playGameBtn">New game</a>
-                        </li>
+                                <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="playGame">
+                                    <li class="list-group-item playGame" id="list-group-item-disabled-override">                                 
+                                        <div class="flex" id="friends-flex">
+                                            <div class="friends-left">
+                                                @user.UserName
+                                            </div>
+                                            <div class="friends-right">
+                                                New game
+                                            </div>
+                                        </div>
+                                    </li>                                 
+                                </a>                           
                             }
                         }
                         else
