@@ -32,7 +32,7 @@
                         }
                     </div>
                     <div class="col-sm-4">
-                        <p class="lobbyInfo" id="lobbyInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
+                        <p class="lobbyInfo" id="lobbyInfoRight movecounter">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
             </div>
@@ -40,11 +40,11 @@
 
             @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
             {
-                <div class="alert alert-success" role="alert">It's <strong>your turn</strong> </div>
+                <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
             }
             else
             {
-                <div class="alert alert-info" role="alert">Waiting for your <strong>opponents move</strong></div>
+                <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
             }
             <div class="panel-body">   
                 <p class="lobbyInfo">
@@ -56,7 +56,10 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-lg-3">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-xs-12 col-sm-12 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
+<script>
+  const timer = setInterval(tryGetUpdates, 1000, "@Model.Board.GameId");
+</script>
 
