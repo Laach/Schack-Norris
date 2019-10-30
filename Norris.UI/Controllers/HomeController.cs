@@ -34,16 +34,21 @@ namespace Norris.UI.Controllers
             return Redirect("/Home/Lobby");
         }
 
-        public IActionResult Lobby()
+        public IActionResult JoinGame(string opponentId)
+        {
+            string newGameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
+            return RedirectToAction("Index", "Game", new { gameId = newGameId });
+        }
+
+        public IActionResult Lobby(bool? joinLobby)
         {
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
 
-            ViewData["Message"] = "Lobby page.";
-
             var uid = _signInManager.UserManager.GetUserId(User);
+
             var friends = _GameRepo.GetFriendList(uid);
             var lobbyUsers = _GameRepo.GetPlayerLobby();
             var games = _GameRepo.GetUserGameList(uid);
@@ -54,7 +59,23 @@ namespace Norris.UI.Controllers
                 UserGames = games
             };
 
-            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames };
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{
+                CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames};
+
+            if (joinLobby.HasValue)
+            {
+                if (joinLobby.Value)
+                {
+                    _GameRepo.EnterLobby(uid);
+                    lobbyAndFriends.IsInLobby = true;
+                }
+                else
+                {
+                    _GameRepo.LeaveLobby(uid);
+                    lobbyAndFriends.IsInLobby = false;
+                }
+            }
+
             return View(lobbyAndFriends);
         }
 

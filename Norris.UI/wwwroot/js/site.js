@@ -10,6 +10,7 @@
                 document.getElementById("searchResults").innerHTML = this.responseText;
             }
         };
+        
         xmlhttp.open("GET", "/Home/Search/?searchString=" + str, true);
         xmlhttp.send();
     }
@@ -20,14 +21,16 @@ function addUser(userID) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userID: userID })
-    })
-        .then(data => {
-            return data.text()
-        })
-        .then(text => {
-            console.log(text);
-        });
+    });
+
+    deleteRow(userID);
 }
+
+function deleteRow(rowid) {
+    var row = document.getElementById(rowid);
+    row.parentNode.removeChild(row);
+}
+
 
 function changeIcon(iconID) {
     if (document.getElementById(iconID).className == "glyphicon glyphicon-minus") {

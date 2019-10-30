@@ -11,13 +11,15 @@ using System;
 namespace Norris.Data.Migrations
 {
     [DbContext(typeof(NContext))]
-    partial class NContextModelSnapshot : ModelSnapshot
+    [Migration("20191025121703_lobby-update")]
+    partial class lobbyupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -37,7 +39,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -126,26 +129,6 @@ namespace Norris.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Norris.Data.Data.Entities.ChatMessage", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("GameSessionId");
-
-                    b.Property<string>("Message");
-
-                    b.Property<DateTime>("TimeStamp");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("GameSessionId");
-
-                    b.ToTable("ChatMessage");
-                });
-
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
                 {
                     b.Property<string>("UserId");
@@ -167,16 +150,12 @@ namespace Norris.Data.Migrations
                     b.Property<string>("Board")
                         .IsRequired();
 
-                    b.Property<string>("ChangedTiles");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsWhitePlayerTurn");
 
                     b.Property<string>("Log")
                         .IsRequired();
-
-                    b.Property<int>("MovesCounter");
 
                     b.Property<string>("PlayerBlackID")
                         .IsRequired();
@@ -240,7 +219,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -288,13 +268,6 @@ namespace Norris.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Norris.Data.Data.Entities.ChatMessage", b =>
-                {
-                    b.HasOne("Norris.Data.Data.Entities.GameSession")
-                        .WithMany("Chatlog")
-                        .HasForeignKey("GameSessionId");
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
