@@ -21,32 +21,34 @@
                             <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
                                 <li class="list-group-item playGame" id="list-group-item-override">
 
-                                    @if (game.PlayerColor == 'w')
-                                    {
-                                        <img src="~/images/pieces/wn.png" style="width:17px;" />
-                                        <span>vs.</span>
-                                        <img src="~/images/pieces/bn.png" style="width:17px;" />
-                                        @game.OpponentName
-                                    }
-                                    else
-                                    {
-                                        <img src="~/images/pieces/bn.png" style="width:17px;" />
-                                        <span>vs.</span>
-                                        <img src="~/images/pieces/wn.png" style="width:17px;" />
-                                        @game.OpponentName
-                                    }
-
-
-
-                                    @if (game.IsMyTurn)
-                                    {
-                                        <span class="playGameRight" id="yTurn">Your turn</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="playGameRight" id="oTurn">Opponents turn</span>
-                                    }
-
+                                    <div class="flex" id="games-flex">
+                                        <div class="games-left">
+                                            @if (game.PlayerColor == 'w')
+                                            {
+                                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                <span>vs.</span>
+                                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                @game.OpponentName
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                                <span>vs.</span>
+                                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                                @game.OpponentName
+                                            }
+                                        </div>
+                                        <div class="games-right">
+                                            @if (game.IsMyTurn)
+                                            {
+                                                <span id="yTurn">Your turn</span>
+                                            }
+                                            else
+                                            {
+                                                <span id="oTurn">Opponents turn</span>
+                                            }
+                                        </div>
+                                    </div>
                                 </li>
                             </a>
                         }      
