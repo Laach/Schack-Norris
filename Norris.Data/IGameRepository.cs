@@ -28,4 +28,6 @@
             IEnumerable<ArchivedGamesDTO> GetArchivedGameList(string userID);
             void SetGameToFinished(string GameID);
         }
+        IEnumerable<string> GetChangedTiles(string gameID);
+        void SetChangedTiles(string gameID, IEnumerable<string> changedtiles);
     }

@@ -58,6 +58,18 @@ namespace Norris.UI.Controllers
             return View(lobbyAndFriends);
         }
 
+        public PartialViewResult Sidebar(){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
+            var games = _GameRepo.GetUserGameList(uid);
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games
+            };
+            return PartialView("_FriendsPartial", friendsAndGames);
+        }
+
         public IActionResult Game()
         {
             if (!_signInManager.IsSignedIn(User))

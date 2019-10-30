@@ -85,7 +85,8 @@ namespace Norris.Data
                     .FirstOrDefault(),
                 IsActive = true,
                 Log = "",
-                IsWhitePlayerTurn = true
+                IsWhitePlayerTurn = true,
+                MovesCounter = 0
             };
 
             //if any of the desired users didn't exist: error
@@ -126,6 +127,7 @@ namespace Norris.Data
             desiredgame.Log = temp;
             //Toggle the curent turn
             desiredgame.IsWhitePlayerTurn = desiredgame.IsWhitePlayerTurn ? false : true;
+            desiredgame.MovesCounter++;
 
             //Save the changes to the database
             context.GameSessions.Update(desiredgame);
@@ -135,12 +137,13 @@ namespace Norris.Data
 
             //convert the log from string to List<string>
             var ListLog = desiredgame.Log.Split(',').ToList();
-            
+
             return new GameStateDTO
             {
                 Board = newMove.NewBoard,
                 Log = ListLog,
-                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredgame.MovesCounter
             };
         }
 
@@ -202,7 +205,8 @@ namespace Norris.Data
             return new GameStateDTO {
                 Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
-                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredGame.MovesCounter
             };
 
         }
@@ -297,6 +301,24 @@ namespace Norris.Data
             {
                 return 'b';
             }
+        }
+
+        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
+          str = str.Remove(str.Length - 1);
+          game.ChangedTiles = str;
+
+          context.GameSessions.Update(game);
+          context.SaveChanges();
+        }
+
+        public IEnumerable<string> GetChangedTiles(string gameID){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          if(game.ChangedTiles == null){
+            return new List<string>();
+          }
+          return game.ChangedTiles.Split(',').ToList();
         }
 
         public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
