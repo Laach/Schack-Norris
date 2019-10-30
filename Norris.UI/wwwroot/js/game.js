@@ -90,7 +90,6 @@ function tryGetUpdates(gameid) {
 
     data = { 
       GameID : gameid,
-      chatLength : 0
         };
         
     fetch('/game/GameRefresh', {
@@ -119,4 +118,47 @@ function tryGetUpdates(gameid) {
       const movecounter = document.getElementById("lobbyInfoRight")
       movecounter.innerText = data.moveCount + " Moves Made.";
     });
+
+    const messages = document.getElementsByClassName("msg");
+    data2 = {
+      GameID: gameid,
+      chatLength : messages.length
+    }
+
+    fetch('/game/getchat', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data2)
+    })
+    .then(data => {return data.text()})
+    .then(data => {
+      console.log(data);
+      console.log(messages.length);
+      if(data != "\"\""){
+        const chatwindow = document.getElementById("chat-list-group-item-override");
+        chatwindow.innerHTML = data;
+
+        scrollToBottom("chat");
+      }
+    });
+}
+
+function scrollToBottom(id) {
+  const div = document.getElementById(id);
+  div.scrollTop = div.scrollHeight - div.clientHeight;
+}
+
+function SendMessage(GameID) {
+    const message = document.getElementById("chat-box-input").value
+    if(message == null || message == ""){
+      return;
+    }
+    fetch('/Game/SendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, GameID: GameID })
+    })
+    
+    document.getElementById("chat-box-input").value = "";
+    tryGetUpdates(GameID);
 }
