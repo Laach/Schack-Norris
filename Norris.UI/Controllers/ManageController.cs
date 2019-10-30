@@ -497,7 +497,11 @@ namespace Norris.UI.Controllers
 
             return View(nameof(ShowRecoveryCodes), model);
         }
-
+        
+        public IActionResult Archive()
+        {
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
         #region Helpers
 
         private void AddErrors(IdentityResult result)
