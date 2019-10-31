@@ -45,7 +45,7 @@ let onlineFriendsOpen  = true;
 let offlineFriendsOpen = true;
 
 function refreshSidebar() {
-    const id = document.getElementById("activeGame").innerText;
+  const id = document.getElementById("activeGame").innerText;
   fetch('/Home/Sidebar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -57,18 +57,31 @@ function refreshSidebar() {
   .then(data => {
     if(activeGamesOpen){
       const games = document.getElementById("activegames");
-      games.innerHTML = data.activeGames;
+      const temp = document.createElement("div");
+      temp.innerHTML = data.activeGames;
+      if(games.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id, "")){
+        console.log("Games")
+        games.innerHTML = data.activeGames;
+      }
     }
     if(onlineFriendsOpen){
       const onlinefriends = document.getElementById("online-friends");
-      onlinefriends.innerHTML = data.onlineFriends;
+      const temp = document.createElement("div");
+      temp.innerHTML = data.onlineFriends;
+      if(onlinefriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
+        onlinefriends.innerHTML = data.onlineFriends;
+      }
     }
     if(offlineFriendsOpen){
       const offlinefriends = document.getElementsByClassName("offline-friends")[0];
-      offlinefriends.innerHTML = data.offlineFriends;
+      const temp = document.createElement("div");
+      temp.innerHTML = data.offlineFriends;
+      if(offlineFriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
+        offlinefriends.innerHTML = data.offlineFriends;
+      }
     }
   });
 
 }
 
-setInterval(refreshSidebar, 5000);
+setInterval(refreshSidebar, 1000);
