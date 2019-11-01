@@ -132,8 +132,6 @@ function tryGetUpdates(gameid) {
     })
     .then(data => {return data.text()})
     .then(data => {
-      console.log(data);
-      console.log(messages.length);
       if(data != "\"\""){
         const chatwindow = document.getElementById("chat-list-group-item-override");
         chatwindow.innerHTML = data;

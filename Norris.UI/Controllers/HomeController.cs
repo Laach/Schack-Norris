@@ -80,7 +80,7 @@ namespace Norris.UI.Controllers
             return View(lobbyAndFriends);
         }
 
-        public PartialViewResult Sidebar([FromBody] GameController.GameRefreshData data){
+        public IActionResult Sidebar([FromBody] GameController.GameRefreshData data){
             var uid = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(uid);
             var games = _GameRepo.GetUserGameList(uid);
@@ -90,7 +90,16 @@ namespace Norris.UI.Controllers
                 UserGames = games,
                 ActiveGame = data.GameID
             };
-            return PartialView("_FriendsPartial", friendsAndGames);
+            var sidebar = new SidebarModel();
+            var t1 = this.RenderViewAsync<FriendsPartialViewModel>( "_ActiveGamesPartial", friendsAndGames, true);
+            var t2 = this.RenderViewAsync<IEnumerable<User>>("_OnlineFriendsPartial", friends.OnlineFriends, true);
+            var t3 = this.RenderViewAsync<IEnumerable<User>>("_OfflineFriendsPartial", friends.OfflineFriends, true);
+            
+            Task.WaitAll(new Task<string>[]{t1, t2, t3});
+            sidebar.ActiveGames    = t1.Result;
+            sidebar.OnlineFriends  = t2.Result;
+            sidebar.OfflineFriends = t3.Result;
+            return Json(sidebar);
         }
 
         public IActionResult Game()
@@ -148,4 +157,8 @@ namespace Norris.UI.Controllers
             UserActivity.RefreshUser(uid);
         }
     }
+
+
+
+
 }
