@@ -85,3 +85,21 @@ function refreshSidebar() {
 }
 
 setInterval(refreshSidebar, 1000);
+
+
+function createGame(userID){
+  fetch('/Game/NewGame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ UserID: userID })
+  })
+  .then(data => {return data.json()})
+  .then(data => {
+      console.log(data);
+      if (data.gameID == "") {
+          alert("You cannot have more than three games with the same player! Sign up for our unlimited chess plan for unlimited chess games!");
+      } else {
+          window.location.href = "/Game?gameId=" + data.gameID;
+      }
+  });
+}

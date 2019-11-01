@@ -58,7 +58,9 @@ hr.footer {
     
 }
 #siteGrid{
-    margin-top:20px;
+    padding-top:30px;
+    padding-left: 15px;
+    padding-right: 15px
 }
 
 #searchBox {
@@ -83,9 +85,13 @@ hr.footer {
     margin-bottom:0px;
 }
 
-a.playGame {
+div.playGame {
     text-decoration: none;
     color: var(--content-text-color);
+}
+  
+div.playGame:hover {
+    cursor: pointer; 
 }
 
 .list-group-item.playGame#list-group-item-override:hover{
