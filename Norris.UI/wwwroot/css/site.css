@@ -171,7 +171,7 @@ tr {
 }
 
 p.lobbyInfo {
-    color: var(--content-text-color);
+    color: var(--nav-text-color);
 }
 
 p#lobbyInfoCenter{
@@ -180,6 +180,9 @@ p#lobbyInfoCenter{
 
 p#lobbyInfoRight{
     text-align:right;
+}
+p#lobbyInfoBottom{
+    color:black;
 }
 
 #panel-override{
@@ -193,30 +196,34 @@ p#lobbyInfoRight{
     background-color:none;
 }
 
-#panel-heading-override{
-    background-color:var(--nav-bg-color);
-    border:none;
+#panel-heading-override {
+    background-color: var(--nav-bg-color);
+    border: none;
+    border-radius: 0;
 }
-#panel-body-override{
-    border:none;
-    padding:10px;
-    background-color:var(--list-bg-color);
+#panel-body-override {
+    border: none;
+    padding: 10px;
+    background-color: var(--list-bg-color);
+    border-radius: 0;
 }
 
-#list-group-override{
-    background-color:none;
-    border:none;
+#list-group-override {
+    background-color: none;
+    border: none;
 }
 
 #list-group-item-override {
     color: var(--content-text-color);
     background-color: var(--list-bg-color);
     border: none;
+    border-radius: 0;
 }
 
-#list-group-item-disabled-override{
-    background-color:var(--list-disabled-bg-color);
-    border:none;
+#list-group-item-disabled-override {
+    background-color: var(--list-disabled-bg-color);
+    border: none;
+    border-radius: 0;
 }
 
 #nav-override {
