@@ -73,6 +73,13 @@ a.playGame {
     background-color: var(--list-disabled-hover-color);
 }
 
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--nav-bg-color);
+}
+
 .list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
     
 }
