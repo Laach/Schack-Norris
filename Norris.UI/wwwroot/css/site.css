@@ -192,7 +192,37 @@ p#lobbyInfoRight{
     color:var(--text-hover);
 }
 
+/*Styling for login page*/
+#userNameLable {
+    color: var(--nav-text-color);
+}
 
+#passwordLable {
+    color: var(--nav-text-color);
+}
+
+#rememberMeLable {
+    color: var(--nav-text-color);
+}
+/*End of login styling*/
+
+/*Styling for register page*/
+#registerUsernameLable {
+    color: var(--nav-text-color);
+}
+
+#registerEmailLable {
+    color: var(--nav-text-color);
+}
+
+#registerPasswordLable {
+    color: var(--nav-text-color);
+}
+
+#registerConfirmPasswordLable {
+    color: var(--nav-text-color);
+}
+/*End of register stylign*/
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
