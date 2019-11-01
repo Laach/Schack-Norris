@@ -61,11 +61,35 @@
                 }
 
                 <div class="panel-body">
-                    <p>
-                        Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
-                        Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
-                        Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                        Nullam id dolor id nibh ultricies vehicula ut id elit.
+                    <p style="position: relatiev;">
+                        Place the opponent in checkmate to win. 
+                        <br>
+                        Click one of your tiles to display its possible moves. 
+                        Click a green or red tile to move the selected piece to it.
+                        Click the selected piece or an empty piece to deselect the 
+                        selected piece.
+                        <ul style="list-style:none; padding: 0; margin-left: 0;">
+                          <li style="padding-bottom: 0.4em;">
+                            @{
+                              string tutPiece = @Model.Board.PlayerColor == 'w' ? "wp" : "bp";
+                              string fileext = ".png";
+                            }
+                            <img src="~/images/pieces/@tutPiece@fileext" style="width: 30px; position: absolute;"> 
+                            <img src="~/images/pieces/highlight-blue.png" style="width: 30px; position: relative;"> 
+                             Blue - your currently selected piece.
+                            </li>
+                          <li style="padding-bottom: 0.4em;">
+                            <img src="~/images/pieces/ee.png" style="width: 30px; position: absolute;"> 
+                            <img src="~/images/pieces/highlight-green.png" style="width: 30px; position: relative;"> 
+                            Green - the pieces you can move to.
+
+                          </li>
+                          <li style="padding-bottom: 0.4em;">
+                            <img src="~/images/pieces/@tutPiece@fileext" style="width: 30px; position: absolute;"> 
+                            <img src="~/images/pieces/highlight-red.png" style="width: 30px; position: relative;"> 
+                            Red - the pieces you can move to and take.
+                            </li>
+                        </ul>
                     </p>
                 </div>
             </div>
