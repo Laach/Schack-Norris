@@ -23,7 +23,6 @@ namespace Norris.UI.Controllers
         {
             _signInManager = sim;
             _GameRepo = GameRepo;
-            // _GameRepo.AddFriend("643cc4da-31aa-41c7-addd-30f614429469", "5ef685b4-dd4f-45c8-9885-a93e92754efc");
         }
 
         public IActionResult Index()

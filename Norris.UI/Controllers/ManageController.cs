@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Norris.Data;
 using Norris.Data.Data.Entities;
 using Norris.UI.Models;
 using Norris.UI.Models.ManageViewModels;
@@ -26,6 +27,7 @@ namespace Norris.UI.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IGameRepository _GameRepo;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -35,13 +37,14 @@ namespace Norris.UI.Controllers
           SignInManager<User> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, IGameRepository GameRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _GameRepo = GameRepo;
         }
 
         [TempData]
@@ -497,10 +500,25 @@ namespace Norris.UI.Controllers
 
             return View(nameof(ShowRecoveryCodes), model);
         }
-        
-        public IActionResult Archive()
+
+        private void RefreshUser(System.Security.Claims.ClaimsPrincipal user)
         {
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            var uid = _signInManager.UserManager.GetUserId(User);
+            UserActivity.RefreshUser(uid);
+        }
+
+
+        public IActionResult ArchivedGames()
+        {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+            RefreshUser(User);
+
+            var uid = _signInManager.UserManager.GetUserId(User);
+
+            var games = _GameRepo.GetArchivedGameList(uid);
+
+            return View(games);
         }
         #region Helpers
 
