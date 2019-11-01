@@ -120,10 +120,17 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
 
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
+            var games = _GameRepo.GetUserGameList(uid);
 
-         
-
-            return View("FindFriends");
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games,
+                ActiveGame = ""
+            };
+            return View(friendsAndGames);
         }
 
         public class userToAdd

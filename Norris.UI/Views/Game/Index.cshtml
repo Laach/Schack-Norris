@@ -4,18 +4,13 @@
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<style>
-</style>
-
-
-<div class="row">
+<div class="row" id="siteGrid">
+    <div class="col-lg-1"></div>
     <div class="col-xs-12 col-sm-4 col-lg-3">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
-    <div class="col-xs-12 col-sm-8 col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+    <div class="col-xs-12 col-sm-8 col-lg-4">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
                     <div class="col-sm-4">
                         <p class="lobbyInfo">
@@ -60,18 +55,18 @@
                     <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
                 }
 
-                <div class="panel-body">
-                    <p>
-                        Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
-                        Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
-                        Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                        Nullam id dolor id nibh ultricies vehicula ut id elit.
-                    </p>
-                </div>
+            <div class="panel-body" id="panel-body-override">
+                <p id="lobbyInfoBottom">
+                    Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
+                    Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
+                    Pellentesque ornare sem lacinia quam venenatis vestibulum.
+                    Nullam id dolor id nibh ultricies vehicula ut id elit.
+                </p>
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-lg-1"></div>
 </div>
 
 <script>

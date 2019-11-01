@@ -9,29 +9,39 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+    <link rel="stylesheet" href="~/css/site.css" />
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
+
+<div class="row" id="siteGrid">
     <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
+                <span id="title">@ViewData["Title"]</span>
+            </div>
+            <div class="panel-body" id="panel-body-override">
+                <span id="labelStyling">Use a local account to log in.</span>
         <section>
             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label>Username</label>
+                    <label id="labelStyling">Username</label>
                     <input asp-for="UserName" class="form-control" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
+                    <label asp-for="Password" id="labelStyling">Password</label>
                     <input asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label asp-for="RememberMe">
+                        <label asp-for="RememberMe" id="labelStyling">
                             <input asp-for="RememberMe" />
                             @Html.DisplayNameFor(m => m.RememberMe)
                         </label>
@@ -47,6 +57,11 @@
                 </div>
             </form>
         </section>
+            </div>
+    </div>
+    </div>
+    <div class="col-md-4">
+
     </div>
 </div>
 
