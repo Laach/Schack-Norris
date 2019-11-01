@@ -12,23 +12,18 @@
         <div class="panel panel-default" id="panel-override">
             <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <p class="gameInfo">
-                            Chess game vs. @Model.OpponentName
-                        </p>                   
+                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoLeft">
+                        Chess game vs. @Model.OpponentName              
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoRight">
                         @if (@Model.Board.PlayerColor == 'w')
                         {
-                            <p class="gameInfo" id="gameInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
+                            <span>You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></span>
                         }
                         else
                         {
-                            <p class="gameInfo" id="gameInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
+                            <span>You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></span>
                         }
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="gameInfo" id="gameInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
             </div>

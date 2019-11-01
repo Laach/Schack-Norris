@@ -176,18 +176,14 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.gameInfo {
+#gameInfoRight {
+    text-align: right;
     color: var(--nav-text-color);
 }
-
-p#gameInfoCenter{
-    text-align:center;
+#gameInfoLeft {
+    color: var(--nav-text-color);
 }
-
-p#gameInfoRight{
-    text-align:right;
-}
-p#gameInfoBottom{
+#gameInfoBottom{
     color:black;
 }
 
