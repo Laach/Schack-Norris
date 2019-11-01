@@ -2,9 +2,6 @@
 @using Norris.Data.Models
 @model LobbyAndFriendsViewModel
 
-<environment include="Development">
-    <script src="~/js/site.js" asp-append-version="true"></script>
-</environment>
 
 
 
@@ -37,27 +34,8 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @if(@Model.IsInLobby)
-                            {
-                            <tr class="tRow">
-                                <td id="tCell">You are registered in the lobby</td>
-                                <td id="tCell"></td>
-                            </tr>
-
-                            }
-                            
-                            @foreach (var item in Model.CurrentLobbyUsers)
-                            {
-                                <tr class="tRow">
-                                    <td id="tCell">@item.UserName</td>
-                                    <td id="tCell">
-                                        <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-primary btn-sm btn-block">
-                                            Join game
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
+                        <tbody id="lobby-partial">
+                          @await Html.PartialAsync("_LobbyPartial", Model)
                         </tbody>
 
                     </table>
@@ -69,4 +47,5 @@
     <div class="col-lg-1"></div>
 </div>
 
-
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/lobby.js" asp-append-version="true"></script>

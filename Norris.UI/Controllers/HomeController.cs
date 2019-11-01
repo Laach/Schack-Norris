@@ -37,6 +37,10 @@ namespace Norris.UI.Controllers
         public IActionResult JoinGame(string opponentId)
         {
             //Add the game
+            var user = _signInManager.UserManager.Users.Where(u => u.Id == opponentId).FirstOrDefault();
+            if(!user.IsInLobby){
+              return Redirect("/Home/Index");
+            }
             string newGameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
 
             //Remove the user looking for a game from the lobby
@@ -73,6 +77,23 @@ namespace Norris.UI.Controllers
             };
 
             return View(lobbyAndFriends);
+        }
+
+        public IActionResult GetLobbyPartial(){
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+            RefreshUser(User);
+
+            var uid = _signInManager.UserManager.GetUserId(User);
+
+            var lobbyUsers = _GameRepo.GetPlayerLobby(uid);
+
+            var lobby = new LobbyAndFriendsViewModel{
+                CurrentLobbyUsers = lobbyUsers.Users,
+                Friends = null,
+                IsInLobby = _GameRepo.IsInLobby(uid) ? true : false
+            };
+          return PartialView("_LobbyPartial", lobby);
         }
 
         public IActionResult Sidebar([FromBody] GameController.GameRefreshData data){
