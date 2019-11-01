@@ -30,8 +30,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Lobby" id="nav-txt-override">Lobby</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="nav-txt-override">Find Friends</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="ArchivedGames" id="nav-txt-override">Archived Games</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -39,7 +37,7 @@
     </nav>
     <div class="container-fluid body-content">
         @RenderBody()
-        <hr class="footer"/>
+        <hr class="footer" />
         <footer>
             <p>&copy; 2019 - Schack Norris</p>
         </footer>

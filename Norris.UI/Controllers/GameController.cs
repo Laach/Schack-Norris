@@ -232,11 +232,24 @@ namespace Norris.UI.Controllers
           return Json("");
         }
 
-        public IActionResult NewGame(string userID)
-        {
-            var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
+        public class UserIdDTO{
+          public string UserID {get; set;}
+        }
 
-            return RedirectToAction("Index", new { gameId = newGameID });
+        public IActionResult NewGame([FromBody] UserIdDTO id)
+        {
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var opponentId = id.UserID;
+            bool tooManyGames = _GameRepo.GetAllGames(userId).Where(p => p.OpponentName.Equals(_GameRepo.GetUserNameFromId(opponentId))).Count() >= 3;
+            if(tooManyGames)
+            {
+                return Json(new GameRefreshData { GameID = "" });
+            }
+
+            var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), id.UserID);
+
+            var data = new GameRefreshData{GameID = newGameID};
+            return Json(data);
         }
 
 
