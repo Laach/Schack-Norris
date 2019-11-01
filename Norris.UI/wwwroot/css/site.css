@@ -125,6 +125,16 @@ div.playGame:hover {
     color: gray;
 }
 
+.yWon {
+    color: var(--nav-bg-color);
+    font-weight: bold;
+}
+
+.oWon {
+    color: gray;
+}
+
+
 .flex {
     display: flex;
 }
