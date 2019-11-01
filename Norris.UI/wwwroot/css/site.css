@@ -191,6 +191,10 @@ p#lobbyInfoBottom{
     color:black;
 }
 
+#findFriends{
+    color: var(--nav-text-color);
+}
+
 #panel-override{
     border:none;
     background-color:none;
