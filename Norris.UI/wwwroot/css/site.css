@@ -277,3 +277,8 @@ p#lobbyInfoBottom{
   cursor: pointer;
   display: inline-block;
 }
+
+.game-tutorial{
+  padding-top: 0;
+  margin-top: -20px;
+}
