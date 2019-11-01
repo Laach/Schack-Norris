@@ -45,7 +45,11 @@ let onlineFriendsOpen  = true;
 let offlineFriendsOpen = true;
 
 function refreshSidebar() {
-  const id = document.getElementById("activeGame").innerText;
+  const node = document.getElementById("activeGame");
+  let id = "";
+  if(node != null){
+    id = node.innerText;
+  }
   fetch('/Home/Sidebar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -60,7 +64,6 @@ function refreshSidebar() {
       const temp = document.createElement("div");
       temp.innerHTML = data.activeGames;
       if(games.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id, "")){
-        console.log("Games")
         games.innerHTML = data.activeGames;
       }
     }
@@ -76,7 +79,7 @@ function refreshSidebar() {
       const offlinefriends = document.getElementsByClassName("offline-friends")[0];
       const temp = document.createElement("div");
       temp.innerHTML = data.offlineFriends;
-      if(offlineFriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
+      if(offlinefriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
         offlinefriends.innerHTML = data.offlineFriends;
       }
     }
