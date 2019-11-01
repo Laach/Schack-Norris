@@ -1,4 +1,4 @@
-﻿body {
+body {
     padding-top: 50px;
     padding-bottom: 20px;
     background-color: #282c37;
@@ -57,6 +57,9 @@ hr.footer {
 .friends{
     
 }
+#siteGrid{
+    margin-top:20px;
+}
 
 a.playGame {
     text-decoration: none;
@@ -68,6 +71,13 @@ a.playGame {
 }
 .list-group-item.playGame#list-group-item-disabled-override:hover {
     background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--nav-bg-color);
 }
 
 .list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
@@ -93,7 +103,11 @@ a.playGame {
 
 .friends-right {
     flex: 0 0 97px;
-
+    
+}
+#newGameBtn {
+    color: #383838;
+    font-size:85%;
 }
 
 .friends-left {
@@ -163,6 +177,7 @@ p#lobbyInfoRight{
 }
 
 #list-group-override{
+    background-color:none;
     border:none;
 }
 
