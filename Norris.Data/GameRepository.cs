@@ -23,45 +23,49 @@ namespace Norris.Data
               .Include(u => u.Friends)
               .Where(u => u.Id == currentUserID)
               .FirstOrDefault();
-            if (user == null){return false;}
-            if (user.Friends.Any(f => f.FriendID == friendUserID)){ return false; }
+            if (user == null) { return false; }
+            if (user.Friends.Any(f => f.FriendID == friendUserID)) { return false; }
 
             User friend = context.Users
               .Include(u => u.Friends)
               .Where(u => u.Id == friendUserID)
               .FirstOrDefault();
-            if (friend == null){return false;}
+            if (friend == null) { return false; }
 
-            Friends userfriend = new Friends{
-              User = user,
-              UserId = currentUserID,
-              Friend = friend,
-              FriendID = friendUserID,
+            Friends userfriend = new Friends
+            {
+                User = user,
+                UserId = currentUserID,
+                Friend = friend,
+                FriendID = friendUserID,
             };
-            Friends frienduser = new Friends{
-              User = friend,
-              UserId = friendUserID,
-              Friend = user,
-              FriendID = currentUserID,
+            Friends frienduser = new Friends
+            {
+                User = friend,
+                UserId = friendUserID,
+                Friend = user,
+                FriendID = currentUserID,
             };
 
-            if (user.Friends == null){
-              user.Friends = new List<Friends>();
+            if (user.Friends == null)
+            {
+                user.Friends = new List<Friends>();
             }
-            if(friend.Friends == null){
-              friend.Friends = new List<Friends>();
+            if (friend.Friends == null)
+            {
+                friend.Friends = new List<Friends>();
             }
             user.Friends.Add(userfriend);
             friend.Friends.Add(frienduser);
             context.SaveChanges();
-            
+
             return true;
         }
 
         public string AddNewGame(string playerWhiteID, string playerBlackID)
         {
-            
-            string DefaultGameState = 
+
+            string DefaultGameState =
                 "br,bn,bb,bq,bk,bb,bn,br," +
                 "bp,bp,bp,bp,bp,bp,bp,bp," +
                 "ee,ee,ee,ee,ee,ee,ee,ee," +
@@ -123,7 +127,7 @@ namespace Norris.Data
             var temp = desiredgame.Log;
             //if it the first move, no leading ',' should be added
             if (desiredgame.Log.Length > 0) { temp.Concat("," + newMove.From + newMove.To); }
-            else                     { temp.Concat(newMove.From + newMove.To); }
+            else { temp.Concat(newMove.From + newMove.To); }
             desiredgame.Log = temp;
             //Toggle the curent turn
             desiredgame.IsWhitePlayerTurn = desiredgame.IsWhitePlayerTurn ? false : true;
@@ -155,28 +159,31 @@ namespace Norris.Data
               .ThenInclude(f => f.Friend)
               .Where(u => u.Id == userID)
               .FirstOrDefault();
-            if (user == null){
-              throw new ArgumentException($"User {userID} not found");
-            }  
+            if (user == null)
+            {
+                throw new ArgumentException($"User {userID} not found");
+            }
 
             var friends = user
               ?.Friends
               .Select(f => f.Friend)
               .ToList();
 
-            if(friends == null){
-              dto.OnlineFriends = new List<User>();
-              dto.OfflineFriends = new List<User>();
+            if (friends == null)
+            {
+                dto.OnlineFriends = new List<User>();
+                dto.OfflineFriends = new List<User>();
             }
-            else{
-              dto.OnlineFriends = 
-                friends
-                .Where(u => UserActivity.IsOnline(u.Id))
-                .ToList();
-              dto.OfflineFriends = 
-                friends
-                .Where(u => !UserActivity.IsOnline(u.Id))
-                .ToList();
+            else
+            {
+                dto.OnlineFriends =
+                  friends
+                  .Where(u => UserActivity.IsOnline(u.Id))
+                  .ToList();
+                dto.OfflineFriends =
+                  friends
+                  .Where(u => !UserActivity.IsOnline(u.Id))
+                  .ToList();
             }
 
             return dto;
@@ -185,7 +192,7 @@ namespace Norris.Data
         public GameStateDTO GetGamestate(string id)
         {
             //Fetches the desired gamesession
-                        GameSession desiredGame = context.GameSessions
+            GameSession desiredGame = context.GameSessions
                 .Where(e => e.Id.Equals(id))
                 .FirstOrDefault();
             //If the desired game was not found: error
@@ -202,31 +209,38 @@ namespace Norris.Data
                     board[i, j] = piecesList.ElementAt(k++);
                 }
             }
-            return new GameStateDTO {
+            return new GameStateDTO
+            {
                 Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
                 ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b',
-                MovesCounter = desiredGame.MovesCounter
+                MovesCounter = desiredGame.MovesCounter,
+                IsActive = desiredGame.IsActive
             };
 
         }
 
 
-        public IEnumerable<UserActiveGamesDTO> GetUserGameList(string userID){
+        public IEnumerable<UserActiveGamesDTO> GetUserGameList(string userID)
+        {
 
             var sessions = context.GameSessions
               .Include(gs => gs.PlayerBlack)
               .Include(gs => gs.PlayerWhite)
-              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .Where(gs => (gs.PlayerWhiteID == userID ||
+                            gs.PlayerBlackID == userID) &&
+                            gs.IsActive == true)
               .ToList();
 
-            if(sessions == null){
-              throw new ArgumentException($"User {userID} not found");
+            if (sessions == null)
+            {
+                throw new ArgumentException($"User {userID} not found");
             }
 
             var games = new List<UserActiveGamesDTO>();
 
-            games = sessions.Select(s => new UserActiveGamesDTO {
+            games = sessions.Select(s => new UserActiveGamesDTO
+            {
                 GameID = s.Id,
                 OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
                 IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn,
@@ -237,7 +251,7 @@ namespace Norris.Data
             return games;
         }
 
-       
+
         public UserListDTO GetPlayerLobby()
         {
             var usersInLobby = new UserListDTO
@@ -246,7 +260,7 @@ namespace Norris.Data
 
             };
             var users = context.Users.Where(u => u.IsInLobby.Equals(true));
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 usersInLobby.Users.Add(new User
                 {
@@ -263,28 +277,29 @@ namespace Norris.Data
             throw new NotImplementedException();
         }
 
-        private static bool IsNotFriend(User other, User me){
-          return me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
+        private static bool IsNotFriend(User other, User me)
+        {
+            return me.Friends == null ? true : !me.Friends.Any(f => f.FriendID == other.Id);
         }
 
         public UserListDTO GetUserSearchResult(string userID, string searchterm)
         {
             var user = context.Users.Include(u => u.Friends).Where(u => u.Id == userID).FirstOrDefault();
-            if(user == null){return null;}
+            if (user == null) { return null; }
 
             string search = searchterm + "%";
             UserListDTO users = new UserListDTO();
             users.Users = context.Users.Where(u => EF.Functions.Like(u.UserName, search) && IsNotFriend(u, user) && u.Id != user.Id).ToList();
-
             return users;
         }
         public bool IsActivePlayer(string gameID, string UserID)
         {
             var gamesession = context.GameSessions.Where(g => g.Id.Equals(gameID)).FirstOrDefault();
-            if(gamesession.PlayerWhiteID == UserID && gamesession.IsWhitePlayerTurn)
+            if (gamesession.PlayerWhiteID == UserID && gamesession.IsWhitePlayerTurn)
             {
                 return true;
-            } else if(gamesession.PlayerBlackID == UserID && !gamesession.IsWhitePlayerTurn)
+            }
+            else if (gamesession.PlayerBlackID == UserID && !gamesession.IsWhitePlayerTurn)
             {
                 return true;
             }
@@ -297,7 +312,7 @@ namespace Norris.Data
             {
                 return 'w';
             }
-            else 
+            else
             {
                 return 'b';
             }
@@ -326,22 +341,25 @@ namespace Norris.Data
             return user.IsInLobby;
         }
 
-        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles){
-          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
-          var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
-          str = str.Remove(str.Length - 1);
-          game.ChangedTiles = str;
+        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles)
+        {
+            var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+            var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
+            str = str.Remove(str.Length - 1);
+            game.ChangedTiles = str;
 
-          context.GameSessions.Update(game);
-          context.SaveChanges();
+            context.GameSessions.Update(game);
+            context.SaveChanges();
         }
 
-        public IEnumerable<string> GetChangedTiles(string gameID){
-          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
-          if(game.ChangedTiles == null){
-            return new List<string>();
-          }
-          return game.ChangedTiles.Split(',').ToList();
+        public IEnumerable<string> GetChangedTiles(string gameID)
+        {
+            var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+            if (game.ChangedTiles == null)
+            {
+                return new List<string>();
+            }
+            return game.ChangedTiles.Split(',').ToList();
         }
 
         public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
@@ -353,16 +371,16 @@ namespace Norris.Data
             if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
             if (session.Chatlog == null) { session.Chatlog = new List<ChatMessage>(); }
 
-                context.GameSessions.Where(g => g.Id.Equals(GameID))
-                .FirstOrDefault()
-                .Chatlog
-                .Add(new ChatMessage
-                    {
-                        GameSessionID = GameID,
-                        Message = chatMessage.Message,
-                        TimeStamp = chatMessage.TimeStamp,
-                        Username = chatMessage.Username
-                    });
+            context.GameSessions.Where(g => g.Id.Equals(GameID))
+            .FirstOrDefault()
+            .Chatlog
+            .Add(new ChatMessage
+            {
+                GameSessionID = GameID,
+                Message = chatMessage.Message,
+                TimeStamp = chatMessage.TimeStamp,
+                Username = chatMessage.Username
+            });
             return context.SaveChanges() > 0 ? true : false;
         }
 
@@ -398,6 +416,74 @@ namespace Norris.Data
         public string GetUserNameFromId(string UserID)
         {
             return context.Users.Where(u => u.Id.Equals(UserID)).FirstOrDefault().UserName;
+        }
+
+        public IEnumerable<ArchivedGamesDTO> GetArchivedGameList(string userID)
+        {
+            var sessions = context.GameSessions
+              .Include(gs => gs.PlayerBlack)
+              .Include(gs => gs.PlayerWhite)
+              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .Where(a => a.IsActive == false)
+              .ToList();
+
+            if (sessions == null)
+            {
+                throw new ArgumentException($"User {userID} not found");
+            }
+
+            var games = new List<ArchivedGamesDTO>();
+
+            games = sessions.Select(s => new ArchivedGamesDTO
+            {
+                GameID = s.Id,
+                OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
+                AmIWinner =
+                    s.PlayerWhiteID == userID && s.IsWhitePlayerTurn
+                    || s.PlayerBlackID == userID && !s.IsWhitePlayerTurn ? false : true
+            })
+              .ToList();
+
+            return games;
+        }
+
+        public void SetGameToFinished(string GameID)
+        {
+            var session = context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault();
+            if (session == null) { throw new ArgumentException($"Game {GameID} not found"); }
+            context.GameSessions
+                .Where(g => g.Id.Equals(GameID))
+                .FirstOrDefault()
+                .IsActive = false;
+            context.SaveChanges();
+        }
+
+        public IEnumerable<UserActiveGamesDTO> GetAllGames(string userID)
+        {
+            var sessions = context.GameSessions
+              .Include(gs => gs.PlayerBlack)
+              .Include(gs => gs.PlayerWhite)
+              .Where(gs => gs.PlayerWhiteID == userID || gs.PlayerBlackID == userID)
+              .ToList();
+
+            if (sessions == null)
+            {
+                throw new ArgumentException($"User {userID} not found");
+            }
+
+            var games = new List<UserActiveGamesDTO>();
+
+            games = sessions.Select(s => new UserActiveGamesDTO
+            {
+                GameID = s.Id,
+                OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
+                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn
+            })
+              .ToList();
+
+            return games;
         }
     }
 }
