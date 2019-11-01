@@ -109,6 +109,9 @@
                     @{ string clickedPosition = f + r.ToString();}
                     <a onclick='updateBoard("@Model.GameId", "@f@r")'>
                         <img style="position:absolute" class="piece-image piece" src="~/images/pieces/@board[i,j]@fileext" alt="@board[i, j]" />
+                        <!-- Hover highlighting -->
+                        <img style="position:absolute;" class="piece-image board-hover-highlight" src="~/images/pieces/highlight-blue.png" alt="empty tile" />
+                        <!-- Marked tiles -->
                         <div>
                             <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
