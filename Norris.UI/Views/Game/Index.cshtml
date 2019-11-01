@@ -13,22 +13,22 @@
             <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
                     <div class="col-sm-4">
-                        <p class="lobbyInfo">
+                        <p class="gameInfo">
                             Chess game vs. @Model.OpponentName
                         </p>                   
                     </div>
                     <div class="col-sm-4">
                         @if (@Model.Board.PlayerColor == 'w')
                         {
-                            <p class="lobbyInfo" id="lobbyInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
+                            <p class="gameInfo" id="gameInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
                         }
                         else
                         {
-                            <p class="lobbyInfo" id="lobbyInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
+                            <p class="gameInfo" id="gameInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
                         }
                     </div>
                     <div class="col-sm-4">
-                        <p class="lobbyInfo" id="lobbyInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
+                        <p class="gameInfo" id="gameInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 }
 
             <div class="panel-body" id="panel-body-override">
-                <p id="lobbyInfoBottom">
+                <p id="gameInfoBottom">
                     Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
                     Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
                     Pellentesque ornare sem lacinia quam venenatis vestibulum.
