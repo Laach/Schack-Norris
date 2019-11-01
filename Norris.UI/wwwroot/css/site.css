@@ -252,6 +252,20 @@ p#lobbyInfoBottom{
     color: var(--nav-text-color);
 }
 
+
+#brand-style {
+}
+
+#right-nav-style {
+    color: var(--nav-text-color);
+    text-decoration: none;
+    font-size:150%;
+}
+
+.navbar-brand{
+    color: white;
+
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

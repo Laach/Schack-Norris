@@ -29,7 +29,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <div class="nav navbar-nav">
-                    <a href="@Url.Action("Lobby","Home")"><img src="~/images/logo.png" width="70" height="50"></a>              
+                    <a class="navbar-brand" href="@Url.Action("Lobby","Home")">
+                        <img src="~/images/logo.png" width="70" height="50" class="mx-auto" alt="">- White Knight Chess
+                    </a>
                 </div>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

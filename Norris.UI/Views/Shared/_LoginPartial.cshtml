@@ -9,15 +9,14 @@
 {
     <form id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="nav-txt-override">Find Friends</a></li>
-            <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage" id="nav-txt-override">@UserManager.GetUserName(User)</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="right-nav-style">Find Friends</a></li>
+            <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage" id="right-nav-style">@UserManager.GetUserName(User) <img src="~/images/profile.png" width="18" height="20" /></a></li>
         </ul>
     </form>
 }
 else
 {
 <ul class="nav navbar-nav navbar-right">
-    <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="nav-txt-override">Find Friends</a></li>
     <li><a asp-area="" asp-controller="Account" asp-action="Login" id="nav-txt-override">Log in</a></li>
 </ul>
 }
