@@ -1,19 +1,27 @@
 ﻿@using Norris.Data.Models.DTO;
+@model FriendsPartialViewModel
 
 <environment include="Development">
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 
-@{
-    ViewData["Title"] = "Find Friends";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<p>Here you can search for your friends to add to your list.</p>
 
-<input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
+<div class="row" id="siteGrid">
+    <div class="col-lg-1"></div>
+      
+    <div class="col-lg-7">
+        @{
+            ViewData["Title"] = "Find Friends";
+        }
+        <h2>@ViewData["Title"]</h2>
+        <h3>@ViewData["Message"]</h3>
 
-<div>
-    <span id="searchResults"></span>
+        <p>Here you can search for your friends to add to your list.</p>
+
+        <input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
+        <span id="searchResults"></span>
+    </div>
+    <div class="col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model)</div>
+    <div class="col-lg-1"></div>
 </div>
