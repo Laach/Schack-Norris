@@ -280,5 +280,13 @@ p#lobbyInfoBottom{
 
 .game-tutorial{
   padding-top: 0;
-  margin-top: -20px;
+}
+
+#banner{
+  margin-bottom:0px;
+}
+
+#banner2{
+  margin-bottom: 0px;
+  display: none;
 }
