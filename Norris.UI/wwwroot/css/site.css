@@ -89,6 +89,9 @@ a.playGame {
     text-decoration: none;
     color: var(--content-text-color);
 }
+.playGame:hover{
+    cursor:pointer;
+}
  
 
 .list-group-item.playGame#list-group-item-override:hover{
