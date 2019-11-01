@@ -149,8 +149,15 @@ div.playGame:hover {
 .games-left {
     flex:1;
 }
+
+.active-left{
+  font-weight: bold;
+}
+
 .activeGame#list-group-item-override {
     background-color: var(--list-hover-color);
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 h1 {
     color: var(--heading-color);
