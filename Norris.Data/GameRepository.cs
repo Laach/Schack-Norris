@@ -85,7 +85,8 @@ namespace Norris.Data
                     .FirstOrDefault(),
                 IsActive = true,
                 Log = "",
-                IsWhitePlayerTurn = true
+                IsWhitePlayerTurn = true,
+                MovesCounter = 0
             };
 
             //if any of the desired users didn't exist: error
@@ -126,6 +127,7 @@ namespace Norris.Data
             desiredgame.Log = temp;
             //Toggle the curent turn
             desiredgame.IsWhitePlayerTurn = desiredgame.IsWhitePlayerTurn ? false : true;
+            desiredgame.MovesCounter++;
 
             //Save the changes to the database
             context.GameSessions.Update(desiredgame);
@@ -135,12 +137,13 @@ namespace Norris.Data
 
             //convert the log from string to List<string>
             var ListLog = desiredgame.Log.Split(',').ToList();
-            
+
             return new GameStateDTO
             {
                 Board = newMove.NewBoard,
                 Log = ListLog,
-                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredgame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredgame.MovesCounter
             };
         }
 
@@ -202,7 +205,8 @@ namespace Norris.Data
             return new GameStateDTO {
                 Log = desiredGame.Log.Split(',').ToList(),
                 Board = board,
-                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b'
+                ActivePlayerColor = desiredGame.IsWhitePlayerTurn == true ? 'w' : 'b',
+                MovesCounter = desiredGame.MovesCounter
             };
 
         }
@@ -222,11 +226,12 @@ namespace Norris.Data
 
             var games = new List<UserActiveGamesDTO>();
 
-            games = sessions.Select(s => new UserActiveGamesDTO{
+            games = sessions.Select(s => new UserActiveGamesDTO {
                 GameID = s.Id,
                 OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
-                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn
-              })
+                IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn,
+                PlayerColor = s.PlayerWhiteID == userID ? 'w' : 'b'
+            })
               .ToList();
 
             return games;
@@ -235,23 +240,21 @@ namespace Norris.Data
        
         public UserListDTO GetPlayerLobby()
         {
-            //Mock data
-            var test = new UserListDTO
+            var usersInLobby = new UserListDTO
             {
                 Users = new List<User>()
 
             };
-            test.Users.Add(new User
+            var users = context.Users.Where(u => u.IsInLobby.Equals(true));
+            foreach(var user in users)
             {
-                UserName = "SlUtsUckEr69",
-                Id = "1"
-            });
-            test.Users.Add(new User
-            {
-                UserName = "DucKLoVer420",
-                Id = "3"
-            });
-            return test;
+                usersInLobby.Users.Add(new User
+                {
+                    UserName = user.UserName,
+                    Id = user.Id
+                });
+            }
+            return usersInLobby;
         }
 
         public ViewUserModel GetUserData(string userID)
@@ -299,6 +302,47 @@ namespace Norris.Data
             }
         }
 
+        public void EnterLobby(string userID)
+        {
+            var user = context.Users.Where(u => u.Id.Equals(userID)).FirstOrDefault();
+            user.IsInLobby = true;
+            context.Users.Update(user);
+            context.SaveChanges();
+
+        }
+
+        public void LeaveLobby(string userID)
+        {
+            var user = context.Users.Where(u => u.Id.Equals(userID)).FirstOrDefault();
+            user.IsInLobby = false;
+            context.Users.Update(user);
+            context.SaveChanges();
+        }
+
+        public bool IsInLobby(string userID)
+        {
+            var user = context.Users.Where(u => u.Id.Equals(userID)).FirstOrDefault();
+            return user.IsInLobby;
+        }
+
+        public void SetChangedTiles(string gameID, IEnumerable<string> changedtiles){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          var str = changedtiles.Aggregate("", (acc, change) => acc + change + ",");
+          str = str.Remove(str.Length - 1);
+          game.ChangedTiles = str;
+
+          context.GameSessions.Update(game);
+          context.SaveChanges();
+        }
+
+        public IEnumerable<string> GetChangedTiles(string gameID){
+          var game = context.GameSessions.Where(g => g.Id == gameID).FirstOrDefault();
+          if(game.ChangedTiles == null){
+            return new List<string>();
+          }
+          return game.ChangedTiles.Split(',').ToList();
+        }
+
         public bool AddChatMessage(ChatMessageDTO chatMessage, string GameID)
         {
             var session = context.GameSessions
@@ -313,6 +357,7 @@ namespace Norris.Data
                 .Chatlog
                 .Add(new ChatMessage
                     {
+                        GameSessionID = GameID,
                         Message = chatMessage.Message,
                         TimeStamp = chatMessage.TimeStamp,
                         Username = chatMessage.Username

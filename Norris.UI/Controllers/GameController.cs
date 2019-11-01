@@ -32,6 +32,8 @@ namespace Norris.UI.Controllers
 
         public IActionResult Index(string gameId)
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
             RefreshUser(User);
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
@@ -52,7 +54,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = gameId
             };
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel {
@@ -143,6 +146,8 @@ namespace Norris.UI.Controllers
                   PlayerColor = userColor
               };
 
+              changedTiles.Add(clickedTile);
+              changedTiles.Add(selectedTile);
               if (_chessLogicManager.IsValidMove(movePlan))
               {
                   //yes, the selected piece can move there
@@ -156,16 +161,14 @@ namespace Norris.UI.Controllers
                       GameID = gameId
                   };
                   _GameRepo.AddNewMove(newMove);
+                  _GameRepo.SetChangedTiles(gameId, changedTiles);
               }
               // Either a move was made, or the tile was deselected by clicking 
               // a tile where a move wasn't possible. Remove highlights.
-              changedTiles.Add(clickedTile);
-              changedTiles.Add(selectedTile);
               canMove = new List<string>();
               canTake = new List<string>();
               selectedTile = null;
             }
-
             gamestate = _GameRepo.GetGamestate(gameId);
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel
@@ -204,11 +207,65 @@ namespace Norris.UI.Controllers
             _GameRepo.AddChatMessage(messageDTO, message.gameID);
         }
 
+        public class GetChatMessages{
+          public string GameID {get; set;}
+          public int chatLength {get; set;}
+        }
+
+        public IActionResult GetChat([FromBody] GetChatMessages data){
+          var uid = _signInManager.UserManager.GetUserId(User);
+          var chat = _GameRepo.GetMessageLog(data.GameID);
+          if(chat.Count() > data.chatLength){
+            return PartialView("_ChatWindow", chat);
+          }
+          return Json("");
+        }
+
         public IActionResult NewGame(string userID)
         {
             var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
 
             return RedirectToAction("Index", new { gameId = newGameID });
+        }
+
+
+
+        public class GameRefreshData{
+          public string GameID  {get; set;}
+        }
+
+        public class GameViewData{
+          public ChessboardPartialViewModel Game {get; set;}
+          public int MoveCount {get; set;}
+        }
+
+        public IActionResult GameRefresh([FromBody] GameRefreshData data){
+
+            string userID = _signInManager.UserManager.GetUserId(User);
+
+            bool IsMyTurn = _GameRepo.IsActivePlayer(data.GameID, userID);
+
+            ChessboardPartialViewModel game = null;
+
+            var gamestate = _GameRepo.GetGamestate(data.GameID);
+            if(IsMyTurn){
+              var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
+              char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
+
+              game = new ChessboardPartialViewModel
+              {
+                  GameState = gamestate,
+                  SelectedTile = null,
+                  CanMoveToAndTakeTiles = new List<string>(),
+                  CanMoveToTiles = new List<string>(),
+                  GameId = data.GameID,
+                  PlayerColor = userColor,
+                  ChangedTiles = changedTiles.ToList()
+              };
+            }
+        
+          // Game will be null if not users turn.
+          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter});
         }
     }
 }

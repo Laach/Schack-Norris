@@ -34,16 +34,21 @@ namespace Norris.UI.Controllers
             return Redirect("/Home/Lobby");
         }
 
-        public IActionResult Lobby()
+        public IActionResult JoinGame(string opponentId)
+        {
+            string newGameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
+            return RedirectToAction("Index", "Game", new { gameId = newGameId });
+        }
+
+        public IActionResult Lobby(bool? joinLobby)
         {
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
 
-            ViewData["Message"] = "Lobby page.";
-
             var uid = _signInManager.UserManager.GetUserId(User);
+
             var friends = _GameRepo.GetFriendList(uid);
             var lobbyUsers = _GameRepo.GetPlayerLobby();
             var games = _GameRepo.GetUserGameList(uid);
@@ -51,11 +56,50 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = ""
             };
 
-            var lobbyAndFriends = new LobbyAndFriendsViewModel{ CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames };
+            var lobbyAndFriends = new LobbyAndFriendsViewModel{
+                CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames};
+
+            if (joinLobby.HasValue)
+            {
+                if (joinLobby.Value)
+                {
+                    _GameRepo.EnterLobby(uid);
+                    lobbyAndFriends.IsInLobby = true;
+                }
+                else
+                {
+                    _GameRepo.LeaveLobby(uid);
+                    lobbyAndFriends.IsInLobby = false;
+                }
+            }
+
             return View(lobbyAndFriends);
+        }
+
+        public IActionResult Sidebar([FromBody] GameController.GameRefreshData data){
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
+            var games = _GameRepo.GetUserGameList(uid);
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games,
+                ActiveGame = data.GameID
+            };
+            var sidebar = new SidebarModel();
+            var t1 = this.RenderViewAsync<FriendsPartialViewModel>( "_ActiveGamesPartial", friendsAndGames, true);
+            var t2 = this.RenderViewAsync<IEnumerable<User>>("_OnlineFriendsPartial", friends.OnlineFriends, true);
+            var t3 = this.RenderViewAsync<IEnumerable<User>>("_OfflineFriendsPartial", friends.OfflineFriends, true);
+            
+            Task.WaitAll(new Task<string>[]{t1, t2, t3});
+            sidebar.ActiveGames    = t1.Result;
+            sidebar.OnlineFriends  = t2.Result;
+            sidebar.OfflineFriends = t3.Result;
+            return Json(sidebar);
         }
 
         public IActionResult Game()
@@ -126,4 +170,8 @@ namespace Norris.UI.Controllers
           return View(games);
         }
     }
+
+
+
+
 }

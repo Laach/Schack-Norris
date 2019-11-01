@@ -4,98 +4,50 @@
 @model FriendsPartialViewModel
 
 
-<div>
+<div class="panel-group" id="panel-group-override" role="tablist">
+    <div class="panel panel-default" id="panel-override">
+        <div class="panel-heading" id="panel-heading-override" role="tab">
+            <a href="#games" class="" role="button" data-toggle="collapse"
+                aria-expanded="true" aria-controls="games" onclick="changeIcon('icon4'); activeGamesOpen = !activeGamesOpen" id="nav-txt-override">
+                Games <i id="icon4" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="panel-collapse collapse in" role="tabpanel" id="games" aria-labelledby="games" aria-expanded="true">
+            <ul class="list-group games" id="activegames">
+              @await Html.PartialAsync("_ActiveGamesPartial", @Model)
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="friends">
     <div class="panel-group" id="panel-group-override" role="tablist">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab">
-                <a href="#games" class="" role="button" data-toggle="collapse"
-                   aria-expanded="true" aria-controls="games" onclick="changeIcon('icon1')">
-                    Games <i id="icon1" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override" role="tab">
+                <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
+                    aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2'); onlineFriendsOpen=!onlineFriendsOpen" id="nav-txt-override">
+                    Friends online <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
                 </a>
             </div>
-            <div class="panel-collapse collapse in" role="tabpanel" id="games" aria-labelledby="games" aria-expanded="true">
-                <ul class="list-group games">
-                    @if (Model.UserGames.Any())
-                    {
-                        foreach (var game in Model.UserGames)
-                        {
-                        <li class="list-group-item">
-                            vs. @game.OpponentName
-
-                            @if (game.IsMyTurn)
-                            {
-                                <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">Play</a>
-                            }
-                            else
-                            {
-                                <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-danger btn-sm playGameBtn">Play</a>
-                            }
-                        </li>
-                        }      
-                    }
-                    else
-                    {
-                        <li class="list-group-item">No active games</li>
-                    }
+            <div class="panel-collapse collapse in" role="tabpanel" id="friendsOnline" aria-labelledby="friendsOnline" aria-expanded="true">
+                <ul class="list-group" id="online-friends">
+                  @await Html.PartialAsync("_OnlineFriendsPartial", @Model.UserFriends.OnlineFriends)
                 </ul>
             </div>
         </div>
     </div>
-    <div class="friends">
-        <div class="panel-group" id="panel-group-override" role="tablist">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
-                    <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2')">
-                        Friends online <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
-                    </a>
-                </div>
-                <div class="panel-collapse collapse in" role="tabpanel" id="friendsOnline" aria-labelledby="friendsOnline" aria-expanded="true">
-                    <ul class="list-group">
-                        @if (Model.UserFriends.OnlineFriends.Any())
-                        {
-                            foreach (var user in Model.UserFriends.OnlineFriends)
-                            {
-                                <li class="list-group-item"> @user.UserName 
-                                    <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-success btn-sm playGameBtn">New game</a>
-                                </li>
-                            }
-                        }
-                        else
-                        {
-                            <li class="list-group-item">No active friends</li>
-                        }
-                    </ul>
-                </div>
+    <div class="panel-group" role="tablist">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override" role="tab">
+                <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
+                    aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3'); offlineFriendsOpen = !offlineFriendsOpen" id="nav-txt-override">
+                    Friends offline
+                    <i id="icon3" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+                </a>
             </div>
-        </div>
-        <div class="panel-group" role="tablist">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
-                    <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
-                       aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3')">
-                        Friends offline
-                        <i id="icon3" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
-                    </a>
-                </div>
-                <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
-                    <ul class="list-group">
-                        @if (Model.UserFriends.OfflineFriends.Any())
-                        {
-                            foreach (var user in Model.UserFriends.OfflineFriends)
-                            {
-                        <li class="list-group-item disabled">
-                            @user.UserName
-                            <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="btn btn-danger btn-sm playGameBtn">New game</a>
-                        </li>
-                            }
-                        }
-                        else
-                        {
-                            <li class="list-group-item disabled">No active friends</li>
-                        }
-                    </ul>
-                </div>
+            <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
+                <ul class="list-group offline-friends" id="list-group-override">
+                  @await Html.PartialAsync("_OfflineFriendsPartial", @Model.UserFriends.OfflineFriends)
+                </ul>
             </div>
         </div>
     </div>

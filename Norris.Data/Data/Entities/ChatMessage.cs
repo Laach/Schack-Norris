@@ -10,6 +10,8 @@ namespace Norris.Data.Data.Entities
     {
         [Key]
         public int MessageId { get; set; }
+        [Required]
+        public string  GameSessionID { get; set; }
         public string Username { get; set; }
         public string  Message { get; set; }
         public DateTime TimeStamp { get; set; }

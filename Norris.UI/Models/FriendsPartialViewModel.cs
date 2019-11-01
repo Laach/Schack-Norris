@@ -10,5 +10,6 @@ namespace Norris.UI.Models
     {
         public UserFriendsDTO UserFriends {get; set;}
         public IEnumerable<UserActiveGamesDTO> UserGames { get; set; }
+        public string ActiveGame { get; set; }
     }
 }

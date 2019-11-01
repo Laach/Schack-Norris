@@ -8,5 +8,6 @@ namespace Norris.Data.Models.DTO
         public List<string> Log       {get; set;}
         public char ActivePlayerColor {get; set;}
         public string[,] Board        {get; set;}
+        public int MovesCounter { get; set; }
     }
 }
