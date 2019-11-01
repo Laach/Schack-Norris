@@ -241,7 +241,13 @@ p#lobbyInfoBottom{
     color:var(--text-hover);
 }
 
+#labelStyling {
+    
+}
 
+#title {
+    color: var(--nav-text-color);
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
