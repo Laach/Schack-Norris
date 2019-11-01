@@ -1,4 +1,6 @@
 
+let opponentsTurn;
+let firstTime = true;
 
 function rankToInt(rank){
   return 8 - rank;
@@ -45,6 +47,9 @@ function updateBoard(gameid, clickedtile) {
     .then(data => {
       if(data == ""){
         return;
+      }
+      if(data.didMove){
+        opponentsTurn = true;
       }
       selected  = data.selectedTile;
       canMoveTo = data.canMoveToTiles;
@@ -100,12 +105,26 @@ function tryGetUpdates(gameid) {
     .then(data => { return data.json() })
     .then(data => {
       const banner = document.getElementById("banner");
+      if(firstTime && data.game == null){
+        opponentsTurn = true;
+        firstTime = false;
+      }
+      else if(firstTime && data.game != null){
+        opponentsTurn = false;
+        firstTime = false;
+      }
       if(data.game != null){
         // Refresh board
-        setTiles(data.game);
+        if(opponentsTurn){
+          opponentsTurn = false;
+          setTiles(data.game);
+        }
         // Display your-turn banner
         banner.innerHTML = "It\'s <strong>your turn</strong>";
         banner.className = "alert alert-success";
+      }
+      else if(data.game != null){
+
       }
       else{
         banner.innerHTML = "Waiting for your <strong>opponents turn</strong>";
