@@ -7,7 +7,7 @@
 }
 
 <ul class="nav nav-pills nav-stacked">
-    <li class="@ManageNavPages.ArchiveNavClass(ViewContext)"><a asp-action="Archive">Archive</a></li>
     <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
+    <li class="@ManageNavPages.ArchivedGamesNavClass(ViewContext)">@Html.ActionLink("Archived Games", "ArchivedGames", "Manage", new { gameId = "default"})</li>
     <li><a asp-area="" asp-controller="Account" asp-action="Logout" class="nav nav-pills nav-stacked">Log out</a></li>
 </ul>

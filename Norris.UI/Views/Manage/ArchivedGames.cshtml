@@ -1,0 +1,46 @@
+@using Norris.Data.Models.DTO;
+@model ArchivedGamesViewModel
+
+@{
+    ViewData["Title"] = "Archived Games";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div class="row">
+    <div class="col-sm-8">
+        @await Html.PartialAsync("_ChessboardPartial", Model.Board)
+
+       
+            @if (@Model.Board.PlayerColor == Model.Board.GameState.ActivePlayerColor)
+            {
+                <div class="alert alert-danger" role="alert" id="banner"><strong>You lost</strong></div>
+            }
+            else
+            {
+                <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
+            }
+            <span id="searchResults">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        @foreach (var game in Model.ArchivedGames)
+                        {
+                            <li class="list-group-item" id="archive-list">
+                                @if (@game.AmIWinner)
+                                {
+                                    <a href="@Url.Action("ArchivedGames", "Manage", new { gameId = @game.GameID })" class="btn btn-success btn-sm playGameBtn">View</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("ArchivedGames", "Manage", new { gameId = @game.GameID })" id="archive">Me vs. @game.OpponentName</a>
+                                }
+                            </li>
+                        }
+                    </table>
+                </div>
+            </span>
+        </div>
+  <div class="col-sm-3" id="sidebar">
+  </div>
+</div>

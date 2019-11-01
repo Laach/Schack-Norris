@@ -508,17 +508,39 @@ namespace Norris.UI.Controllers
         }
 
 
-        public IActionResult ArchivedGames()
+        public IActionResult ArchivedGames(string gameId)
         {
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
 
             var uid = _signInManager.UserManager.GetUserId(User);
-
             var games = _GameRepo.GetArchivedGameList(uid);
+            if (gameId == "default")
+            {
+                gameId = games.First().GameID;
+            }
 
-            return View(games);
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var gamestate = _GameRepo.GetGamestate(gameId);
+            var emptyStringList = new List<string>();
+
+
+            List<string> changedTiles = new List<string>();
+            ChessboardPartialViewModel board = new ChessboardPartialViewModel
+            {
+                GameState = gamestate,
+                SelectedTile = null,
+                CanMoveToAndTakeTiles = emptyStringList,
+                CanMoveToTiles = emptyStringList,
+                GameId = gameId,
+                PlayerColor = _GameRepo.GetPlayerColor(gameId, userId),
+                ChangedTiles = changedTiles
+            };
+
+            ArchivedGamesViewModel ag = new ArchivedGamesViewModel { ArchivedGames = games, Board = board };
+
+            return View(ag);
         }
         #region Helpers
 
