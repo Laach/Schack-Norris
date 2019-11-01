@@ -20,11 +20,13 @@
 
                     @if (game.AmIWinner)
                     {
-                        <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">View</a>
+                        <!-- <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-success btn-sm playGameBtn">View</a> -->
+                        <a href="/Game?gameId=@game.GameID" class="btn btn-success btn-sm playGameBtn">View</a>
                     }
                     else
                     {
-                        <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-danger btn-sm playGameBtn">View</a>
+                        <a href="/Game?gameId=@game.GameID" class="btn btn-danger btn-sm playGameBtn">View</a>
+                        <!-- <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="btn btn-danger btn-sm playGameBtn">View</a> -->
                     }
                 </li>
               }
