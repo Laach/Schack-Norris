@@ -1,4 +1,4 @@
-body {
+﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
     background-color: #282c37;
@@ -59,6 +59,28 @@ hr.footer {
 }
 #siteGrid{
     margin-top:20px;
+}
+
+#searchBox {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top:5px;
+    margin-bottom:0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*background-color:var(--list-bg-color);*/
+}
+.searchRow{
+    background-color: white;
+    border:none;
+}
+#tCell{
+    border:none;
+}
+
+#searchTable{
+    margin-bottom:0px;
 }
 
 a.playGame {
@@ -174,6 +196,11 @@ p#lobbyInfoRight{
 #panel-heading-override{
     background-color:var(--nav-bg-color);
     border:none;
+}
+#panel-body-override{
+    border:none;
+    padding:10px;
+    background-color:var(--list-bg-color);
 }
 
 #list-group-override{
