@@ -93,6 +93,7 @@ namespace Norris.UI.Controllers
             var selectedTile = data.SelectedTile;
             var canMove = data.CanMove;
             var canTake = data.CanTake;
+            var didMove = false;
 
             List<string> changedTiles = new List<string>();
             changedTiles.AddRange(canMove);
@@ -161,7 +162,8 @@ namespace Norris.UI.Controllers
                       GameID = gameId
                   };
                   _GameRepo.AddNewMove(newMove);
-                  _GameRepo.SetChangedTiles(gameId, changedTiles);
+                  _GameRepo.SetChangedTiles(gameId, new List<string>{clickedTile, selectedTile});
+                  didMove = true;
               }
               // Either a move was made, or the tile was deselected by clicking 
               // a tile where a move wasn't possible. Remove highlights.
@@ -179,7 +181,8 @@ namespace Norris.UI.Controllers
                 CanMoveToTiles = canMove,
                 GameId = gameId,
                 PlayerColor = userColor,
-                ChangedTiles = changedTiles
+                ChangedTiles = changedTiles,
+                DidMove = didMove
             };
                 
             return Json(board);
