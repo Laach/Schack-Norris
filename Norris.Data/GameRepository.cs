@@ -358,6 +358,7 @@ namespace Norris.Data
                 .Chatlog
                 .Add(new ChatMessage
                     {
+                        GameSessionID = GameID,
                         Message = chatMessage.Message,
                         TimeStamp = chatMessage.TimeStamp,
                         Username = chatMessage.Username

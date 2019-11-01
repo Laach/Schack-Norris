@@ -11,8 +11,8 @@ using System;
 namespace Norris.Data.Migrations
 {
     [DbContext(typeof(NContext))]
-    [Migration("20191027102919_ChatDatabase")]
-    partial class ChatDatabase
+    [Migration("20191030131100_UpdateDB")]
+    partial class UpdateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,7 +134,8 @@ namespace Norris.Data.Migrations
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameSessionId");
+                    b.Property<string>("GameSessionID")
+                        .IsRequired();
 
                     b.Property<string>("Message");
 
@@ -144,7 +145,7 @@ namespace Norris.Data.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("GameSessionId");
+                    b.HasIndex("GameSessionID");
 
                     b.ToTable("ChatMessage");
                 });
@@ -170,12 +171,16 @@ namespace Norris.Data.Migrations
                     b.Property<string>("Board")
                         .IsRequired();
 
+                    b.Property<string>("ChangedTiles");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsWhitePlayerTurn");
 
                     b.Property<string>("Log")
                         .IsRequired();
+
+                    b.Property<int>("MovesCounter");
 
                     b.Property<string>("PlayerBlackID")
                         .IsRequired();
@@ -206,6 +211,8 @@ namespace Norris.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("IsInLobby");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -292,7 +299,8 @@ namespace Norris.Data.Migrations
                 {
                     b.HasOne("Norris.Data.Data.Entities.GameSession")
                         .WithMany("Chatlog")
-                        .HasForeignKey("GameSessionId");
+                        .HasForeignKey("GameSessionID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>
