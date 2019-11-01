@@ -85,3 +85,23 @@ function refreshSidebar() {
 }
 
 setInterval(refreshSidebar, 1000);
+
+
+let clicked = false;
+
+function createGame(userID){
+  if(clicked == true){
+    return;
+  }
+  clicked = true;
+  fetch('/Game/NewGame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ UserID: userID })
+  })
+  .then(data => {return data.json()})
+  .then(data => {
+    console.log(data);
+    window.location.href = "/Game?gameId=" + data.gameID;
+  });
+}
