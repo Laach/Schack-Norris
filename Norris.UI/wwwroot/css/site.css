@@ -58,9 +58,13 @@ hr.footer {
     
 }
 
-a.playGame {
+div.playGame {
     text-decoration: none;
     color: var(--content-text-color);
+}
+  
+div.playGame:hover {
+    cursor: pointer; 
 }
 
 .list-group-item.playGame#list-group-item-override:hover{

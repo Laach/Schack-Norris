@@ -7,12 +7,12 @@
 {
     @foreach (var user in Model)
     {
-        <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="playGame">
+      <div onclick='createGame("@user.Id")' class="playGame">
             <li class="list-group-item playGame" id="list-group-item-override">
                 @user.UserName
                 <span class="playGameRight">New game</span>
             </li>
-        </a>
+      </div>
     }
 }
 else
