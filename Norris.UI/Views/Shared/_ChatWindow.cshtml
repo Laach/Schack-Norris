@@ -7,7 +7,14 @@
 {
     @foreach (var item in Model)
     {
-    <dt id="time-and-username"><small><em>@item.TimeStamp</em></small> <b>| @item.Username:</b></dt>
+      @if(@item.TimeStamp.Date == DateTime.Today)
+      {
+        <dt id="time-and-username"><small><em>Today @item.TimeStamp.ToString("h:mm tt")</em></small> <b>| @item.Username:</b></dt>
+      }
+      else
+      {
+        <dt id="time-and-username"><small><em>@item.TimeStamp.ToString("MM/dd h:mm tt")</em></small> <b>| @item.Username:</b></dt>
+      }
     <dd class="msg" id="messages">@item.Message</dd>    
     }
 }

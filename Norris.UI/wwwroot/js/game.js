@@ -133,7 +133,7 @@ function tryGetUpdates(gameid) {
       }
       else if(data.isActive && !data.isMyTurn){
         // Active game, not my turn.
-        banner.innerHTML = "waiting for your <strong>opponents turn</strong>";
+        banner.innerHTML = "Waiting for your <strong>opponents move</strong>";
         banner.className = "alert alert-info";
       }
       else{

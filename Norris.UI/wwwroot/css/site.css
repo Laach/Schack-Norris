@@ -263,3 +263,22 @@ tr {
         display: none;
     }
 }
+
+.board-hover-highlight{
+  display: none;
+}
+
+.board-hover-highlight:hover{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.piece:hover~.board-hover-highlight{
+  cursor: pointer;
+  display: inline-block;
+}
+
+.game-tutorial{
+  padding-top: 0;
+  margin-top: -20px;
+}
