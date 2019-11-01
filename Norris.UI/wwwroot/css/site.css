@@ -1,4 +1,4 @@
-body {
+﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
     background-color: #282c37;
@@ -58,7 +58,31 @@ hr.footer {
     
 }
 #siteGrid{
-    margin-top:20px;
+    padding-top:30px;
+    padding-left: 15px;
+    padding-right: 15px
+}
+
+#searchBox {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top:5px;
+    margin-bottom:0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*background-color:var(--list-bg-color);*/
+}
+.searchRow{
+    background-color: white;
+    border:none;
+}
+#tCell{
+    border:none;
+}
+
+#searchTable{
+    margin-bottom:0px;
 }
 
 a.playGame {
@@ -149,7 +173,7 @@ tr {
 }
 
 p.lobbyInfo {
-    color: var(--content-text-color);
+    color: var(--nav-text-color);
 }
 
 p#lobbyInfoCenter{
@@ -159,10 +183,14 @@ p#lobbyInfoCenter{
 p#lobbyInfoRight{
     text-align:right;
 }
+p#lobbyInfoBottom{
+    color:black;
+}
 
 #panel-override{
     border:none;
     background-color:none;
+    border-radius:0;
 }
 
 #panel-group-override{
@@ -171,25 +199,34 @@ p#lobbyInfoRight{
     background-color:none;
 }
 
-#panel-heading-override{
-    background-color:var(--nav-bg-color);
-    border:none;
+#panel-heading-override {
+    background-color: var(--nav-bg-color);
+    border: none;
+    border-radius: 0;
+}
+#panel-body-override {
+    border: none;
+    padding: 10px;
+    background-color: var(--list-bg-color);
+    border-radius: 0;
 }
 
-#list-group-override{
-    background-color:none;
-    border:none;
+#list-group-override {
+    background-color: none;
+    border: none;
 }
 
 #list-group-item-override {
     color: var(--content-text-color);
     background-color: var(--list-bg-color);
     border: none;
+    border-radius: 0;
 }
 
-#list-group-item-disabled-override{
-    background-color:var(--list-disabled-bg-color);
-    border:none;
+#list-group-item-disabled-override {
+    background-color: var(--list-disabled-bg-color);
+    border: none;
+    border-radius: 0;
 }
 
 #nav-override {
@@ -207,7 +244,13 @@ p#lobbyInfoRight{
     color:var(--text-hover);
 }
 
+#labelStyling {
+    
+}
 
+#title {
+    color: var(--nav-text-color);
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

@@ -9,8 +9,8 @@
     <div class="col-lg-1"></div>
     <div class="col-xs-12 col-sm-4 col-lg-3">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
     <div class="col-xs-12 col-sm-8 col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
                     <div class="col-sm-4">
                         <p class="lobbyInfo">
@@ -34,16 +34,29 @@
             </div>
             @await Html.PartialAsync("_ChessboardPartial", Model.Board)
 
-            @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
-            {
-                <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
-            }
-            else
-            {
-                <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
-            }
-            <div class="panel-body">
-                <p class="lobbyInfo">
+                @if(!@Model.Board.GameState.IsActive)
+                {
+                  @if(@Model.Board.PlayerColor == 'w')
+                  {
+                    <div class="alert alert-danger" role="alert" id="banner"><strong>You lost</strong></div>
+                  }
+                  else
+                  {
+                    <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
+                  }
+                  
+                }
+                else if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
+                {
+                    <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
+                }
+
+            <div class="panel-body" id="panel-body-override">
+                <p id="lobbyInfoBottom">
                     Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
                     Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
                     Pellentesque ornare sem lacinia quam venenatis vestibulum.

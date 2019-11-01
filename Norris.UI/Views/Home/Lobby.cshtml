@@ -10,7 +10,7 @@
 
 <div class="row" id="siteGrid">
     <div class="col-lg-1"></div>
-    <div class="col-sm-7">
+    <div class="col-sm-9 col-lg-7">
         @{
             ViewData["Title"] = "Lobby";
         }
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.Friends)</div>
+    <div class="col-sm-3 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.Friends)</div>
     <div class="col-lg-1"></div>
 </div>
 
