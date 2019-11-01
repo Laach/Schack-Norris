@@ -1,11 +1,13 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Norris.Data.Models;
-    using Norris.Data.Models.DTO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Norris.Data.Models;
+using Norris.Data.Models.DTO;
 
-    namespace Norris.Data
+namespace Norris.Data
+{
+    public interface IGameRepository
     {
         //Expects a gameid and returns the boardstate,a log and the color the of the active player
         GameStateDTO GetGamestate(string id);
@@ -34,3 +36,4 @@
     }
 
 }
+
