@@ -271,6 +271,14 @@ namespace Norris.Data
             return usersInLobby;
         }
 
+        public UserListDTO GetPlayerLobby(string userId)
+        {
+            var userlist = GetPlayerLobby();
+            var userToRemove = userlist.Users.Where(u => u.Id == userId).FirstOrDefault();
+            userlist.Users.Remove(userToRemove);
+            return userlist;
+        }
+
         public ViewUserModel GetUserData(string userID)
         {
             //might be removable later?

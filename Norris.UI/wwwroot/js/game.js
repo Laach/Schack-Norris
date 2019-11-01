@@ -140,6 +140,15 @@ function tryGetUpdates(gameid) {
         banner.innerHTML = "<strong>You won</strong>";
         banner.className = "alert alert-success";
       }
+      
+      const banner2 = document.getElementById("banner2");
+      if(data.isActive && data.isChecked){
+        banner2.style = "display: block";
+      }
+      else{
+        banner2.style = "display: none";
+      }
+
       if(data.chat != null){
         // Append chat
       }
