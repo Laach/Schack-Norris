@@ -85,9 +85,13 @@ hr.footer {
     margin-bottom:0px;
 }
 
-a.playGame {
+div.playGame {
     text-decoration: none;
     color: var(--content-text-color);
+}
+  
+div.playGame:hover {
+    cursor: pointer; 
 }
 
 .list-group-item.playGame#list-group-item-override:hover{
@@ -258,4 +262,23 @@ p#lobbyInfoBottom{
     .carousel-caption {
         display: none;
     }
+}
+
+.board-hover-highlight{
+  display: none;
+}
+
+.board-hover-highlight:hover{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.piece:hover~.board-hover-highlight{
+  cursor: pointer;
+  display: inline-block;
+}
+
+.game-tutorial{
+  padding-top: 0;
+  margin-top: -20px;
 }

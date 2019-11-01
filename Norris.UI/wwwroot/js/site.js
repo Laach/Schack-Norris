@@ -45,7 +45,11 @@ let onlineFriendsOpen  = true;
 let offlineFriendsOpen = true;
 
 function refreshSidebar() {
-  const id = document.getElementById("activeGame").innerText;
+  const node = document.getElementById("activeGame");
+  let id = "";
+  if(node != null){
+    id = node.innerText;
+  }
   fetch('/Home/Sidebar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -60,7 +64,6 @@ function refreshSidebar() {
       const temp = document.createElement("div");
       temp.innerHTML = data.activeGames;
       if(games.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id, "")){
-        console.log("Games")
         games.innerHTML = data.activeGames;
       }
     }
@@ -76,7 +79,7 @@ function refreshSidebar() {
       const offlinefriends = document.getElementsByClassName("offline-friends")[0];
       const temp = document.createElement("div");
       temp.innerHTML = data.offlineFriends;
-      if(offlineFriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
+      if(offlinefriends.innerText.replace(/\s/g,'') != temp.innerText.replace(/\s/g,'').replace(id,"")){
         offlinefriends.innerHTML = data.offlineFriends;
       }
     }
@@ -85,3 +88,21 @@ function refreshSidebar() {
 }
 
 setInterval(refreshSidebar, 1000);
+
+
+function createGame(userID){
+  fetch('/Game/NewGame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ UserID: userID })
+  })
+  .then(data => {return data.json()})
+  .then(data => {
+      console.log(data);
+      if (data.gameID == "") {
+          alert("You cannot have more than three games with the same player! Sign up for our unlimited chess plan for unlimited chess games!");
+      } else {
+          window.location.href = "/Game?gameId=" + data.gameID;
+      }
+  });
+}
