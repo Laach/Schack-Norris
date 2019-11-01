@@ -36,11 +36,21 @@ namespace Norris.UI.Controllers
 
         public IActionResult JoinGame(string opponentId)
         {
+            //Add the game
+            var user = _signInManager.UserManager.Users.Where(u => u.Id == opponentId).FirstOrDefault();
+            if(!user.IsInLobby){
+              return Redirect("/Home/Index");
+            }
             string newGameId = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), opponentId);
+
+            //Remove the user looking for a game from the lobby
+            _GameRepo.LeaveLobby(opponentId);
+
+            //Send the joining user to the game
             return RedirectToAction("Index", "Game", new { gameId = newGameId });
         }
 
-        public IActionResult Lobby(bool? joinLobby)
+        public IActionResult Lobby()
         {
 
             if (!_signInManager.IsSignedIn(User))
@@ -50,7 +60,7 @@ namespace Norris.UI.Controllers
             var uid = _signInManager.UserManager.GetUserId(User);
 
             var friends = _GameRepo.GetFriendList(uid);
-            var lobbyUsers = _GameRepo.GetPlayerLobby();
+            var lobbyUsers = _GameRepo.GetPlayerLobby(uid);
             var games = _GameRepo.GetUserGameList(uid);
 
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
@@ -61,23 +71,29 @@ namespace Norris.UI.Controllers
             };
 
             var lobbyAndFriends = new LobbyAndFriendsViewModel{
-                CurrentLobbyUsers = lobbyUsers.Users, Friends = friendsAndGames};
-
-            if (joinLobby.HasValue)
-            {
-                if (joinLobby.Value)
-                {
-                    _GameRepo.EnterLobby(uid);
-                    lobbyAndFriends.IsInLobby = true;
-                }
-                else
-                {
-                    _GameRepo.LeaveLobby(uid);
-                    lobbyAndFriends.IsInLobby = false;
-                }
-            }
+                CurrentLobbyUsers = lobbyUsers.Users,
+                Friends = friendsAndGames,
+                IsInLobby = _GameRepo.IsInLobby(uid) ? true : false
+            };
 
             return View(lobbyAndFriends);
+        }
+
+        public IActionResult GetLobbyPartial(){
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToAction("Login", "Account");
+            RefreshUser(User);
+
+            var uid = _signInManager.UserManager.GetUserId(User);
+
+            var lobbyUsers = _GameRepo.GetPlayerLobby(uid);
+
+            var lobby = new LobbyAndFriendsViewModel{
+                CurrentLobbyUsers = lobbyUsers.Users,
+                Friends = null,
+                IsInLobby = _GameRepo.IsInLobby(uid) ? true : false
+            };
+          return PartialView("_LobbyPartial", lobby);
         }
 
         public IActionResult Sidebar([FromBody] GameController.GameRefreshData data){
@@ -175,6 +191,20 @@ namespace Norris.UI.Controllers
           var games = _GameRepo.GetArchivedGameList(uid);
 
           return View(games);
+        }
+
+        public IActionResult JoinLobby()
+        {
+            var uid = _signInManager.UserManager.GetUserId(User);
+            _GameRepo.EnterLobby(uid);
+            return RedirectToAction("Lobby");
+        }
+
+        public IActionResult LeaveLobby()
+        {
+            var uid = _signInManager.UserManager.GetUserId(User);
+            _GameRepo.LeaveLobby(uid);
+            return RedirectToAction("Lobby");
         }
     }
 

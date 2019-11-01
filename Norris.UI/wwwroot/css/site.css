@@ -73,16 +73,22 @@ hr.footer {
     border-radius: 4px;
     /*background-color:var(--list-bg-color);*/
 }
-.searchRow{
+.tRow{
     background-color: white;
     border:none;
 }
 #tCell{
     border:none;
 }
+#tHead{
+    background-color:white;
+}
 
-#searchTable{
+#table-override{
     margin-bottom:0px;
+}
+#thead-override{
+    border:none;
 }
 
 div.playGame {
