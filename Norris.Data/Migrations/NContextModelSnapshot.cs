@@ -17,7 +17,8 @@ namespace Norris.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -37,7 +38,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -131,7 +133,8 @@ namespace Norris.Data.Migrations
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameSessionId");
+                    b.Property<string>("GameSessionID")
+                        .IsRequired();
 
                     b.Property<string>("Message");
 
@@ -141,7 +144,7 @@ namespace Norris.Data.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("GameSessionId");
+                    b.HasIndex("GameSessionID");
 
                     b.ToTable("ChatMessage");
                 });
@@ -208,6 +211,8 @@ namespace Norris.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool>("IsInLobby");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -238,7 +243,8 @@ namespace Norris.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -292,7 +298,8 @@ namespace Norris.Data.Migrations
                 {
                     b.HasOne("Norris.Data.Data.Entities.GameSession")
                         .WithMany("Chatlog")
-                        .HasForeignKey("GameSessionId");
+                        .HasForeignKey("GameSessionID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Norris.Data.Data.Entities.Friends", b =>

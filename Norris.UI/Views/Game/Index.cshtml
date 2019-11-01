@@ -2,6 +2,8 @@
 @using Norris.Data.Models.DTO
 @model GameViewModel
 
+<script src="~/js/site.js" asp-append-version="true"></script>
+
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
@@ -10,56 +12,53 @@
 
 
 <div class="row">
-    <div class="col-sm-2">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
-    <div class="col-sm-8">
+    <div class="col-xs-12 col-sm-4 col-lg-3">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
+    <div class="col-xs-12 col-sm-8 col-lg-6">
         <div class="panel panel-default">
-
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-4">
-                        Chess game vs.
-                        @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                        <p class="lobbyInfo">
+                            Chess game vs.
+                            @Model.FriendsAndGames.UserGames.Where(e => e.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                        </p>
                     </div>
                     <div class="col-sm-4">
-
                         @if (@Model.Board.PlayerColor == 'w')
                         {
-                            <p>You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
+                            <p class="lobbyInfo" id="lobbyInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
                         }
                         else
                         {
-                            <p>You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
+                            <p class="lobbyInfo" id="lobbyInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
                         }
                     </div>
-                    <div class="col-sm-4" id="movecounter">
-                        @Model.Board.GameState.MovesCounter Moves Made.
+                    <div class="col-sm-4">
+                        <p class="lobbyInfo" id="lobbyInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
-                </div>
-                @await Html.PartialAsync("_ChessboardPartial", Model.Board)
-
-                @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
-                {
-                    <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
-                }
-                else
-                {
-                    <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
-
-
-                }
-
-                <div class="panel-body">
-                    <p>
-                        Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
-                        Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
-                        Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                        Nullam id dolor id nibh ultricies vehicula ut id elit.
-                    </p>
-                </div>
             </div>
+            @await Html.PartialAsync("_ChessboardPartial", Model.Board)
+
+            @if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
+            {
+                <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
+            }
+            <div class="panel-body">   
+                <p class="lobbyInfo">
+                    Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
+                    Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
+                    Pellentesque ornare sem lacinia quam venenatis vestibulum.
+                    Nullam id dolor id nibh ultricies vehicula ut id elit.
+                </p>               
+            </div>
+        </div>
     </div>
-    <div class="col-sm-2" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-xs-12 col-sm-12 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
 </div>
 
 <script>

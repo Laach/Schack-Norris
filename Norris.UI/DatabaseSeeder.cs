@@ -24,133 +24,165 @@ namespace Norris.UI
 
         public void SeedData()
         {
-            //Checkes if database is empty of Users
-            var IsEmpty = !_context.Users.Any();
-            //Only adds data if database is empty 
-            if (IsEmpty)
+            var IsNotEmpty = _context.GameSessions.Any();
+            if (IsNotEmpty)
             {
 
-                //Add cappe, alex, nick, emil, and philip as users
-                AddNewUsers();
+                var temp = _context.GameSessions.Include(c => c.Chatlog).AsEnumerable<GameSession>();
+                foreach (var game in temp)
+                {
+                    if (game.Chatlog != null)
+                    {
+                        foreach (var chat in game.Chatlog.ToList())
+                        {
+                            _context.GameSessions.Where(u => u == game).FirstOrDefault().Chatlog.Remove(chat);
+                        }
+                    }
+                }
                 _context.SaveChanges();
-
-                //cappe and philip are friends with everyone else. Everyone else are only friends with cappe and philip
-                repo.AddFriend("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
-                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
-
-                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
-
-                repo.AddFriend("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-
-                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-
-                repo.AddFriend( "bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-
-                repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
-
-                repo.AddFriend("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
-                                "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
-
-
-                //Some games
-                string gameId = repo.AddNewGame("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
-                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
-                _context.GameSessions.Find(gameId).Board =      
-                        "br,ee,ee,ee,ee,ee,ee,br," +
-                        "bp,ee,bp,bk,ee,bp,ee,ee," +
-                        "ee,ee,bp,ee,ee,ee,ee,bp," +
-                        "ee,ee,ee,bp,ee,ee,wb,bb," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,wb,ee,ee,ee,ee," +
-                        "wp,wp,wp,ee,wr,bb,wp,wp," +
-                        "wr,wn,ee,ee,ee,ee,ee,wk";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
-
-                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
-                _context.GameSessions.Find(gameId).Board =
-                        "ee,ee,ee,ee,ee,wb,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,wr,ee," +
-                        "ee,br,ee,ee,ee,ee,ee,bk," +
-                        "ee,br,ee,bp,ee,wr,ee,ee," +
-                        "bp,ee,ee,ee,ee,ee,wp,bp," +
-                        "wp,ee,wp,ee,ee,ee,bn,ee," +
-                        "ee,wp,ee,ee,ee,ee,wp,ee," +
-                        "ee,ee,ee,ee,ee,ee,wk,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
-
-                gameId = repo.AddNewGame("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-                _context.GameSessions.Find(gameId).Board =
-                        "br,bk,ee,ee,ee,ee,ee,br," +
-                        "bp,bp,ee,wq,ee,bp,ee,bp," +
-                        "ee,bq,ee,bp,ee,wn,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,wp,ee," +
-                        "wp,wp,ee,ee,ee,wp,wb,wp," +
-                        "ee,ee,wr,ee,ee,ee,wk,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
-
-                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-                _context.GameSessions.Find(gameId).Board =
-                        "ee,ee,ee,ee,ee,br,bk,ee," +
-                        "bp,bp,ee,ee,ee,ee,bp,bp," +
-                        "ee,ee,bp,ee,ee,ee,bn,ee," +
-                        "ee,ee,ee,bp,ee,ee,wn,ee," +
-                        "ee,ee,wp,ee,ee,wp,wk,ee," +
-                        "ee,ee,ee,wb,ee,ee,wp,ee," +
-                        "wp,wp,ee,ee,ee,ee,ee,bq," +
-                        "wr,ee,wb,wq,ee,wr,ee,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
-
-                gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
-                                "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
-                _context.GameSessions.Find(gameId).Board =
-                       "br,ee,ee,ee,ee,br,ee,bk," +
-                        "ee,bp,bp,bq,wn,bp,bp,bp," +
-                        "bp,ee,bp,ee,bb,ee,ee,ee," +
-                        "ee,ee,ee,bn,ee,ee,wb,wq," +
-                        "ee,ee,ee,bp,wr,ee,ee,ee," +
-                        "ee,ee,ee,ee,ee,ee,ee,ee," +
-                        "wp,wp,wp,ee,ee,wp,wp,wp," +
-                        "ee,ee,ee,ee,ee,ee,wk,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
-
-                gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
-                                "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
-                _context.GameSessions.Find(gameId).Board =
-                        "br,ee,bb,bk,ee,ee,bn,br," +
-                        "bp,ee,ee,bp,ee,bp,wn,bp," +
-                        "bn,ee,ee,wb,ee,ee,ee,ee," +
-                        "ee,bp,ee,wn,wp,ee,ee,wp," +
-                        "ee,ee,ee,ee,ee,ee,wp,ee," +
-                        "ee,ee,ee,wp,ee,wq,ee,ee," +
-                        "wp,ee,wp,ee,wk,ee,ee,ee," +
-                        "bq,ee,ee,ee,ee,ee,bb,ee,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
-
-                gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
-                                "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
-                _context.GameSessions.Find(gameId).Board =
-                        "ee,ee,ee,bq,ee,ee,ee,ee," +
-                        "ee,ee,ee,ee,bb,ee,ee,ee," +
-                        "ee,ee,bp,ee,ee,ee,ee,bp," +
-                        "bp,bk,ee,bp,ee,wb,ee,ee," +
-                        "wn,ee,ee,bk,ee,wp,ee,ee," +
-                        "wp,ee,wq,ee,ee,ee,wp,ee," +
-                        "ee,wp,ee,ee,ee,ee,ee,wp," +
-                        "ee,ee,ee,ee,ee,ee,ee,wk,";
-                _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
-
+                _context.GameSessions.RemoveRange(temp);
                 _context.SaveChanges();
             }
+
+            IsNotEmpty = _context.Users.Any();
+            if (IsNotEmpty)
+            {
+                var temp2 = _context.Users.Include(g => g.Friends).AsEnumerable<User>();
+                foreach (var user in temp2)
+                {
+                    if (user.Friends != null)
+                    {
+                        foreach (var friend in user.Friends.ToList())
+                        {
+                            _context.Users.Where(u => u == user).FirstOrDefault().Friends.Remove(friend);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                _context.Users.RemoveRange(temp2);
+                _context.SaveChanges();
+            }
+            //Add cappe, alex, nick, emil, and philip as users
+            AddNewUsers();
+            _context.SaveChanges();
+
+            //cappe and philip are friends with everyone else. Everyone else are only friends with cappe and philip
+            repo.AddFriend("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                            "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+
+            repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+
+            repo.AddFriend("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+            repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+            repo.AddFriend( "bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+            repo.AddFriend("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
+
+            repo.AddFriend("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                            "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
+
+
+            //Some games
+            string gameId = repo.AddNewGame("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                            "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+            _context.GameSessions.Find(gameId).Board =      
+                    "br,ee,ee,ee,ee,ee,ee,br," +
+                    "bp,ee,bp,bk,ee,bp,ee,ee," +
+                    "ee,ee,bp,ee,ee,ee,ee,bp," +
+                    "ee,ee,ee,bp,ee,ee,wb,bb," +
+                    "ee,ee,ee,ee,ee,ee,ee,ee," +
+                    "ee,ee,ee,wb,ee,ee,ee,ee," +
+                    "wp,wp,wp,ee,wr,bb,wp,wp," +
+                    "wr,wn,ee,ee,ee,ee,ee,wk";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+            gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "08e03d0c-bfb1-437a-a877-1d370bd92cc5");
+            _context.GameSessions.Find(gameId).Board =
+                    "ee,ee,ee,ee,ee,wb,ee,ee," +
+                    "ee,ee,ee,ee,ee,ee,wr,ee," +
+                    "ee,br,ee,ee,ee,ee,ee,bk," +
+                    "ee,br,ee,bp,ee,wr,ee,ee," +
+                    "bp,ee,ee,ee,ee,ee,wp,bp," +
+                    "wp,ee,wp,ee,ee,ee,bn,ee," +
+                    "ee,wp,ee,ee,ee,ee,wp,ee," +
+                    "ee,ee,ee,ee,ee,ee,wk,ee,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+            gameId = repo.AddNewGame("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+            _context.GameSessions.Find(gameId).Board =
+                    "br,bk,ee,ee,ee,ee,ee,br," +
+                    "bp,bp,ee,wq,ee,bp,ee,bp," +
+                    "ee,bq,ee,bp,ee,wn,ee,ee," +
+                    "ee,ee,ee,ee,ee,ee,ee,ee," +
+                    "ee,ee,ee,ee,ee,ee,ee,ee," +
+                    "ee,ee,ee,ee,ee,ee,wp,ee," +
+                    "wp,wp,ee,ee,ee,wp,wb,wp," +
+                    "ee,ee,wr,ee,ee,ee,wk,ee,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+            gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+            _context.GameSessions.Find(gameId).Board =
+                    "ee,ee,ee,ee,ee,br,bk,ee," +
+                    "bp,bp,ee,ee,ee,ee,bp,bp," +
+                    "ee,ee,bp,ee,ee,ee,bn,ee," +
+                    "ee,ee,ee,bp,ee,ee,wn,ee," +
+                    "ee,ee,wp,ee,ee,wp,wk,ee," +
+                    "ee,ee,ee,wb,ee,ee,wp,ee," +
+                    "wp,wp,ee,ee,ee,ee,ee,bq," +
+                    "wr,ee,wb,wq,ee,wr,ee,ee,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+            gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+            _context.GameSessions.Find(gameId).Board =
+                    "br,ee,ee,ee,ee,br,ee,bk," +
+                    "ee,bp,bp,bq,wn,bp,bp,bp," +
+                    "bp,ee,bp,ee,bb,ee,ee,ee," +
+                    "ee,ee,ee,bn,ee,ee,wb,wq," +
+                    "ee,ee,ee,bp,wr,ee,ee,ee," +
+                    "ee,ee,ee,ee,ee,ee,ee,ee," +
+                    "wp,wp,wp,ee,ee,wp,wp,wp," +
+                    "ee,ee,ee,ee,ee,ee,wk,ee,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+            gameId = repo.AddNewGame("b6d5de24-98f5-4e29-9fe8-5419f5140a02",
+                            "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
+            _context.GameSessions.Find(gameId).Board =
+                    "br,ee,bb,bk,ee,ee,bn,br," +
+                    "bp,ee,ee,bp,ee,bp,wn,bp," +
+                    "bn,ee,ee,wb,ee,ee,ee,ee," +
+                    "ee,bp,ee,wn,wp,ee,ee,wp," +
+                    "ee,ee,ee,ee,ee,ee,wp,ee," +
+                    "ee,ee,ee,wp,ee,wq,ee,ee," +
+                    "wp,ee,wp,ee,wk,ee,ee,ee," +
+                    "bq,ee,ee,ee,ee,ee,bb,ee,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+            gameId = repo.AddNewGame("bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c",
+                            "b6d5de24-98f5-4e29-9fe8-5419f5140a02");
+            _context.GameSessions.Find(gameId).Board =
+                    "ee,ee,ee,bq,ee,ee,ee,ee," +
+                    "ee,ee,ee,ee,bb,ee,ee,ee," +
+                    "ee,ee,bp,ee,ee,ee,ee,bp," +
+                    "bp,bk,ee,bp,ee,wb,ee,ee," +
+                    "wn,ee,ee,bk,ee,wp,ee,ee," +
+                    "wp,ee,wq,ee,ee,ee,wp,ee," +
+                    "ee,wp,ee,ee,ee,ee,ee,wp," +
+                    "ee,ee,ee,ee,ee,ee,ee,wk,";
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = true;
+
+            _context.SaveChanges();
+            
 
         }
 
