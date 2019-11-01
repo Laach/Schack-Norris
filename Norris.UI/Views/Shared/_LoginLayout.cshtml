@@ -18,23 +18,21 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" id="nav-override">
-                    <ol class="breadcrumb" id="nav-override">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Lobby" id="nav-txt-override">Lobby</a></li>
-                        <li class="active"><a href="Register" id="nav-txt-override">Register</a></li>
-                    </ol>
         <div class="container">
-            @*<div class="navbar-header">
+            <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-            </div>*@
-            @*<div class="navbar-collapse collapse">*@
-                @*<ul class="nav navbar-nav">*@
-                @*</ul>*@
-            @*</div>*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Lobby" id="nav-txt-override">Lobby</a></li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
         </div>
     </nav>
     <div class="container-fluid body-content">
