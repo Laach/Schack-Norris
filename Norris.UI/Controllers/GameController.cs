@@ -54,7 +54,7 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = _GameRepo.GetUserGameList(userId)
+                UserGames = _GameRepo.GetUserGameList(userId),
                 ActiveGame = gameId
             };
 
@@ -165,8 +165,9 @@ namespace Norris.UI.Controllers
                   _GameRepo.AddNewMove(newMove);
                   _GameRepo.SetChangedTiles(gameId, changedTiles);
 
-                  if(_chessLogicManager.IsBlackChecked(newBoard) ||
-                     _chessLogicManager.IsWhiteChecked(newBoard)){
+                  if(_chessLogicManager.IsBlackCheckMate(newBoard) ||
+                     _chessLogicManager.IsWhiteCheckMate(newBoard)){
+                    _GameRepo.SetGameToFinished(gameId);
                     _GameRepo.SetGameToFinished(gameId);
                   }
               }
