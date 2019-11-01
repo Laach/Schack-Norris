@@ -10,10 +10,10 @@
 }
 
 <div class="table-responsive">
-    <table class="table" id="searchTable">
+    <table class="table" id="table-override">
         @foreach (var item in Model)
         {
-            <tr id="@item.Id" class="searchRow">
+            <tr id="@item.Id" class="tRow">
                 <td class="col-sm-9" id="tCell">@item.UserName</td>
                 <td class="col-sm-3" id="tCell">
                     <button class="btn btn-success btn-sm btn-block" onclick="addUser('@item.Id')"><b>+</b> Add user</button>

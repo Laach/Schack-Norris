@@ -17,15 +17,15 @@
 
         <div class="panel panel-default" id="panel-override">
             <div class="panel-heading" id="panel-heading-override">
-                <p class="panel-title">@ViewData["Title"]</p>
+                <span id="nav-txt-override">@ViewData["Title"]</span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="panel-body-override">
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table" id="table-override">
                         <thead>
-                            <tr class="active">
-                                <th class="col-sm-9">Users in lobby</th>
-                                <th class="col-sm-3">
+                            <tr id="tRow">
+                                <th class="col-sm-9" id="tHead">Users in lobby</th>
+                                <th class="col-sm-3" id="tHead">
                                     @if (@Model.IsInLobby)
                                     {
                                     <a class="btn btn-danger btn-sm btn-block" href="@Url.Action("LeaveLobby", "Home")">Leave Lobby</a>
@@ -40,18 +40,18 @@
                         <tbody>
                             @if(@Model.IsInLobby)
                             {
-                            <tr>
-                                <td>You are registered in the lobby</td>
-                                <td></td>
+                            <tr class="tRow">
+                                <td id="tCell">You are registered in the lobby</td>
+                                <td id="tCell"></td>
                             </tr>
 
                             }
                             
                             @foreach (var item in Model.CurrentLobbyUsers)
                             {
-                                <tr>
-                                    <td>@item.UserName</td>
-                                    <td>
+                                <tr class="tRow">
+                                    <td id="tCell">@item.UserName</td>
+                                    <td id="tCell">
                                         <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-primary btn-sm btn-block">
                                             Join game
                                         </a>
