@@ -57,6 +57,31 @@ hr.footer {
 .friends{
     
 }
+#siteGrid{
+    margin-top:20px;
+}
+
+#searchBox {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top:5px;
+    margin-bottom:0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*background-color:var(--list-bg-color);*/
+}
+.searchRow{
+    background-color: white;
+    border:none;
+}
+#tCell{
+    border:none;
+}
+
+#searchTable{
+    margin-bottom:0px;
+}
 
 a.playGame {
     text-decoration: none;
@@ -68,6 +93,13 @@ a.playGame {
 }
 .list-group-item.playGame#list-group-item-disabled-override:hover {
     background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--nav-bg-color);
 }
 
 .list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
@@ -93,7 +125,11 @@ a.playGame {
 
 .friends-right {
     flex: 0 0 97px;
-
+    
+}
+#newGameBtn {
+    color: #383838;
+    font-size:85%;
 }
 
 .friends-left {
@@ -161,8 +197,14 @@ p#lobbyInfoRight{
     background-color:var(--nav-bg-color);
     border:none;
 }
+#panel-body-override{
+    border:none;
+    padding:10px;
+    background-color:var(--list-bg-color);
+}
 
 #list-group-override{
+    background-color:none;
     border:none;
 }
 

@@ -6,13 +6,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 
-@{
-    ViewData["Title"] = "Lobby";
-}
-<h2>@ViewData["Title"]</h2>
 
-<div class="row">
-    <div class="col-sm-9">
+
+<div class="row" id="siteGrid">
+    <div class="col-lg-1"></div>
+    <div class="col-sm-7">
+        @{
+            ViewData["Title"] = "Lobby";
+        }
+        <h2>@ViewData["Title"]</h2>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -21,31 +23,32 @@
                         <th class="col-sm-3"></th>
                     </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     @{bool JoinLobby = true;}
                     @{string JoinLobbyString = "Join Lobby";}
-                    @if(@Model.IsInLobby)
+                    @if (@Model.IsInLobby)
                     {
                         JoinLobby = false;
                         JoinLobbyString = "Escape Lobby";
                     }
                     <a class="btn btn-success btn-sm btn-block" href="@Url.Action("Lobby", new { joinLobby = JoinLobby })">@JoinLobbyString</a>
 
-                    @foreach(var item in Model.CurrentLobbyUsers)
+                    @foreach (var item in Model.CurrentLobbyUsers)
                     {
-                    <tr>
-                        <td>@item.UserName</td>
-                        <td>
-                            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-success btn-sm btn-block">Join game</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>
+                                <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-success btn-sm btn-block">Join game</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
-                
-        </table>
+
+            </table>
         </div>
     </div>
     <div class="col-sm-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.Friends)</div>
+    <div class="col-lg-1"></div>
 </div>
 
 
