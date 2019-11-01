@@ -10,10 +10,14 @@
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Here you can search for your friends to add to your list.</p>
+<div class="row">
+  <div class="col-sm-8">
+    <p>Here you can search for your friends to add to your list.</p>
 
 <input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
 
-<div>
     <span id="searchResults"></span>
+    </div>
+    <div class="col-sm-3" id="sidebar">
+    </div>
 </div>

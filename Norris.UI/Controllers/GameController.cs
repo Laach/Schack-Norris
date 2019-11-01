@@ -38,7 +38,7 @@ namespace Norris.UI.Controllers
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
             var chat = _GameRepo.GetMessageLog(gameId);
-            var games = _GameRepo.GetUserGameList(userId);
+            var games = _GameRepo.GetAllGames(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
             List<string> changedTiles = new List<string>();
@@ -54,7 +54,7 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games,
+                UserGames = _GameRepo.GetUserGameList(userId),
                 ActiveGame = gameId
             };
 
@@ -74,7 +74,9 @@ namespace Norris.UI.Controllers
                 ChatMessages = chat
             };
 
-            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, Chat = chatSystem});
+            string opponent = games .Where(e => e.GameID.Equals(gameId)).FirstOrDefault().OpponentName;
+
+            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, Chat = chatSystem, OpponentName=opponent});
         }
 
         public class TileClick{
@@ -164,6 +166,12 @@ namespace Norris.UI.Controllers
                   _GameRepo.AddNewMove(newMove);
                   _GameRepo.SetChangedTiles(gameId, new List<string>{clickedTile, selectedTile});
                   didMove = true;
+
+                  if(_chessLogicManager.IsBlackCheckMate(newBoard) ||
+                     _chessLogicManager.IsWhiteCheckMate(newBoard)){
+                    _GameRepo.SetGameToFinished(gameId);
+                    _GameRepo.SetGameToFinished(gameId);
+                  }
               }
               // Either a move was made, or the tile was deselected by clicking 
               // a tile where a move wasn't possible. Remove highlights.
@@ -240,6 +248,8 @@ namespace Norris.UI.Controllers
         public class GameViewData{
           public ChessboardPartialViewModel Game {get; set;}
           public int MoveCount {get; set;}
+          public bool IsActive {get; set;}
+          public bool IsMyTurn {get; set;}
         }
 
         public IActionResult GameRefresh([FromBody] GameRefreshData data){
@@ -251,6 +261,8 @@ namespace Norris.UI.Controllers
             ChessboardPartialViewModel game = null;
 
             var gamestate = _GameRepo.GetGamestate(data.GameID);
+            bool isactive = gamestate.IsActive;
+
             if(IsMyTurn){
               var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
               char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
@@ -268,7 +280,7 @@ namespace Norris.UI.Controllers
             }
         
           // Game will be null if not users turn.
-          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter});
+          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter, IsActive=isactive, IsMyTurn=IsMyTurn});
         }
     }
 }
