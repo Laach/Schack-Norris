@@ -9,5 +9,6 @@ namespace Norris.Data.Models.DTO
         public char ActivePlayerColor {get; set;}
         public string[,] Board        {get; set;}
         public int MovesCounter { get; set; }
+        public bool IsActive { get; set; }
     }
 }
