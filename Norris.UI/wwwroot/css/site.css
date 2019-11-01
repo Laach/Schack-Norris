@@ -58,7 +58,9 @@ hr.footer {
     
 }
 #siteGrid{
-    margin-top:20px;
+    padding-top:30px;
+    padding-left: 15px;
+    padding-right: 15px
 }
 
 #searchBox {
