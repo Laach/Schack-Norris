@@ -188,6 +188,7 @@ p#lobbyInfoBottom{
 #panel-override{
     border:none;
     background-color:none;
+    border-radius:0;
 }
 
 #panel-group-override{
