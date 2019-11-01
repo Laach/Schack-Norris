@@ -56,7 +56,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = ""
             };
 
             var lobbyAndFriends = new LobbyAndFriendsViewModel{
@@ -79,16 +80,26 @@ namespace Norris.UI.Controllers
             return View(lobbyAndFriends);
         }
 
-        public PartialViewResult Sidebar(){
+        public IActionResult Sidebar([FromBody] GameController.GameRefreshData data){
             var uid = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(uid);
             var games = _GameRepo.GetUserGameList(uid);
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = games,
+                ActiveGame = data.GameID
             };
-            return PartialView("_FriendsPartial", friendsAndGames);
+            var sidebar = new SidebarModel();
+            var t1 = this.RenderViewAsync<FriendsPartialViewModel>( "_ActiveGamesPartial", friendsAndGames, true);
+            var t2 = this.RenderViewAsync<IEnumerable<User>>("_OnlineFriendsPartial", friends.OnlineFriends, true);
+            var t3 = this.RenderViewAsync<IEnumerable<User>>("_OfflineFriendsPartial", friends.OfflineFriends, true);
+            
+            Task.WaitAll(new Task<string>[]{t1, t2, t3});
+            sidebar.ActiveGames    = t1.Result;
+            sidebar.OnlineFriends  = t2.Result;
+            sidebar.OfflineFriends = t3.Result;
+            return Json(sidebar);
         }
 
         public IActionResult Game()
@@ -109,10 +120,17 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
 
+            var uid = _signInManager.UserManager.GetUserId(User);
+            var friends = _GameRepo.GetFriendList(uid);
+            var games = _GameRepo.GetUserGameList(uid);
 
-         
-
-            return View("FindFriends");
+            FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
+            {
+                UserFriends = friends,
+                UserGames = games,
+                ActiveGame = ""
+            };
+            return View(friendsAndGames);
         }
 
         public class userToAdd
@@ -145,5 +163,22 @@ namespace Norris.UI.Controllers
             var uid = _signInManager.UserManager.GetUserId(User);
             UserActivity.RefreshUser(uid);
         }
+
+
+        public IActionResult ArchivedGames(){
+          if (!_signInManager.IsSignedIn(User))
+              return RedirectToAction("Login", "Account");
+          RefreshUser(User);
+
+          var uid = _signInManager.UserManager.GetUserId(User);
+
+          var games = _GameRepo.GetArchivedGameList(uid);
+
+          return View(games);
+        }
     }
+
+
+
+
 }

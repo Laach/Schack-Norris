@@ -1,4 +1,6 @@
 
+let opponentsTurn;
+let firstTime = true;
 
 function rankToInt(rank){
   return 8 - rank;
@@ -46,6 +48,9 @@ function updateBoard(gameid, clickedtile) {
       if(data == ""){
         return;
       }
+      if(data.didMove){
+        opponentsTurn = true;
+      }
       selected  = data.selectedTile;
       canMoveTo = data.canMoveToTiles;
       canTakeAt = data.canMoveToAndTakeTiles;
@@ -90,7 +95,6 @@ function tryGetUpdates(gameid) {
 
     data = { 
       GameID : gameid,
-      chatLength : 0
         };
         
     fetch('/game/GameRefresh', {
@@ -101,16 +105,40 @@ function tryGetUpdates(gameid) {
     .then(data => { return data.json() })
     .then(data => {
       const banner = document.getElementById("banner");
+      if(firstTime && data.game == null){
+        opponentsTurn = true;
+        firstTime = false;
+      }
+      else if(firstTime && data.game != null){
+        opponentsTurn = false;
+        firstTime = false;
+      }
       if(data.game != null){
         // Refresh board
-        setTiles(data.game);
+        if(opponentsTurn){
+          opponentsTurn = false;
+          setTiles(data.game);
+        }
         // Display your-turn banner
+      }
+      if(data.isActive && data.isMyTurn){
+        // Active game, my turn
         banner.innerHTML = "It\'s <strong>your turn</strong>";
         banner.className = "alert alert-success";
       }
-      else{
-        banner.innerHTML = "Waiting for your <strong>opponents turn</strong>";
+      else if(data.isMyTurn){
+        // Archived game, my turn, I lost
+        banner.innerHTML = "<strong>You lost</strong>";
+        banner.className = "alert alert-danger";
+      }
+      else if(data.isActive && !data.isMyTurn){
+        // Active game, not my turn.
+        banner.innerHTML = "waiting for your <strong>opponents turn</strong>";
         banner.className = "alert alert-info";
+      }
+      else{
+        banner.innerHTML = "<strong>You won</strong>";
+        banner.className = "alert alert-success";
       }
       if(data.chat != null){
         // Append chat
@@ -119,4 +147,45 @@ function tryGetUpdates(gameid) {
       const movecounter = document.getElementById("lobbyInfoRight")
       movecounter.innerText = data.moveCount + " Moves Made.";
     });
+
+    const messages = document.getElementsByClassName("msg");
+    data2 = {
+      GameID: gameid,
+      chatLength : messages.length
+    }
+
+    fetch('/game/getchat', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data2)
+    })
+    .then(data => {return data.text()})
+    .then(data => {
+      if(data != "\"\""){
+        const chatwindow = document.getElementById("chat-list-group-item-override");
+        chatwindow.innerHTML = data;
+
+        scrollToBottom("chat");
+      }
+    });
+}
+
+function scrollToBottom(id) {
+  const div = document.getElementById(id);
+  div.scrollTop = div.scrollHeight - div.clientHeight;
+}
+
+function SendMessage(GameID) {
+    const message = document.getElementById("chat-box-input").value
+    if(message == null || message == ""){
+      return;
+    }
+    fetch('/Game/SendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, GameID: GameID })
+    })
+    
+    document.getElementById("chat-box-input").value = "";
+    tryGetUpdates(GameID);
 }

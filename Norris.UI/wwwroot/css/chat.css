@@ -1,15 +1,18 @@
 ﻿#chat-panel-override {
     border: none;
+    border-radius: 0;
 }
 
 #chat-panel-group-override {
     margin-bottom: 0px;
     border: none;
+    border-radius: 0;
 }
 
 #chat-panel-heading-override {
     background-color: var(--nav-bg-color);
     border: none;
+    border-radius: 0;
 }
 
 #list-group-override {

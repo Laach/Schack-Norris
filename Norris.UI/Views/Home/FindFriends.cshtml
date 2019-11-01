@@ -1,19 +1,25 @@
 ﻿@using Norris.Data.Models.DTO;
+@model FriendsPartialViewModel
 
 <environment include="Development">
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 
-@{
-    ViewData["Title"] = "Find Friends";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
-
-<p>Here you can search for your friends to add to your list.</p>
-
-<input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
-
-<div>
-    <span id="searchResults"></span>
+<div class="row" id="siteGrid">
+    <div class="col-lg-1"></div>
+      
+    <div class="col-lg-7">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
+                <span id="nav-txt-override">Find Friends</span>
+            </div>
+            <div class="panel-body" id="panel-body-override">
+                Start typing in the box below to search for new friends to add to your friendlist.
+                <input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
+                <span id="searchResults"></span>
+            </div>
+        </div>           
+    </div>
+    <div class="col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model)</div>
+    <div class="col-lg-1"></div>
 </div>

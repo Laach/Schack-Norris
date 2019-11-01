@@ -38,7 +38,7 @@ namespace Norris.UI.Controllers
             var userId = _signInManager.UserManager.GetUserId(User);
             var friends = _GameRepo.GetFriendList(userId);
             var chat = _GameRepo.GetMessageLog(gameId);
-            var games = _GameRepo.GetUserGameList(userId);
+            var games = _GameRepo.GetAllGames(userId);
             var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
             List<string> changedTiles = new List<string>();
@@ -54,7 +54,8 @@ namespace Norris.UI.Controllers
             FriendsPartialViewModel friendsAndGames = new FriendsPartialViewModel
             {
                 UserFriends = friends,
-                UserGames = games
+                UserGames = _GameRepo.GetUserGameList(userId),
+                ActiveGame = gameId
             };
 
             ChessboardPartialViewModel board = new ChessboardPartialViewModel {
@@ -73,7 +74,9 @@ namespace Norris.UI.Controllers
                 ChatMessages = chat
             };
 
-            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, Chat = chatSystem});
+            string opponent = games .Where(e => e.GameID.Equals(gameId)).FirstOrDefault().OpponentName;
+
+            return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, Chat = chatSystem, OpponentName=opponent});
         }
 
         public class TileClick{
@@ -92,6 +95,7 @@ namespace Norris.UI.Controllers
             var selectedTile = data.SelectedTile;
             var canMove = data.CanMove;
             var canTake = data.CanTake;
+            var didMove = false;
 
             List<string> changedTiles = new List<string>();
             changedTiles.AddRange(canMove);
@@ -160,7 +164,14 @@ namespace Norris.UI.Controllers
                       GameID = gameId
                   };
                   _GameRepo.AddNewMove(newMove);
-                  _GameRepo.SetChangedTiles(gameId, changedTiles);
+                  _GameRepo.SetChangedTiles(gameId, new List<string>{clickedTile, selectedTile});
+                  didMove = true;
+
+                  if(_chessLogicManager.IsBlackCheckMate(newBoard) ||
+                     _chessLogicManager.IsWhiteCheckMate(newBoard)){
+                    _GameRepo.SetGameToFinished(gameId);
+                    _GameRepo.SetGameToFinished(gameId);
+                  }
               }
               // Either a move was made, or the tile was deselected by clicking 
               // a tile where a move wasn't possible. Remove highlights.
@@ -178,7 +189,8 @@ namespace Norris.UI.Controllers
                 CanMoveToTiles = canMove,
                 GameId = gameId,
                 PlayerColor = userColor,
-                ChangedTiles = changedTiles
+                ChangedTiles = changedTiles,
+                DidMove = didMove
             };
                 
             return Json(board);
@@ -206,6 +218,20 @@ namespace Norris.UI.Controllers
             _GameRepo.AddChatMessage(messageDTO, message.gameID);
         }
 
+        public class GetChatMessages{
+          public string GameID {get; set;}
+          public int chatLength {get; set;}
+        }
+
+        public IActionResult GetChat([FromBody] GetChatMessages data){
+          var uid = _signInManager.UserManager.GetUserId(User);
+          var chat = _GameRepo.GetMessageLog(data.GameID);
+          if(chat.Count() > data.chatLength){
+            return PartialView("_ChatWindow", chat);
+          }
+          return Json("");
+        }
+
         public IActionResult NewGame(string userID)
         {
             var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
@@ -217,12 +243,13 @@ namespace Norris.UI.Controllers
 
         public class GameRefreshData{
           public string GameID  {get; set;}
-          public int chatLength {get; set;}
         }
 
         public class GameViewData{
           public ChessboardPartialViewModel Game {get; set;}
           public int MoveCount {get; set;}
+          public bool IsActive {get; set;}
+          public bool IsMyTurn {get; set;}
         }
 
         public IActionResult GameRefresh([FromBody] GameRefreshData data){
@@ -234,6 +261,8 @@ namespace Norris.UI.Controllers
             ChessboardPartialViewModel game = null;
 
             var gamestate = _GameRepo.GetGamestate(data.GameID);
+            bool isactive = gamestate.IsActive;
+
             if(IsMyTurn){
               var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
               char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
@@ -251,7 +280,7 @@ namespace Norris.UI.Controllers
             }
         
           // Game will be null if not users turn.
-          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter});
+          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter, IsActive=isactive, IsMyTurn=IsMyTurn});
         }
     }
 }

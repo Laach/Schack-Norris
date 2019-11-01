@@ -1,7 +1,6 @@
 ﻿@using Norris.Data.Models.DTO;
 @using Norris.UI.Models;
 @using Norris.Data.Data.Entities;
-<script src="~/js/ChatSystem.js"></script>
 <link rel="stylesheet" href="~/css/chat.css" />
 
 @model ChatPartialViewModel
@@ -16,14 +15,7 @@
         <div class="panel-collapse collapse in" role="tabpanel" id="chat" aria-labelledby="Chat" aria-expanded="true" >
             <ul class="list-group chat">
                 <dl id="chat-list-group-item-override">
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model.ChatMessages)
-                        {
-                        <dt id="time-and-username"><small><em>@item.TimeStamp</em></small> <b>| @item.Username:</b></dt>
-                        <dd id="messages">@item.Message</dd>    
-                        }
-                    }
+                  @await Html.PartialAsync("_ChatWindow", Model.ChatMessages)
                 </dl>
             </ul>   
             </div>

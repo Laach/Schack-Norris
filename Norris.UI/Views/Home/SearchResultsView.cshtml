@@ -10,12 +10,12 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table" id="searchTable">
         @foreach (var item in Model)
         {
-            <tr id="@item.Id">
-                <td class="col-sm-9">@item.UserName</td>
-                <td class="col-sm-3">
+            <tr id="@item.Id" class="searchRow">
+                <td class="col-sm-9" id="tCell">@item.UserName</td>
+                <td class="col-sm-3" id="tCell">
                     <button class="btn btn-success btn-sm btn-block" onclick="addUser('@item.Id')"><b>+</b> Add user</button>
                 </td>
             </tr>

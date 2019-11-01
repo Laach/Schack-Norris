@@ -1,0 +1,27 @@
+@using Norris.Data.Data.Entities
+@using System.Collections.Generic
+@model IEnumerable<User>
+
+
+@if (Model.Any())
+{
+    @foreach (var user in Model)
+    {
+    <a href='@Url.Action("NewGame", "Game", new { userID = user.Id})' class="playGame">
+        <li class="list-group-item playGame" id="list-group-item-override">
+            <div class="flex" id="friends-flex">
+                <div class="friends-left">
+                    @user.UserName
+                </div>
+                <div class="friends-right">
+                    New game <i class="glyphicon glyphicon-plus" id="newGameBtn"></i>
+                </div>
+            </div>
+        </li>
+    </a>
+    }
+}
+else
+{
+    <li class="list-group-item" id="list-group-item-override">No active friends</li>
+}

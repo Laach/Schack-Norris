@@ -22,10 +22,13 @@ hr.footer {
 :root {
     --nav-text-color: #e3e3e3;
     --heading-color: #e3e3e3;
+    --content-text-color: black;
     --nav-text-color-rgb: 40, 44, 55;
     --text-hover: white;
-    --list-disabled-bg-color: #9baec8;
+    --list-disabled-bg-color: #c0c6cc;
     --list-bg-color: #d9e1e8;
+    --list-hover-color: #ebf3fa;
+    --list-disabled-hover-color: #d9e1e8;
     --nav-bg-color: #2b79d9;
 }
 
@@ -54,13 +57,97 @@ hr.footer {
 .friends{
     
 }
-
-.playGameBtn {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+#siteGrid{
+    padding-top:30px;
+    padding-left: 15px;
+    padding-right: 15px
 }
 
+#searchBox {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top:5px;
+    margin-bottom:0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*background-color:var(--list-bg-color);*/
+}
+.searchRow{
+    background-color: white;
+    border:none;
+}
+#tCell{
+    border:none;
+}
+
+#searchTable{
+    margin-bottom:0px;
+}
+
+a.playGame {
+    text-decoration: none;
+    color: var(--content-text-color);
+}
+
+.list-group-item.playGame#list-group-item-override:hover{
+    background-color:var(--list-hover-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover {
+    background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--nav-bg-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
+    
+}
+.list-group-item.playGame#list-group-item-override:hover .playGameRight {
+    
+}
+
+
+.yTurn{
+    color:var(--nav-bg-color);
+    font-weight:bold;
+}
+
+.oTurn {
+    color: gray;
+}
+
+.flex {
+    display: flex;
+}
+
+.friends-right {
+    flex: 0 0 97px;
+    
+}
+#newGameBtn {
+    color: #383838;
+    font-size:85%;
+}
+
+.friends-left {
+    flex: 1;
+}
+
+.games-right {
+    flex: 0 0 97px;
+}
+
+.games-left {
+    flex:1;
+}
+.activeGame#list-group-item-override {
+    background-color: var(--list-hover-color);
+}
 h1 {
     color: var(--heading-color);
 }
@@ -85,8 +172,8 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo{
-    color:black;
+p.lobbyInfo {
+    color: var(--nav-text-color);
 }
 
 p#lobbyInfoCenter{
@@ -96,33 +183,50 @@ p#lobbyInfoCenter{
 p#lobbyInfoRight{
     text-align:right;
 }
+p#lobbyInfoBottom{
+    color:black;
+}
 
 #panel-override{
     border:none;
+    background-color:none;
+    border-radius:0;
 }
 
 #panel-group-override{
     margin-bottom:0px;
     border:none;
+    background-color:none;
 }
 
-#panel-heading-override{
-    background-color:var(--nav-bg-color);
-    border:none;
+#panel-heading-override {
+    background-color: var(--nav-bg-color);
+    border: none;
+    border-radius: 0;
+}
+#panel-body-override {
+    border: none;
+    padding: 10px;
+    background-color: var(--list-bg-color);
+    border-radius: 0;
 }
 
-#list-group-override{
-    border:none;
+#list-group-override {
+    background-color: none;
+    border: none;
 }
 
-#list-group-item-override{
-    background-color:var(--list-bg-color);
-    border:none;
+#list-group-item-override {
+    color: var(--content-text-color);
+    background-color: var(--list-bg-color);
+    border: none;
+    border-radius: 0;
 }
 
-#list-group-item-disabled-override{
-    background-color:var(--list-disabled-bg-color);
-    border:none;
+#list-group-item-disabled-override {
+    background-color: var(--list-disabled-bg-color);
+    border: none;
+    border-radius: 0;
 }
 
 #nav-override {
@@ -138,6 +242,14 @@ p#lobbyInfoRight{
 #nav-txt-override:hover {
     /*color: rgba(var(--nav-text-color-rgb), 0.5);*/
     color:var(--text-hover);
+}
+
+#labelStyling {
+    
+}
+
+#title {
+    color: var(--nav-text-color);
 }
 
 /* Hide/rearrange for smaller screens */

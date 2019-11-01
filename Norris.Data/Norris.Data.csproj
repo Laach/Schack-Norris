@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191025121703_lobby-update.cs" />
+    <Compile Remove="Migrations\20191025121703_lobby-update.Designer.cs" />
+    <Compile Remove="Migrations\20191027102919_ChatDatabase.cs" />
+    <Compile Remove="Migrations\20191027102919_ChatDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20191028133431_ChangedTiles.cs" />
+    <Compile Remove="Migrations\20191028133431_ChangedTiles.Designer.cs" />
+    <Compile Remove="Migrations\20191029072724_movescounter.cs" />
+    <Compile Remove="Migrations\20191029072724_movescounter.Designer.cs" />
+    <Compile Remove="Migrations\20191030125051_UpdatedDB.cs" />
+    <Compile Remove="Migrations\20191030125051_UpdatedDB.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
