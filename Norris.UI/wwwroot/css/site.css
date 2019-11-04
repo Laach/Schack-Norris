@@ -170,17 +170,24 @@ a.playGame {
 }
 
 .active-left{
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
 }
-.active-left > img {
-    width: 22px;
+
+.active-right {
+    font-size: 20px;
+}
+.games-image {
+    height: 16px;
+}
+.active-left-image {
+    height: 22px;
 }
 
 .activeGame#list-group-item-override {
     background-color: var(--list-hover-color);
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-left: solid 5px var(--nav-bg-color);
 }
 
 #sidebar{
