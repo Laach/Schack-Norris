@@ -394,11 +394,34 @@ a .lobbyJoinGameBtn{
     border: none;
 }
 
+
+#logo {
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-left:-5px;
+}
+
+#right-nav-style {
+    color: var(--nav-text-color);
+    text-decoration: none;
+    font-size:150%;
+    margin-top:5px;
+}
+
+#brand-name {
+    color:white;
+    font-size:150%;
+    text-decoration:none;
+    font-size:24px;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
+    }
+    #account-img{
+        display:none;
     }
 }
 
@@ -427,4 +450,8 @@ a .lobbyJoinGameBtn{
 #banner2{
   margin-bottom: 0px;
   display: none;
+}
+
+#profile-lbl {
+    color: #337ab7;
 }
