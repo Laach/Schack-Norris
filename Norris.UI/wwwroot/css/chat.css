@@ -10,7 +10,7 @@
 }
 
 #chat-panel-heading-override {
-    background-color: var(--nav-bg-color);
+    background-color: var(--list-heading-bg-color);
     border: none;
     border-radius: 0;
 }
@@ -26,8 +26,6 @@
     background-color: var(--list-bg-color);
 }
 
-#chat-scroll {
-}
 
 #chat-list-group-item-override {
     margin-top:0px;

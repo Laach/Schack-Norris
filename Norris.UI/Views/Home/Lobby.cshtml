@@ -22,14 +22,18 @@
                         <thead>
                             <tr id="tRow">
                                 <th class="col-sm-9" id="tHead">Users in lobby</th>
-                                <th class="col-sm-3" id="tHead">
+                                <th class="col-sm-3 cell" id="tHead">
                                     @if (@Model.IsInLobby)
                                     {
-                                    <a class="btn btn-danger btn-sm btn-block" href="@Url.Action("LeaveLobby", "Home")">Leave Lobby</a>
+                                        <a href="@Url.Action("LeaveLobby", "Home")">
+                                            <button class="lobbyLeaveBtn">Leave Lobby</button>
+                                        </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-success btn-sm btn-block" href="@Url.Action("JoinLobby", "Home")">Join Lobby</a>
+                                        <a href="@Url.Action("JoinLobby", "Home")">
+                                            <button class="lobbyJoinBtn">Join Lobby</button>
+                                        </a>
                                     }
                                 </th>
                             </tr>
