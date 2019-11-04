@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #282c37;
+    background-color: BLACK;
 }
 
 * {
@@ -17,20 +17,25 @@ hr.footer {
 
 /*Global variables for colors.*/
 :root {
-    --nav-text-color: #e3e3e3;
-    --heading-color: #e3e3e3;
-    --content-text-color: black;
-    --text-hover: white;
-    --list-disabled-bg-color: #c0c6cc;
-    --list-hover-color: #ebf3fa;
-    --list-disabled-hover-color: #d9e1e8;
-    --btn-bg-color: #256bc2;
-    --btn-bg-hover: #398aed;
+
+    --content-text-color: BLACK;
+    --text-hover: PURPLE;
+
+
+    --btn-bg-color: GREEN;
+    --btn-bg-hover: BLUE;
 
     /*Main colors*/
-    --list-heading-bg-color: #2b79d9;
-    --list-bg-color: #d9e1e8;
-    --nav-bg-color: #2b79d9;
+    --list-heading-bg-color: RED;
+
+    --nav-bg-color: ORANGE;
+    --nav-text-color: WHITE;
+
+    --list-bg-color: PINK;
+    --list-hover-color: BROWN;
+
+    --list-disabled-bg-color: YELLOW;
+    --list-disabled-hover-color: GRAY;
 }
 
 /* Wrapping element */
