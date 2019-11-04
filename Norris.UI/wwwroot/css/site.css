@@ -22,10 +22,13 @@ hr.footer {
     --content-text-color: black;
     --text-hover: white;
     --list-disabled-bg-color: #c0c6cc;
-    --list-bg-color: #d9e1e8;
     --list-hover-color: #ebf3fa;
     --list-disabled-hover-color: #d9e1e8;
+    --btn-bg-color: #256bc2;
+    --btn-bg-hover: #398aed;
+    /*Main colors*/
     --list-heading-bg-color: #2b79d9;
+    --list-bg-color: #d9e1e8;
     --nav-bg-color: #2b79d9;
 }
 
@@ -187,8 +190,6 @@ h4 {
     color: var(--heading-color);
 }
 
-
-
 tr {
     background-color: var(--list-bg-color);
 }
@@ -215,10 +216,21 @@ tr {
 }
 
 .lobbyJoinBtn {
-    background-color: var(--nav-bg-color);
+    background-color: var(--btn-bg-hover);
     width: 100%;
     height: 100%;
     padding:5px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+.lobbyJoinGameBtn {
+    background-color: var(--btn-bg-color);
+    width: 100%;
+    height: 100%;
+    padding: 5px;
     border: none;
     text-align: center;
     text-decoration: none;
@@ -233,17 +245,23 @@ a .lobbyLeaveBtn {
     color: white;
     text-decoration: none;
 }
+a .lobbyJoinGameBtn{
+    color:white;
+    text-decoration:none;
+}
 
 .lobbyJoinBtn:hover {
-    background-color: #398aed;
+    background-color:var(--btn-bg-color);
+}
+.lobbyJoinGameBtn:hover {
+    background-color: var(--btn-bg-hover);
 }
 .lobbyLeaveBtn:hover {
-    background-color: #398aed;
+    background-color: var(--btn-bg-color);
 }
 
-
 .lobbyLeaveBtn {
-    background-color: var(--nav-bg-color);
+    background-color: var(--btn-bg-hover);
     width: 100%;
     height: 100%;
     padding: 5px;
