@@ -73,22 +73,32 @@ hr.footer {
     border-radius: 4px;
     /*background-color:var(--list-bg-color);*/
 }
-.searchRow{
+.tRow{
     background-color: white;
     border:none;
 }
 #tCell{
     border:none;
 }
+#tHead{
+    background-color:white;
+}
 
-#searchTable{
+#table-override{
     margin-bottom:0px;
+}
+#thead-override{
+    border:none;
 }
 
 a.playGame {
     text-decoration: none;
     color: var(--content-text-color);
 }
+.playGame:hover{
+    cursor:pointer;
+}
+ 
 
 .list-group-item.playGame#list-group-item-override:hover{
     background-color:var(--list-hover-color);
@@ -98,6 +108,9 @@ a.playGame {
 }
 
 .list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-override:hover .friends-right {
     color: var(--nav-bg-color);
 }
 .list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
@@ -145,8 +158,41 @@ a.playGame {
 .games-left {
     flex:1;
 }
+
+.active-left{
+  font-weight: bold;
+  font-size: 18px;
+}
+.active-left > img {
+    width: 22px;
+}
+
 .activeGame#list-group-item-override {
     background-color: var(--list-hover-color);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#sidebar{
+    margin-bottom:30px;
+}
+#game{
+    margin-bottom:10px;
+}
+
+.FPheadingRight {
+    flex: 0 0 15px;
+}
+
+.FPheadingLeft {
+    flex: 1;
+}
+.chatHeadingRight {
+    flex: 0 0 15px;
+}
+
+.chatHeadingLeft {
+    flex: 1;
 }
 h1 {
     color: var(--heading-color);
@@ -172,19 +218,19 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo {
+#gameInfoRight {
+    text-align: right;
     color: var(--nav-text-color);
 }
-
-p#lobbyInfoCenter{
-    text-align:center;
+#gameInfoLeft {
+    color: var(--nav-text-color);
 }
-
-p#lobbyInfoRight{
-    text-align:right;
-}
-p#lobbyInfoBottom{
+#gameInfoBottom{
     color:black;
+}
+
+#findFriends{
+    color: var(--nav-text-color);
 }
 
 #panel-override{
@@ -281,4 +327,31 @@ p#lobbyInfoBottom{
     #account-img{
         display:none;
     }
+}
+
+.board-hover-highlight{
+  display: none;
+}
+
+.board-hover-highlight:hover{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.piece:hover~.board-hover-highlight{
+  cursor: pointer;
+  display: inline-block;
+}
+
+.game-tutorial{
+  padding-top: 0;
+}
+
+#banner{
+  margin-bottom:0px;
+}
+
+#banner2{
+  margin-bottom: 0px;
+  display: none;
 }

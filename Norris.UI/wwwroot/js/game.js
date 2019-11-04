@@ -133,13 +133,22 @@ function tryGetUpdates(gameid) {
       }
       else if(data.isActive && !data.isMyTurn){
         // Active game, not my turn.
-        banner.innerHTML = "waiting for your <strong>opponents turn</strong>";
+        banner.innerHTML = "Waiting for your <strong>opponents move</strong>";
         banner.className = "alert alert-info";
       }
       else{
         banner.innerHTML = "<strong>You won</strong>";
         banner.className = "alert alert-success";
       }
+      
+      const banner2 = document.getElementById("banner2");
+      if(data.isActive && data.isChecked){
+        banner2.style = "display: block";
+      }
+      else{
+        banner2.style = "display: none";
+      }
+
       if(data.chat != null){
         // Append chat
       }

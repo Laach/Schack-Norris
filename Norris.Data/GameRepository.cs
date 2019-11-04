@@ -244,7 +244,7 @@ namespace Norris.Data
                 GameID = s.Id,
                 OpponentName = s.PlayerWhiteID == userID ? s.PlayerBlack.UserName : s.PlayerWhite.UserName,
                 IsMyTurn = s.PlayerWhiteID == userID ? s.IsWhitePlayerTurn : !s.IsWhitePlayerTurn,
-                PlayerColor = s.PlayerWhiteID == userID ? 'w' : 'b'
+                PlayerColor = s.PlayerWhiteID == userID ? 'w' : 'b', MovesCounter = s.MovesCounter
             })
               .ToList();
 
@@ -269,6 +269,14 @@ namespace Norris.Data
                 });
             }
             return usersInLobby;
+        }
+
+        public UserListDTO GetPlayerLobby(string userId)
+        {
+            var userlist = GetPlayerLobby();
+            var userToRemove = userlist.Users.Where(u => u.Id == userId).FirstOrDefault();
+            userlist.Users.Remove(userToRemove);
+            return userlist;
         }
 
         public ViewUserModel GetUserData(string userID)

@@ -33,6 +33,7 @@ namespace Norris.Data
         void SetGameToFinished(string GameID);
         IEnumerable<string> GetChangedTiles(string gameID);
         void SetChangedTiles(string gameID, IEnumerable<string> changedtiles);
+        UserListDTO GetPlayerLobby(string uid);
     }
 
 }
