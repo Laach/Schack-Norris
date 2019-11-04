@@ -176,6 +176,13 @@ a.playGame {
 .FPheadingLeft {
     flex: 1;
 }
+.chatHeadingRight {
+    flex: 0 0 15px;
+}
+
+.chatHeadingLeft {
+    flex: 1;
+}
 h1 {
     color: var(--heading-color);
 }
