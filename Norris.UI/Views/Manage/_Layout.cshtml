@@ -1,23 +1,31 @@
-﻿@{ 
+﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Identity
+@using Norris.UI.Models
+@using Norris.Data.Data.Entities
 
-<h2>Profile</h2>
+    <div class="row" id="siteGrid">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="panel panel-default" id="panel-override">
+                <div class="panel-heading" id="panel-heading-override"><span id="title">Menu</span></div>
 
-<div>
-    <h4>Manage your account settings</h4>
-    <hr />
-    <div class="row">
-        @*<div class="col-md-3">
-            @await Html.PartialAsync("_ManageNav")
-        </div>*@
-        <div class="col-md-9">
+                @await Html.PartialAsync("_ManageNav")
+            </div>
+        </div>
+        <div class="col-md-6">
             @RenderBody()
         </div>
-    </div>
-</div>
+        <div class="col-md-1"></div>
 
-@section Scripts {
-    @RenderSection("Scripts", required: false)
-}
-        
+    </div>
+    <h2>Profile</h2>
+    @inject UserManager<User> UserManager
+
+
+
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }
+

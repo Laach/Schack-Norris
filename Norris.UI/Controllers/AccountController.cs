@@ -242,8 +242,6 @@ namespace Norris.UI.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -459,6 +457,7 @@ namespace Norris.UI.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
+
 
         #endregion
     }

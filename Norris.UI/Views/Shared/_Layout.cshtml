@@ -28,11 +28,9 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Lobby" id="nav-txt-override">Lobby</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="nav-txt-override">Find Friends</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="ArchivedGames" id="nav-txt-override">Archived Games</a></li>
-                </ul>
+                <div class="nav navbar-nav">
+                    <a href="@Url.Action("Lobby","Home")"><img src="~/images/logo.png" width="70" height="50"></a>              
+                </div>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
