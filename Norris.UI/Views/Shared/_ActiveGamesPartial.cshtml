@@ -14,12 +14,11 @@
                     <div class="flex" id="games-flex">
                         <div class="games-left active-left">
                             @if (game.PlayerColor == 'w')
-                            { 
+                            {
                                 <img src="~/images/pieces/wn.png" style="width:17px;" />
                                 <span>vs.</span>
                                 <img src="~/images/pieces/bn.png" style="width:17px;" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
                             else
                             {
@@ -27,8 +26,10 @@
                                 <span>vs.</span>
                                 <img src="~/images/pieces/wn.png" style="width:17px;" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
+                        </div>
+                        <div class="games-left">
+                            <img src="~/images/move-icon.png" style="height:17px;" />@game.MovesCounter
                         </div>
                         <div class="games-right">
                             @if (game.IsMyTurn)
@@ -55,7 +56,6 @@
                                 <span>vs.</span>
                                 <img src="~/images/pieces/bn.png" style="width:17px;" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
                             else
                             {
@@ -63,8 +63,10 @@
                                 <span>vs.</span>
                                 <img src="~/images/pieces/wn.png" style="width:17px;" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
+                        </div>
+                        <div class="games-left">
+                            <img src="~/images/move-icon.png" style="height:17px;" />@game.MovesCounter
                         </div>
                         <div class="games-right">
                             @if (game.IsMyTurn)
