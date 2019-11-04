@@ -168,6 +168,14 @@ a.playGame {
 #game{
     margin-bottom:10px;
 }
+
+.FPheadingRight {
+    flex: 0 0 15px;
+}
+
+.FPheadingLeft {
+    flex: 1;
+}
 h1 {
     color: var(--heading-color);
 }
