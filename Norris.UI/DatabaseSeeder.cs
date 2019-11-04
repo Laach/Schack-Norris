@@ -224,6 +224,7 @@ namespace Norris.UI
             using (var reader = new StreamReader(@"us-500.csv"))
             {
                 reader.ReadLine();
+                int LFG = 0;
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
@@ -232,7 +233,7 @@ namespace Norris.UI
                     var values = line.Split(',');
                     string username = values[0] + "_" + values[1];
                     User user = new User
-                    {
+                    {                        
                         Id = Guid.NewGuid().ToString(),
                         AccessFailedCount = 0,
                         ConcurrencyStamp = Guid.NewGuid().ToString(),
@@ -247,6 +248,10 @@ namespace Norris.UI
                         TwoFactorEnabled = false,
                         UserName = username
                     };
+                    if (LFG++ % 50 == 0)
+                    {
+                        user.IsInLobby = true;
+                    }
                     _context.Users.Add(user);
                 }
             }
