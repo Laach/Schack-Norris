@@ -14,6 +14,7 @@ using Norris.Data.Data.Entities;
 using Norris.UI.Models;
 using Norris.UI.Models.AccountViewModels;
 using Norris.UI.Services;
+using Norris.Data;
 
 namespace Norris.UI.Controllers
 {
@@ -244,8 +245,10 @@ namespace Norris.UI.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            var userid = _signInManager.UserManager.GetUserId(User);
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+            UserActivity.Logout(userid);
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

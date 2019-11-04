@@ -355,3 +355,7 @@ tr {
   margin-bottom: 0px;
   display: none;
 }
+
+#profile-lbl {
+    color: #337ab7;
+}
