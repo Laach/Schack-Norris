@@ -16,9 +16,11 @@
 {
     <tr class="tRow">
         <td id="tCell">@item.UserName</td>
-        <td id="tCell">
-            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-primary btn-sm btn-block">
-                Join game
+        <td id="tCell" class="cell">
+            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})">
+                <button class="lobbyJoinGameBtn">
+                    Join game
+                </button>
             </a>
         </td>
     </tr>
