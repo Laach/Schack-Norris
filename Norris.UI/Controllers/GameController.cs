@@ -276,6 +276,7 @@ namespace Norris.UI.Controllers
           public int MoveCount {get; set;}
           public bool IsActive {get; set;}
           public bool IsMyTurn {get; set;}
+          public bool IsChecked{get; set;}
         }
 
         public IActionResult GameRefresh([FromBody] GameRefreshData data){
@@ -283,6 +284,8 @@ namespace Norris.UI.Controllers
             string userID = _signInManager.UserManager.GetUserId(User);
 
             bool IsMyTurn = _GameRepo.IsActivePlayer(data.GameID, userID);
+
+            bool isChecked = false;
 
             ChessboardPartialViewModel game = null;
 
@@ -292,6 +295,13 @@ namespace Norris.UI.Controllers
             if(IsMyTurn){
               var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
               char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
+
+              if(userColor == 'w'){
+                isChecked = _chessLogicManager.IsWhiteChecked(gamestate.Board);
+              }
+              else{
+                isChecked = _chessLogicManager.IsBlackChecked(gamestate.Board);
+              }
 
               game = new ChessboardPartialViewModel
               {
@@ -306,7 +316,13 @@ namespace Norris.UI.Controllers
             }
         
           // Game will be null if not users turn.
-          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter, IsActive=isactive, IsMyTurn=IsMyTurn});
+          return Json(new GameViewData{
+            Game      = game, 
+            MoveCount = gamestate.MovesCounter, 
+            IsActive  = isactive, 
+            IsMyTurn  = IsMyTurn,
+            IsChecked = isChecked
+            });
         }
     }
 }

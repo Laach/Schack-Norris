@@ -2,9 +2,6 @@
 @using Norris.Data.Models
 @model LobbyAndFriendsViewModel
 
-<environment include="Development">
-    <script src="~/js/site.js" asp-append-version="true"></script>
-</environment>
 
 
 
@@ -14,41 +11,41 @@
         @{
             ViewData["Title"] = "Lobby";
         }
-        <h2>@ViewData["Title"]</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="active">
-                        <th class="col-sm-9">USERNAME</th>
-                        <th class="col-sm-3"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{bool JoinLobby = true;}
-                    @{string JoinLobbyString = "Join Lobby";}
-                    @if (@Model.IsInLobby)
-                    {
-                        JoinLobby = false;
-                        JoinLobbyString = "Escape Lobby";
-                    }
-                    <a class="btn btn-success btn-sm btn-block" href="@Url.Action("Lobby", new { joinLobby = JoinLobby })">@JoinLobbyString</a>
 
-                    @foreach (var item in Model.CurrentLobbyUsers)
-                    {
-                        <tr>
-                            <td>@item.UserName</td>
-                            <td>
-                                <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-success btn-sm btn-block">Join game</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
+                <span id="nav-txt-override">@ViewData["Title"]</span>
+            </div>
+            <div class="panel-body" id="panel-body-override">
+                <div class="table-responsive">
+                    <table class="table" id="table-override">
+                        <thead>
+                            <tr id="tRow">
+                                <th class="col-sm-9" id="tHead">Users in lobby</th>
+                                <th class="col-sm-3" id="tHead">
+                                    @if (@Model.IsInLobby)
+                                    {
+                                    <a class="btn btn-danger btn-sm btn-block" href="@Url.Action("LeaveLobby", "Home")">Leave Lobby</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-success btn-sm btn-block" href="@Url.Action("JoinLobby", "Home")">Join Lobby</a>
+                                    }
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="lobby-partial">
+                          @await Html.PartialAsync("_LobbyPartial", Model)
+                        </tbody>
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-sm-3 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.Friends)</div>
     <div class="col-lg-1"></div>
 </div>
 
-
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/lobby.js" asp-append-version="true"></script>

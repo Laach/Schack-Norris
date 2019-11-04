@@ -73,16 +73,22 @@ hr.footer {
     border-radius: 4px;
     /*background-color:var(--list-bg-color);*/
 }
-.searchRow{
+.tRow{
     background-color: white;
     border:none;
 }
 #tCell{
     border:none;
 }
+#tHead{
+    background-color:white;
+}
 
-#searchTable{
+#table-override{
     margin-bottom:0px;
+}
+#thead-override{
+    border:none;
 }
 
 div.playGame {
@@ -287,5 +293,13 @@ p#lobbyInfoBottom{
 
 .game-tutorial{
   padding-top: 0;
-  margin-top: -20px;
+}
+
+#banner{
+  margin-bottom:0px;
+}
+
+#banner2{
+  margin-bottom: 0px;
+  display: none;
 }
