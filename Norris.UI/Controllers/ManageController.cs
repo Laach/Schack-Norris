@@ -516,6 +516,11 @@ namespace Norris.UI.Controllers
 
             var uid = _signInManager.UserManager.GetUserId(User);
             var games = _GameRepo.GetArchivedGameList(uid);
+            if(games.Count() == 0)
+            {
+                //has no archived games
+                return RedirectToAction("Index", "Manage");
+            }
             if (gameId == "default")
             {
                 gameId = games.First().GameID;
