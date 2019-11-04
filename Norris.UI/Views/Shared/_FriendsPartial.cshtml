@@ -6,49 +6,63 @@
 
 <div class="panel-group" id="panel-group-override" role="tablist">
     <div class="panel panel-default" id="panel-override">
-        <div class="panel-heading" id="panel-heading-override" role="tab">
-            <a href="#games" class="" role="button" data-toggle="collapse"
-                aria-expanded="true" aria-controls="games" onclick="changeIcon('icon4'); activeGamesOpen = !activeGamesOpen" id="nav-txt-override">
-                Games <i id="icon4" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
-            </a>
-        </div>
+        <a href="#games" class="" role="button" data-toggle="collapse"
+           aria-expanded="true" aria-controls="games" onclick="changeIcon('icon4'); activeGamesOpen = !activeGamesOpen" id="nav-txt-override">
+            <div class="panel-heading" id="panel-heading-override" role="tab">             
+                <div class="flex" id="fp-flex">
+                    <div class="FPheadingLeft">
+                        Games
+                    </div>
+                    <div class="FPheadingRight">
+                        <i id="icon4" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
         <div class="panel-collapse collapse in" role="tabpanel" id="games" aria-labelledby="games" aria-expanded="true">
             <ul class="list-group games" id="activegames">
-              @await Html.PartialAsync("_ActiveGamesPartial", @Model)
+                @await Html.PartialAsync("_ActiveGamesPartial", @Model)
             </ul>
         </div>
     </div>
-</div>
-<div class="friends">
-    <div class="panel-group" id="panel-group-override" role="tablist">
-        <div class="panel panel-default" id="panel-override">
+    <div class="panel panel-default" id="panel-override">
+        <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
+           aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2'); onlineFriendsOpen=!onlineFriendsOpen" id="nav-txt-override">
             <div class="panel-heading" id="panel-heading-override" role="tab">
-                <a href="#friendsOnline" class="" role="button" data-toggle="collapse"
-                    aria-expanded="true" aria-controls="friendsOnline" onclick="changeIcon('icon2'); onlineFriendsOpen=!onlineFriendsOpen" id="nav-txt-override">
-                    Friends online <i id="icon2" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
-                </a>
+                <div class="flex" id="fp-flex">
+                    <div class="FPheadingLeft">
+                        Friends online
+                    </div>
+                    <div class="FPheadingRight">
+                        <i id="icon2" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
-            <div class="panel-collapse collapse in" role="tabpanel" id="friendsOnline" aria-labelledby="friendsOnline" aria-expanded="true">
-                <ul class="list-group" id="online-friends">
-                  @await Html.PartialAsync("_OnlineFriendsPartial", @Model.UserFriends.OnlineFriends)
-                </ul>
-            </div>
+        </a>
+        <div class="panel-collapse collapse in" role="tabpanel" id="friendsOnline" aria-labelledby="friendsOnline" aria-expanded="true">
+            <ul class="list-group" id="online-friends">
+                @await Html.PartialAsync("_OnlineFriendsPartial", @Model.UserFriends.OnlineFriends)
+            </ul>
         </div>
     </div>
-    <div class="panel-group" role="tablist">
-        <div class="panel panel-default" id="panel-override">
+    <div class="panel panel-default" id="panel-override">
+        <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
+           aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3'); offlineFriendsOpen = !offlineFriendsOpen" id="nav-txt-override">
             <div class="panel-heading" id="panel-heading-override" role="tab">
-                <a href="#friendsOffline" class="" role="button" data-toggle="collapse"
-                    aria-expanded="true" aria-controls="friendsOffline" onclick="changeIcon('icon3'); offlineFriendsOpen = !offlineFriendsOpen" id="nav-txt-override">
-                    Friends offline
-                    <i id="icon3" class="glyphicon glyphicon-minus" aria-hidden="true"></i>
-                </a>
+                <div class="flex" id="fp-flex">
+                    <div class="FPheadingLeft">
+                        Friends offline
+                    </div>
+                    <div class="FPheadingRight">
+                        <i id="icon3" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
-            <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
-                <ul class="list-group offline-friends" id="list-group-override">
-                  @await Html.PartialAsync("_OfflineFriendsPartial", @Model.UserFriends.OfflineFriends)
-                </ul>
-            </div>
+        </a>
+        <div class="panel-collapse collapse in" role="tabpanel" id="friendsOffline" aria-labelledby="friendsOffline" aria-expanded="true">
+            <ul class="list-group offline-friends" id="list-group-override">
+                @await Html.PartialAsync("_OfflineFriendsPartial", @Model.UserFriends.OfflineFriends)
+            </ul>
         </div>
-    </div>
+    </div>       
 </div>

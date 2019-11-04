@@ -1,0 +1,25 @@
+@using Norris.Data.Data.Entities
+@using Norris.Data.Models
+@model LobbyAndFriendsViewModel
+
+
+@if(@Model.IsInLobby)
+{
+<tr class="tRow">
+    <td id="tCell">You are registered in the lobby</td>
+    <td id="tCell"></td>
+</tr>
+
+}
+
+@foreach (var item in Model.CurrentLobbyUsers)
+{
+    <tr class="tRow">
+        <td id="tCell">@item.UserName</td>
+        <td id="tCell">
+            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})" class="btn btn-primary btn-sm btn-block">
+                Join game
+            </a>
+        </td>
+    </tr>
+}

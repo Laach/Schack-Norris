@@ -4,55 +4,20 @@
 @using Norris.Data.Models.DTO
 
 @model ChessboardPartialViewModel
-<script src="/js/game.js"></script>
-<style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: 0.25fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0.25fr;
-        background-color: white;
-        padding: 1px;
-        align-items: center;
-    }
-
-    .grid-item {
-        font-size: 10px;
-    }
-
-    .side-border-item {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .top-bottom-border-item {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .white-item {
-        background-color: white;
-    }
-
-    .black-item {
-        background-color: gray;
-    }
-
-    .piece-image {
-        width: 100%;
-    }
-</style>
+<link rel="stylesheet" href="~/css/chessBoard.css" />
 
 <div class="grid-container">
     <div class="top-bottom-border-item"></div>
     @if (@Model.PlayerColor == 'w')
     {
-        @for(char j = 'A'; j <= 'H'; j++)
+        @for (char j = 'A'; j <= 'H'; j++)
         {
             <div class="top-bottom-border-item">@j</div>
         }
     }
     else
     {
-        @for(char j = 'H'; j >= 'A'; j--)
+        @for (char j = 'H'; j >= 'A'; j--)
         {
             <div class="top-bottom-border-item">@j</div>
         }
@@ -109,6 +74,9 @@
                     @{ string clickedPosition = f + r.ToString();}
                     <a onclick='updateBoard("@Model.GameId", "@f@r")'>
                         <img style="position:absolute" class="piece-image piece" src="~/images/pieces/@board[i,j]@fileext" alt="@board[i, j]" />
+                        <!-- Hover highlighting -->
+                        <img style="position:absolute;" class="piece-image board-hover-highlight" src="~/images/pieces/highlight-blue.png" alt="empty tile" />
+                        <!-- Marked tiles -->
                         <div>
                             <img class="piece-image highlight" src="~/images/pieces/ee.png" alt="empty tile" />
                         </div>
@@ -151,6 +119,7 @@
     }
     <div class="top-bottom-border-item"></div>
 </div>
+<script src="/js/game.js"></script>
 
 
 

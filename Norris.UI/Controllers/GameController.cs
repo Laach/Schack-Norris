@@ -36,14 +36,20 @@ namespace Norris.UI.Controllers
                 return RedirectToAction("Login", "Account");
             RefreshUser(User);
             var userId = _signInManager.UserManager.GetUserId(User);
+            GameStateDTO gamestate;
+            try
+            {
+                gamestate = _GameRepo.GetGamestate(gameId);
+            }
+            catch (ArgumentException e) { return RedirectToAction("Index", "Home"); }
+
             var friends = _GameRepo.GetFriendList(userId);
             var chat = _GameRepo.GetMessageLog(gameId);
             var games = _GameRepo.GetAllGames(userId);
-            var gamestate = _GameRepo.GetGamestate(gameId);
             var emptyStringList = new List<string>();
             List<string> changedTiles = new List<string>();
-
-            foreach(char f in Enumerable.Range('a', 8))
+            
+            foreach (char f in Enumerable.Range('a', 8))
             {
                 foreach(char r in Enumerable.Range('1', 8))
                 {
@@ -74,8 +80,15 @@ namespace Norris.UI.Controllers
                 ChatMessages = chat
             };
 
-            string opponent = games .Where(e => e.GameID.Equals(gameId)).FirstOrDefault().OpponentName;
-
+            string opponent;
+            try
+            {
+                opponent = games.Where(e => e.GameID.Equals(gameId)).FirstOrDefault().OpponentName;
+            }
+            catch (NullReferenceException e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View(new GameViewModel { FriendsAndGames = friendsAndGames, Board = board, Chat = chatSystem, OpponentName=opponent});
         }
 
@@ -232,11 +245,24 @@ namespace Norris.UI.Controllers
           return Json("");
         }
 
-        public IActionResult NewGame(string userID)
-        {
-            var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User),userID);
+        public class UserIdDTO{
+          public string UserID {get; set;}
+        }
 
-            return RedirectToAction("Index", new { gameId = newGameID });
+        public IActionResult NewGame([FromBody] UserIdDTO id)
+        {
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var opponentId = id.UserID;
+            bool tooManyGames = _GameRepo.GetAllGames(userId).Where(p => p.OpponentName.Equals(_GameRepo.GetUserNameFromId(opponentId))).Count() >= 3;
+            if(tooManyGames)
+            {
+                return Json(new GameRefreshData { GameID = "" });
+            }
+
+            var newGameID = _GameRepo.AddNewGame(_signInManager.UserManager.GetUserId(User), id.UserID);
+
+            var data = new GameRefreshData{GameID = newGameID};
+            return Json(data);
         }
 
 
@@ -250,6 +276,7 @@ namespace Norris.UI.Controllers
           public int MoveCount {get; set;}
           public bool IsActive {get; set;}
           public bool IsMyTurn {get; set;}
+          public bool IsChecked{get; set;}
         }
 
         public IActionResult GameRefresh([FromBody] GameRefreshData data){
@@ -257,6 +284,8 @@ namespace Norris.UI.Controllers
             string userID = _signInManager.UserManager.GetUserId(User);
 
             bool IsMyTurn = _GameRepo.IsActivePlayer(data.GameID, userID);
+
+            bool isChecked = false;
 
             ChessboardPartialViewModel game = null;
 
@@ -266,6 +295,13 @@ namespace Norris.UI.Controllers
             if(IsMyTurn){
               var changedTiles = _GameRepo.GetChangedTiles(data.GameID);
               char userColor = _GameRepo.GetPlayerColor(data.GameID, userID);
+
+              if(userColor == 'w'){
+                isChecked = _chessLogicManager.IsWhiteChecked(gamestate.Board);
+              }
+              else{
+                isChecked = _chessLogicManager.IsBlackChecked(gamestate.Board);
+              }
 
               game = new ChessboardPartialViewModel
               {
@@ -280,7 +316,13 @@ namespace Norris.UI.Controllers
             }
         
           // Game will be null if not users turn.
-          return Json(new GameViewData{Game=game, MoveCount=gamestate.MovesCounter, IsActive=isactive, IsMyTurn=IsMyTurn});
+          return Json(new GameViewData{
+            Game      = game, 
+            MoveCount = gamestate.MovesCounter, 
+            IsActive  = isactive, 
+            IsMyTurn  = IsMyTurn,
+            IsChecked = isChecked
+            });
         }
     }
 }

@@ -4,74 +4,98 @@
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<style>
-</style>
+<div class="row" id="siteGrid">
+    <div class="col-lg-1"></div>
 
-
-<div class="row">
-    <div class="col-xs-12 col-sm-4 col-lg-3">@await Html.PartialAsync("_ChatPartial", Model.Chat)</div>
-    <div class="col-xs-12 col-sm-8 col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+    <div class="col-xs-12 col-sm-8 col-lg-4 col-lg-push-3" id="game">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <p class="lobbyInfo">
-                            Chess game vs. @Model.OpponentName
-                        </p>                   
+                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoLeft">
+                        Chess game vs. @Model.OpponentName
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoRight">
                         @if (@Model.Board.PlayerColor == 'w')
                         {
-                            <p class="lobbyInfo" id="lobbyInfoCenter">You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></p>
+                            <span>You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></span>
                         }
                         else
                         {
-                            <p class="lobbyInfo" id="lobbyInfoCenter">You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></p>
+                            <span>You are black.<img src="~/images/pieces/bn.png" style="height:15px" alt="black knight" /></span>
                         }
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="lobbyInfo" id="lobbyInfoRight">@Model.Board.GameState.MovesCounter Moves Made.</p>
                     </div>
                 </div>
             </div>
             @await Html.PartialAsync("_ChessboardPartial", Model.Board)
 
-                @if(!@Model.Board.GameState.IsActive)
+            @if (!@Model.Board.GameState.IsActive)
+            {
+                @if (@Model.Board.PlayerColor == 'w')
                 {
-                  @if(@Model.Board.PlayerColor == 'w')
-                  {
                     <div class="alert alert-danger" role="alert" id="banner"><strong>You lost</strong></div>
-                  }
-                  else
-                  {
-                    <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
-                  }
-                  
-                }
-                else if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
-                {
-                    <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
                 }
                 else
                 {
-                    <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
+                    <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
                 }
 
-                <div class="panel-body">
-                    <p>
-                        Place the opponent in check mate to win. Nulla vitae elit libero, a pharetra augue.
-                        Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam.
-                        Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                        Nullam id dolor id nibh ultricies vehicula ut id elit.
-                    </p>
-                </div>
+            }
+            else if (@Model.Board.PlayerColor == @Model.Board.GameState.ActivePlayerColor)
+            {
+                <div class="alert alert-success" role="alert" id="banner">It's <strong>your turn</strong> </div>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert" id="banner">Waiting for your <strong>opponents move</strong></div>
+            }
+
+            <div class="alert alert-danger" role="alert" id="banner2">You are <strong>checked</strong></div>
+
+            <div class="panel-body game-tutorial" id="panel-body-override">
+                <h1 style="color: black; text-align: left; padding-bottom: 10px;">How to play</h1>
+                <p id="lobbyInfoBottom">
+                    Place the opponent in checkmate to win.
+                </p>
+                <p id="lobbyInfoBottom">
+                    Click one of your tiles to display its possible moves.
+                    Click a green or red tile to move the selected piece to it.
+                    Click the selected piece or an empty piece to deselect the
+                    selected piece.
+                </p>
+                <ul style="list-style:none; padding: 0; margin-left: 0;">
+                    <li style="padding-bottom: 0.4em;">
+                        @{
+                            string movePiece = @Model.Board.PlayerColor == 'w' ? "wp" : "bp";
+                            string takePiece = @Model.Board.PlayerColor == 'w' ? "bp" : "wp";
+                            string fileext = ".png";
+                        }
+                        <img src="~/images/pieces/@movePiece@fileext" style="width: 30px; position: absolute;">
+                        <img src="~/images/pieces/highlight-blue.png" style="width: 30px; position: relative;">
+                        Blue - your currently selected piece.
+                    </li>
+                    <li style="padding-bottom: 0.4em;">
+                        <img src="~/images/pieces/ee.png" style="width: 30px; position: absolute;">
+                        <img src="~/images/pieces/highlight-green.png" style="width: 30px; position: relative;">
+                        Green - the tiles you can move to.
+
+                    </li>
+                    <li style="padding-bottom: 0.4em;">
+                        <img src="~/images/pieces/@takePiece@fileext" style="width: 30px; position: absolute;">
+                        <img src="~/images/pieces/highlight-red.png" style="width: 30px; position: relative;">
+                        Red - the tiles you can move to and take.
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)</div>
+    <div class="col-xs-12 col-sm-4 col-lg-3 col-lg-push-3" id="sidebar">
+        @await Html.PartialAsync("_FriendsPartial", Model.FriendsAndGames)
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-3 col-lg-pull-7">
+        @await Html.PartialAsync("_ChatPartial", Model.Chat)
+    </div>
+    <div class="col-lg-1"></div>
 </div>
 
 <script>

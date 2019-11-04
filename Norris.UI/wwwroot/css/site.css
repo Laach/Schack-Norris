@@ -57,17 +57,64 @@ hr.footer {
 .friends{
     
 }
+#siteGrid{
+    padding-top:30px;
+    padding-left: 15px;
+    padding-right: 15px
+}
+
+#searchBox {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top:5px;
+    margin-bottom:0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*background-color:var(--list-bg-color);*/
+}
+.tRow{
+    background-color: white;
+    border:none;
+}
+#tCell{
+    border:none;
+}
+#tHead{
+    background-color:white;
+}
+
+#table-override{
+    margin-bottom:0px;
+}
+#thead-override{
+    border:none;
+}
 
 a.playGame {
     text-decoration: none;
     color: var(--content-text-color);
 }
+.playGame:hover{
+    cursor:pointer;
+}
+ 
 
 .list-group-item.playGame#list-group-item-override:hover{
     background-color:var(--list-hover-color);
 }
 .list-group-item.playGame#list-group-item-disabled-override:hover {
     background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-override:hover .friends-right {
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--nav-bg-color);
 }
 
 .list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
@@ -87,13 +134,27 @@ a.playGame {
     color: gray;
 }
 
+.yWon {
+    color: var(--nav-bg-color);
+    font-weight: bold;
+}
+
+.oWon {
+    color: gray;
+}
+
+
 .flex {
     display: flex;
 }
 
 .friends-right {
     flex: 0 0 97px;
-
+    
+}
+#newGameBtn {
+    color: #383838;
+    font-size:85%;
 }
 
 .friends-left {
@@ -107,8 +168,41 @@ a.playGame {
 .games-left {
     flex:1;
 }
+
+.active-left{
+  font-weight: bold;
+  font-size: 18px;
+}
+.active-left > img {
+    width: 22px;
+}
+
 .activeGame#list-group-item-override {
     background-color: var(--list-hover-color);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#sidebar{
+    margin-bottom:30px;
+}
+#game{
+    margin-bottom:10px;
+}
+
+.FPheadingRight {
+    flex: 0 0 15px;
+}
+
+.FPheadingLeft {
+    flex: 1;
+}
+.chatHeadingRight {
+    flex: 0 0 15px;
+}
+
+.chatHeadingLeft {
+    flex: 1;
 }
 h1 {
     color: var(--heading-color);
@@ -134,21 +228,25 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo {
-    color: var(--content-text-color);
+#gameInfoRight {
+    text-align: right;
+    color: var(--nav-text-color);
+}
+#gameInfoLeft {
+    color: var(--nav-text-color);
+}
+#gameInfoBottom{
+    color:black;
 }
 
-p#lobbyInfoCenter{
-    text-align:center;
-}
-
-p#lobbyInfoRight{
-    text-align:right;
+#findFriends{
+    color: var(--nav-text-color);
 }
 
 #panel-override{
     border:none;
     background-color:none;
+    border-radius:0;
 }
 
 #panel-group-override{
@@ -157,24 +255,34 @@ p#lobbyInfoRight{
     background-color:none;
 }
 
-#panel-heading-override{
-    background-color:var(--nav-bg-color);
-    border:none;
+#panel-heading-override {
+    background-color: var(--nav-bg-color);
+    border: none;
+    border-radius: 0;
+}
+#panel-body-override {
+    border: none;
+    padding: 10px;
+    background-color: var(--list-bg-color);
+    border-radius: 0;
 }
 
-#list-group-override{
-    border:none;
+#list-group-override {
+    background-color: none;
+    border: none;
 }
 
 #list-group-item-override {
     color: var(--content-text-color);
     background-color: var(--list-bg-color);
     border: none;
+    border-radius: 0;
 }
 
-#list-group-item-disabled-override{
-    background-color:var(--list-disabled-bg-color);
-    border:none;
+#list-group-item-disabled-override {
+    background-color: var(--list-disabled-bg-color);
+    border: none;
+    border-radius: 0;
 }
 
 #nav-override {
@@ -192,7 +300,13 @@ p#lobbyInfoRight{
     color:var(--text-hover);
 }
 
+#labelStyling {
+    
+}
 
+#title {
+    color: var(--nav-text-color);
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
@@ -200,4 +314,31 @@ p#lobbyInfoRight{
     .carousel-caption {
         display: none;
     }
+}
+
+.board-hover-highlight{
+  display: none;
+}
+
+.board-hover-highlight:hover{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.piece:hover~.board-hover-highlight{
+  cursor: pointer;
+  display: inline-block;
+}
+
+.game-tutorial{
+  padding-top: 0;
+}
+
+#banner{
+  margin-bottom:0px;
+}
+
+#banner2{
+  margin-bottom: 0px;
+  display: none;
 }
