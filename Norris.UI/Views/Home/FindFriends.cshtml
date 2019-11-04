@@ -1,5 +1,8 @@
 ﻿@using Norris.Data.Models.DTO;
 @model FriendsPartialViewModel
+@{
+    ViewData["Title"] = "Find friends";
+}
 
 <environment include="Development">
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -7,7 +10,7 @@
 
 <div class="row" id="siteGrid">
     <div class="col-lg-1"></div>
-      
+
     <div class="col-lg-7">
         <div class="panel panel-default" id="panel-override">
             <div class="panel-heading" id="panel-heading-override">
@@ -18,7 +21,7 @@
                 <input type="text" placeholder="Search user" id="searchBox" onkeyup="searchUsers(this.value)" />
                 <span id="searchResults"></span>
             </div>
-        </div>           
+        </div>
     </div>
     <div class="col-lg-3" id="sidebar">@await Html.PartialAsync("_FriendsPartial", Model)</div>
     <div class="col-lg-1"></div>
