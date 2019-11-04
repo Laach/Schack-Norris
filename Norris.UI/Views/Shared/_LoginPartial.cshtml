@@ -10,8 +10,8 @@
     <form id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li><a asp-area="" asp-controller="Home" asp-action="FindFriends" id="right-nav-style">Find Friends</a></li>
-            <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage" id="right-nav-style">@UserManager.GetUserName(User) </a></li>
-            <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage"><img src="~/images/profile3.png" width="30" height="30" style="margin-left:-20px;" id="account-img" /></a></li>
+            <li><a href="/Manage/ArchivedGames?gameId=default" id="right-nav-style">@UserManager.GetUserName(User) </a></li>
+            <li><a href="/Manage/ArchivedGames?gameId=default"><img src="~/images/profile3.png" width="30" height="30" style="margin-left:-20px;" id="account-img" /></a></li>
         </ul>
     </form>
 }

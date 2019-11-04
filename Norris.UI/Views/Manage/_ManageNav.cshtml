@@ -8,8 +8,8 @@
 <div class="panel panel-default">
     <div class="panel-body" id="panel-override">
         <ul class="nav nav-pills nav-stacked">
-            <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Change Password</a></li>
             <li class="@ManageNavPages.ArchivedGamesNavClass(ViewContext)">@Html.ActionLink("Archived Games", "ArchivedGames", "Manage", new { gameId = "default" })</li>
+            <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Change Password</a></li>
             <li><a asp-area="" asp-controller="Account" asp-action="Logout" class="nav nav-pills nav-stacked">Log out</a></li>
         </ul>
     </div>
