@@ -158,6 +158,10 @@ div.playGame:hover {
 
 .active-left{
   font-weight: bold;
+  font-size: 18px;
+}
+.active-left > img {
+    width: 22px;
 }
 
 .activeGame#list-group-item-override {
