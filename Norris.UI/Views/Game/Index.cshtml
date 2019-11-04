@@ -3,7 +3,10 @@
 @model GameViewModel
 
 <script src="~/js/site.js" asp-append-version="true"></script>
+@{
+    ViewData["Title"] = "Chess vs. " + @Model.OpponentName;
 
+}
 
 <div class="row" id="siteGrid">
     <div class="col-lg-1"></div>
