@@ -10,7 +10,7 @@
 }
 
 #chat-panel-heading-override {
-    background-color: var(--nav-bg-color);
+    background-color: var(--list-heading-bg-color);
     border: none;
     border-radius: 0;
 }
@@ -26,8 +26,6 @@
     background-color: var(--list-bg-color);
 }
 
-#chat-scroll {
-}
 
 #chat-list-group-item-override {
     margin-top:0px;
@@ -57,9 +55,9 @@
     border-radius: 0;
 }
 #chat-send-btn {
-    background-color: var(--nav-bg-color);
-    width:100%;
-    height:100%;
+    background-color: var(--btn-bg-color);
+    width: 100%;
+    height: 100%;
     border: none;
     color: white;
     text-align: center;
@@ -68,7 +66,7 @@
     cursor: pointer;
 }
 #chat-send-btn:hover {
-    background-color: #398aed;
+    background-color: var(--btn-bg-hover);
 }
 
 

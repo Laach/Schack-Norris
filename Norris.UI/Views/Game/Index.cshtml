@@ -3,7 +3,10 @@
 @model GameViewModel
 
 <script src="~/js/site.js" asp-append-version="true"></script>
+@{
+    ViewData["Title"] = "Chess vs. " + @Model.OpponentName;
 
+}
 
 <div class="row" id="siteGrid">
     <div class="col-lg-1"></div>
@@ -12,10 +15,10 @@
         <div class="panel panel-default" id="panel-override">
             <div class="panel-heading" id="panel-heading-override">
                 <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoLeft">
+                    <div class="col-lg-8 col-sm-8 col-xs-8" id="gameInfoLeft">
                         Chess game vs. @Model.OpponentName
                     </div>
-                    <div class="col-lg-6 col-sm-6 col-xs-6" id="gameInfoRight">
+                    <div class="col-lg-4 col-sm-4 col-xs-4" id="gameInfoRight">
                         @if (@Model.Board.PlayerColor == 'w')
                         {
                             <span>You are white.<img src="~/images/pieces/wn.png" style="height:15px" alt="white knight" /></span>

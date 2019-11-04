@@ -14,30 +14,31 @@
                     <div class="flex" id="games-flex">
                         <div class="games-left active-left">
                             @if (game.PlayerColor == 'w')
-                            { 
-                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                            {
+                                <img class="games-image active-left-image" src="~/images/pieces/wn.png" />
                                 <span>vs.</span>
-                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                <img class="games-image active-left-image" src="~/images/pieces/bn.png" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
                             else
                             {
-                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                <img class="games-image active-left-image" src="~/images/pieces/bn.png" />
                                 <span>vs.</span>
-                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                <img class="games-image active-left-image" src="~/images/pieces/wn.png" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
+                        </div>
+                        <div class="games-left active-left">
+                            <img class="games-image active-left-image" src="~/images/move-icon.png" />@game.MovesCounter
                         </div>
                         <div class="games-right">
                             @if (game.IsMyTurn)
                             {
-                                <span class="yTurn">Your turn</span>
+                                <span class="yTurn active-right">Your turn</span>
                             }
                             else
                             {
-                                <span class="oTurn">Opponents turn</span>
+                                <span class="oTurn" style="vertical-align: middle;">Opponents turn</span>
                             }
                         </div>
                         <div></div>
@@ -51,20 +52,21 @@
                         <div class="games-left">
                             @if (game.PlayerColor == 'w')
                             {
-                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                <img class="games-image" src="~/images/pieces/wn.png" />
                                 <span>vs.</span>
-                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                <img class="games-image" src="~/images/pieces/bn.png"  />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
                             else
                             {
-                                <img src="~/images/pieces/bn.png" style="width:17px;" />
+                                <img class="games-image" src="~/images/pieces/bn.png"  />
                                 <span>vs.</span>
-                                <img src="~/images/pieces/wn.png" style="width:17px;" />
+                                <img class="games-image" src="~/images/pieces/wn.png" />
                                 @game.OpponentName
-                                <span> #</span>@game.MovesCounter
                             }
+                        </div>
+                        <div class="games-left">
+                            <img src="~/images/move-icon.png" style="height:17px;" />@game.MovesCounter
                         </div>
                         <div class="games-right">
                             @if (game.IsMyTurn)

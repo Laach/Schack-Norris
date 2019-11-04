@@ -1,5 +1,8 @@
 @using Norris.Data.Models.DTO;
 @model ArchivedGamesViewModel
+@{
+    ViewData["Title"] = "Archived games";
+}
 
 <div class="row">
     <div class="col-sm-8">
@@ -32,31 +35,31 @@
 
             @foreach (var game in Model.ArchivedGames)
             {
-            <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
+                <a href='@Url.Action("ArchivedGames", "Manage", new { gameId = @game.GameID })' class="playGame">
 
-                <li class="list-group-item playGame" id="list-group-item-override">
-                    <div class="flex" id="games-flex">
-                        <div class="games-left">
-                            Game vs. @game.OpponentName
+                    <li class="list-group-item playGame" id="list-group-item-override">
+                        <div class="flex" id="games-flex">
+                            <div class="games-left">
+                                Game vs. @game.OpponentName
+                            </div>
+                            <div class="games-right">
+                                @if (@game.AmIWinner)
+                                {
+                                    <span class="yWon">You won!</span>
+
+                                }
+                                else
+                                {
+                                    <span class="oWon">You lost...</span>
+                                }
+                            </div>
                         </div>
-                        <div class="games-right">
-                            @if (@game.AmIWinner)
-                            {
-                                <span class="yWon">You won!</span>
 
-                            }
-                            else
-                            {
-                                <span class="oWon">You lost...</span>
-                            }
-                        </div>
-                    </div>
-
-                </li>
-            </a>
+                    </li>
+                </a>
             }
         </div>
     </div>
-  <div class="col-sm-3" id="sidebar">
-  </div>
+    <div class="col-sm-3" id="sidebar">
+    </div>
 </div>
