@@ -91,14 +91,14 @@ hr.footer {
     border:none;
 }
 
-div.playGame {
+a.playGame {
     text-decoration: none;
     color: var(--content-text-color);
 }
-  
-div.playGame:hover {
-    cursor: pointer; 
+.playGame:hover{
+    cursor:pointer;
 }
+ 
 
 .list-group-item.playGame#list-group-item-override:hover{
     background-color:var(--list-hover-color);
@@ -108,6 +108,9 @@ div.playGame:hover {
 }
 
 .list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
+    color: var(--nav-bg-color);
+}
+.list-group-item.playGame#list-group-item-override:hover .friends-right {
     color: var(--nav-bg-color);
 }
 .list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
@@ -169,6 +172,28 @@ div.playGame:hover {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+#sidebar{
+    margin-bottom:30px;
+}
+#game{
+    margin-bottom:10px;
+}
+
+.FPheadingRight {
+    flex: 0 0 15px;
+}
+
+.FPheadingLeft {
+    flex: 1;
+}
+.chatHeadingRight {
+    flex: 0 0 15px;
+}
+
+.chatHeadingLeft {
+    flex: 1;
+}
 h1 {
     color: var(--heading-color);
 }
@@ -193,19 +218,19 @@ tr {
     background-color: var(--list-bg-color);
 }
 
-p.lobbyInfo {
+#gameInfoRight {
+    text-align: right;
     color: var(--nav-text-color);
 }
-
-p#lobbyInfoCenter{
-    text-align:center;
+#gameInfoLeft {
+    color: var(--nav-text-color);
 }
-
-p#lobbyInfoRight{
-    text-align:right;
-}
-p#lobbyInfoBottom{
+#gameInfoBottom{
     color:black;
+}
+
+#findFriends{
+    color: var(--nav-text-color);
 }
 
 #panel-override{

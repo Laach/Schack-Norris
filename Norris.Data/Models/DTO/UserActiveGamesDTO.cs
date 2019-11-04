@@ -7,5 +7,6 @@ namespace Norris.Data.Models.DTO
         public bool IsMyTurn       { get; set; }
         public string OpponentName { get; set; }
         public char PlayerColor { get; set; }
+        public int MovesCounter { get; set; }
     }
 }

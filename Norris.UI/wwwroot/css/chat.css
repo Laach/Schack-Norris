@@ -48,15 +48,34 @@
     word-break:break-word;
 }
 
-#chat-box-input{
+#chat-box-input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 0px;
+    display: inline-block;
+    border:none;
+    border-radius: 0;
+}
+#chat-send-btn {
+    background-color: var(--nav-bg-color);
     width:100%;
+    height:100%;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+#chat-send-btn:hover {
+    background-color: #398aed;
 }
 
-.flex{
+
+.flex {
     display: flex;
 }
 #chat-right {
-    border:1px solid black;
     flex: 0 0 50px;
 }
 #chat-left {

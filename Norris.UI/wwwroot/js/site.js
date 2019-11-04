@@ -33,10 +33,10 @@ function deleteRow(rowid) {
 
 
 function changeIcon(iconID) {
-    if (document.getElementById(iconID).className == "glyphicon glyphicon-minus") {
-        document.getElementById(iconID).className = "glyphicon glyphicon-plus";
+    if (document.getElementById(iconID).className == "glyphicon glyphicon-chevron-down") {
+        document.getElementById(iconID).className = "glyphicon glyphicon-chevron-right";
     } else {
-        document.getElementById(iconID).className = "glyphicon glyphicon-minus";
+        document.getElementById(iconID).className = "glyphicon glyphicon-chevron-down";
     }
 }
 
