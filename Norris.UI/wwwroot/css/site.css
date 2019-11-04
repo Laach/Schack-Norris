@@ -8,9 +8,6 @@
     box-sizing: border-box;
 }
 
-footer {
-    color: var(--text-hover);
-}
 hr.footer {
     border: 0;
     height: 0;
@@ -23,12 +20,12 @@ hr.footer {
     --nav-text-color: #e3e3e3;
     --heading-color: #e3e3e3;
     --content-text-color: black;
-    --nav-text-color-rgb: 40, 44, 55;
     --text-hover: white;
     --list-disabled-bg-color: #c0c6cc;
     --list-bg-color: #d9e1e8;
     --list-hover-color: #ebf3fa;
     --list-disabled-hover-color: #d9e1e8;
+    --list-heading-bg-color: #2b79d9;
     --nav-bg-color: #2b79d9;
 }
 
@@ -84,49 +81,13 @@ hr.footer {
     background-color:white;
 }
 
-#table-override{
-    margin-bottom:0px;
-}
-#thead-override{
-    border:none;
-}
-
 a.playGame {
     text-decoration: none;
     color: var(--content-text-color);
 }
-.playGame:hover{
-    cursor:pointer;
-}
- 
-
-.list-group-item.playGame#list-group-item-override:hover{
-    background-color:var(--list-hover-color);
-}
-.list-group-item.playGame#list-group-item-disabled-override:hover {
-    background-color: var(--list-disabled-hover-color);
-}
-
-.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right{
-    color: var(--nav-bg-color);
-}
-.list-group-item.playGame#list-group-item-override:hover .friends-right {
-    color: var(--nav-bg-color);
-}
-.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
-    color: var(--nav-bg-color);
-}
-
-.list-group-item.playGame#list-group-item-disabled-override:hover .playGameRight{
-    
-}
-.list-group-item.playGame#list-group-item-override:hover .playGameRight {
-    
-}
-
 
 .yTurn{
-    color:var(--nav-bg-color);
+    color:var(--list-heading-bg-color);
     font-weight:bold;
 }
 
@@ -158,9 +119,7 @@ a.playGame {
 .games-left {
     flex:1;
 }
-.activeGame#list-group-item-override {
-    background-color: var(--list-hover-color);
-}
+
 
 #sidebar{
     margin-bottom:30px;
@@ -211,9 +170,11 @@ tr {
     text-align: right;
     color: var(--nav-text-color);
 }
+
 #gameInfoLeft {
     color: var(--nav-text-color);
 }
+
 #gameInfoBottom{
     color:black;
 }
@@ -222,6 +183,41 @@ tr {
     color: var(--nav-text-color);
 }
 
+#title {
+    color: var(--nav-text-color);
+}
+
+/*-----------------------------------------------------------------------HOVER EFFECTS--------------*/
+.playGame:hover {
+    cursor: pointer;
+}
+ 
+.list-group-item.playGame#list-group-item-override:hover {
+    background-color: var(--list-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover {
+    background-color: var(--list-disabled-hover-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover .friends-right {
+    color: var(--list-heading-bg-color);
+}
+
+.list-group-item.playGame#list-group-item-override:hover .friends-right {
+    color: var(--list-heading-bg-color);
+}
+
+.list-group-item.playGame#list-group-item-disabled-override:hover #newGameBtn {
+    color: var(--list-heading-bg-color);
+}
+
+#nav-txt-override:hover {
+    color: var(--text-hover);
+}
+
+
+/*-----------------------------------------------------------------------BOOTSTRAP OVERRIDES--------*/
 #panel-override{
     border:none;
     background-color:none;
@@ -235,7 +231,7 @@ tr {
 }
 
 #panel-heading-override {
-    background-color: var(--nav-bg-color);
+    background-color: var(--list-heading-bg-color);
     border: none;
     border-radius: 0;
 }
@@ -274,17 +270,16 @@ tr {
     text-decoration:none;
 }
 
-#nav-txt-override:hover {
-    /*color: rgba(var(--nav-text-color-rgb), 0.5);*/
-    color:var(--text-hover);
+.activeGame#list-group-item-override {
+    background-color: var(--list-hover-color);
 }
 
-#labelStyling {
-    
+#table-override {
+    margin-bottom: 0px;
 }
 
-#title {
-    color: var(--nav-text-color);
+#thead-override {
+    border: none;
 }
 
 /* Hide/rearrange for smaller screens */
