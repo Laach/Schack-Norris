@@ -253,23 +253,32 @@ p#lobbyInfoBottom{
 }
 
 
-#brand-style {
+#logo {
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-left:-5px;
 }
 
 #right-nav-style {
     color: var(--nav-text-color);
     text-decoration: none;
     font-size:150%;
+    margin-top:5px;
 }
 
-.navbar-brand{
-    color: white;
-
+#brand-name {
+    color:white;
+    font-size:150%;
+    text-decoration:none;
+    font-size:24px;
 }
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
+    }
+    #account-img{
+        display:none;
     }
 }
