@@ -141,6 +141,9 @@ namespace Norris.Game {
       IEnumerable<Point> list = new List<Point>();
       if(player == Color.White){
         Point forward = new Point(){ Y = point.Y - 1, X = point.X};
+        if(!Inbounds(forward)){
+          return new List<Point>();
+        }
         if(board[forward] == null){
           list = list.Append(forward);
           IEnumerable<Point> startPositions = PawnStartPositions(6);
@@ -164,6 +167,9 @@ namespace Norris.Game {
       }
       else{
         Point forward = new Point(){ Y = point.Y + 1, X = point.X};
+        if(!Inbounds(forward)){
+          return new List<Point>();
+        }
         if(board[forward] == null){
           list = list.Append(forward);
           IEnumerable<Point> startPositions = PawnStartPositions(1);
