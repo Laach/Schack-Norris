@@ -212,6 +212,56 @@ namespace Norris.UI
             _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
 
 
+            gameId = repo.AddNewGame("7e3fc3e1-5049-4567-96a2-a50db094cc3d",
+                            "19cd7126-2f69-4b1d-9326-d92fcb438f2d");
+
+            _context.GameSessions.Find(gameId).MovesCounter = 75;
+            _context.GameSessions.Find(gameId).Board =
+                "ee,ee,ee,ee,bk,ee,ee,ee," +
+                "ee,bb,ee,ee,wp,ee,ee,ee," +
+                "ee,ee,ee,ee,wk,wn,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,bp," +
+                "ee,ee,ee,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,ee,ee,ee,ee";
+            _context.GameSessions.Find(gameId).IsActive = false;
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+
+            gameId = repo.AddNewGame("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                            "7e3fc3e1-5049-4567-96a2-a50db094cc3d");
+
+            _context.GameSessions.Find(gameId).MovesCounter = 46;
+            _context.GameSessions.Find(gameId).Board =
+                "ee,ee,bk,wq,ee,ee,bn,br," +
+                "bp,bp,bp,ee,ee,bp,bp,ee," +
+                "ee,ee,bq,ee,ee,ee,ee,ee," +
+                "ee,ee,ee,ee,bp,ee,ee,ee," +
+                "ee,wp,ee,ee,ee,ee,ee,bp," +
+                "wp,ee,ee,ee,wp,ee,ee,ee," +
+                "ee,ee,ee,ee,wb,wp,wp,wp," +
+                "ee,ee,ee,wr,ee,ee,wk,ee";
+            _context.GameSessions.Find(gameId).IsActive = false;
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
+
+            gameId = repo.AddNewGame("19cd7126-2f69-4b1d-9326-d92fcb438f2d",
+                            "bc64fdac-65bf-4e91-b9cf-cdbc6c542e2c");
+
+            _context.GameSessions.Find(gameId).MovesCounter = 54;
+            _context.GameSessions.Find(gameId).Board =
+                "ee,bk,ee,ee,ee,ee,ee,br," +
+                "wq,bp,bp,ee,ee,ee,ee,br," +
+                "ee,bn,ee,ee,ee,ee,bn,ee," +
+                "ee,wp,ee,ee,ee,ee,bp,ee," +
+                "ee,ee,ee,ee,wp,ee,ee,bp," +
+                "ee,ee,ee,bq,wp,ee,wp,wb," +
+                "ee,ee,ee,ee,ee,ee,ee,wp," +
+                "wr,ee,ee,ee,ee,ee,wk,ee";
+            _context.GameSessions.Find(gameId).IsActive = false;
+            _context.GameSessions.Find(gameId).IsWhitePlayerTurn = false;
+
 
 
             _context.SaveChanges();
@@ -231,7 +281,7 @@ namespace Norris.UI
                     line = line.Replace("\\", "");
                     line = line.Replace("\"", "");
                     var values = line.Split(',');
-                    string username = values[0] + "_" + values[1];
+                    string username = values[0] + values[1];
                     User user = new User
                     {                        
                         Id = Guid.NewGuid().ToString(),
@@ -250,7 +300,7 @@ namespace Norris.UI
                     };
                     if (LFG++ % 50 == 0)
                     {
-                        user.IsInLobby = true;
+                        user.IsInLobby=true;
                     }
                     _context.Users.Add(user);
                 }
