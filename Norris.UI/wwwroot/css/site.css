@@ -187,9 +187,7 @@ h4 {
     color: var(--heading-color);
 }
 
-p{
-    color:var(--heading-color);
-}
+
 
 tr {
     background-color: var(--list-bg-color);
