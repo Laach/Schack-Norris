@@ -5,14 +5,12 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-
-<ul class="nav nav-pills nav-stacked">
-    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
-    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
-    }
-    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
-</ul>
-
+<div class="panel panel-default">
+    <div class="panel-body" id="panel-override">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Change Password</a></li>
+            <li class="@ManageNavPages.ArchivedGamesNavClass(ViewContext)">@Html.ActionLink("Archived Games", "ArchivedGames", "Manage", new { gameId = "default" })</li>
+            <li><a asp-area="" asp-controller="Account" asp-action="Logout" class="nav nav-pills nav-stacked">Log out</a></li>
+        </ul>
+    </div>
+</div>

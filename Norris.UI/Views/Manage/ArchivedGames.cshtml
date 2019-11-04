@@ -1,0 +1,62 @@
+@using Norris.Data.Models.DTO;
+@model ArchivedGamesViewModel
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
+                <span id="title">
+                    Archived Game vs @Model.ArchivedGames.Where(g => g.GameID.Equals(@Model.Board.GameId)).FirstOrDefault().OpponentName
+                </span>
+            </div>
+            <div class="panel-body" id="panel-body-override">
+                @await Html.PartialAsync("_ChessboardPartial", Model.Board)
+                @if (@Model.Board.PlayerColor == Model.Board.GameState.ActivePlayerColor)
+                {
+                    <div class="alert alert-danger" role="alert" id="banner"><strong>You lost</strong></div>
+                }
+                else
+                {
+                    <div class="alert alert-success" role="alert" id="banner"><strong>You won</strong></div>
+                }
+            </div>
+        </div>
+
+
+        <div class="panel panel-default" id="panel-override">
+            <div class="panel-heading" id="panel-heading-override">
+                <span id="title">
+                    Archived Games
+                </span>
+            </div>
+
+            @foreach (var game in Model.ArchivedGames)
+            {
+            <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
+
+                <li class="list-group-item playGame" id="list-group-item-override">
+                    <div class="flex" id="games-flex">
+                        <div class="games-left">
+                            Game vs. @game.OpponentName
+                        </div>
+                        <div class="games-right">
+                            @if (@game.AmIWinner)
+                            {
+                                <span class="yWon">You won!</span>
+
+                            }
+                            else
+                            {
+                                <span class="oWon">You lost...</span>
+                            }
+                        </div>
+                    </div>
+
+                </li>
+            </a>
+            }
+        </div>
+    </div>
+  <div class="col-sm-3" id="sidebar">
+  </div>
+</div>
