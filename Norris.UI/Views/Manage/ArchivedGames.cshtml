@@ -35,7 +35,7 @@
 
             @foreach (var game in Model.ArchivedGames)
             {
-                <a href='@Url.Action("ArchivedGames", "Manage", new { gameId = @game.GameID })' class="playGame">
+                <a href='@Url.Action("Index", "Game", new { gameId = @game.GameID })' class="playGame">
 
                     <li class="list-group-item playGame" id="list-group-item-override">
                         <div class="flex" id="games-flex">
