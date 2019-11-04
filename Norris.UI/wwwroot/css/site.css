@@ -313,6 +313,8 @@ tr {
     margin-top:5px;
     margin-bottom:5px;
     margin-left:-5px;
+    width:70px;
+    height:50px;
 }
 
 #right-nav-style {
@@ -324,7 +326,6 @@ tr {
 
 #brand-name {
     color:white;
-    font-size:150%;
     text-decoration:none;
     font-size:24px;
 }
@@ -336,6 +337,13 @@ tr {
     }
     #account-img{
         display:none;
+    }
+    #brand-name {
+        font-size: 17px;
+    }
+    #logo {
+        width: 60px;
+        height: 40px;
     }
 }
 
