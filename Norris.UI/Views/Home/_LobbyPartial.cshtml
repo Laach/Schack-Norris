@@ -2,26 +2,48 @@
 @using Norris.Data.Models
 @model LobbyAndFriendsViewModel
 
-
-@if(@Model.IsInLobby)
-{
-<tr class="tRow">
-    <td id="tCell">You are registered in the lobby</td>
-    <td id="tCell"></td>
-</tr>
-
-}
-
-@foreach (var item in Model.CurrentLobbyUsers)
-{
-    <tr class="tRow">
-        <td id="tCell">@item.UserName</td>
-        <td id="tCell" class="cell">
-            <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})">
-                <button class="lobbyJoinGameBtn">
-                    Join game
-                </button>
-            </a>
-        </td>
+<thead>
+    <tr id="tRow">
+        <th class="col-sm-9" id="tHead">Users in lobby</th>
+        <th class="col-sm-3 cell" id="tHead">
+            @if (@Model.IsInLobby)
+            {
+                <a href="@Url.Action("LeaveLobby", "Home")">
+                    <button class="lobbyLeaveBtn">Leave Lobby</button>
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("JoinLobby", "Home")">
+                    <button class="lobbyJoinBtn">Join Lobby</button>
+                </a>
+            }
+        </th>
     </tr>
-}
+</thead>
+<tbody id="lobby-partial">
+
+    @if (@Model.IsInLobby)
+    {
+        <tr class="tRow">
+            <td id="tCell">You are registered in the lobby</td>
+            <td id="tCell"></td>
+        </tr>
+
+    }
+
+    @foreach (var item in Model.CurrentLobbyUsers)
+    {
+        <tr class="tRow">
+            <td id="tCell">@item.UserName</td>
+            <td id="tCell" class="cell">
+                <a href="@Url.Action("JoinGame", "Home", new { opponentId = item.Id})">
+                    <button class="lobbyJoinGameBtn">
+                        Join game
+                    </button>
+                </a>
+            </td>
+        </tr>
+    }
+
+</tbody>

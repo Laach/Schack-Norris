@@ -7,7 +7,7 @@ function refreshLobby(){
   })
   .then(data => {return data.text()})
   .then(data => {
-    const lobby = document.getElementById("lobby-partial");
+    const lobby = document.getElementById("table-override");
 
     if(lobby.innerHTML != data){
       lobby.innerHTML = data;

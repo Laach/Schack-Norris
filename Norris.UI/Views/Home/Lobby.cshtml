@@ -19,29 +19,9 @@
             <div class="panel-body" id="panel-body-override">
                 <div class="table-responsive">
                     <table class="table" id="table-override">
-                        <thead>
-                            <tr id="tRow">
-                                <th class="col-sm-9" id="tHead">Users in lobby</th>
-                                <th class="col-sm-3 cell" id="tHead">
-                                    @if (@Model.IsInLobby)
-                                    {
-                                        <a href="@Url.Action("LeaveLobby", "Home")">
-                                            <button class="lobbyLeaveBtn">Leave Lobby</button>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("JoinLobby", "Home")">
-                                            <button class="lobbyJoinBtn">Join Lobby</button>
-                                        </a>
-                                    }
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="lobby-partial">
-                          @await Html.PartialAsync("_LobbyPartial", Model)
-                        </tbody>
 
+
+                          @await Html.PartialAsync("_LobbyPartial", Model)
                     </table>
                 </div>
             </div>
