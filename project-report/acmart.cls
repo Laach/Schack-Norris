@@ -1690,6 +1690,8 @@
    (CC-BY-NC-ND~4.0) license. Authors reserve their rights to
    disseminate the work on their personal and corporate Web sites with
    the appropriate attribution.
+  \or % none
+
  \fi}
 \def\copyrightyear#1{\def\@copyrightyear{#1}}
 \copyrightyear{\@acmYear}
@@ -1733,14 +1735,14 @@
     \footnotetextauthorsaddresses{%
       \def\par{\let\par\@par}\parindent\z@\@setthanks}%
   \fi
-  \ifx\@empty\@authorsaddresses\else
-     \if@ACM@anonymous\else
-       \if@ACM@journal@bibstrip
-         \footnotetextauthorsaddresses{%
-           \def\par{\let\par\@par}\parindent\z@\@setauthorsaddresses}%
-       \fi
-     \fi
-  \fi
+  % \ifx\@empty\@authorsaddresses\else
+  %    \if@ACM@anonymous\else
+  %      \if@ACM@journal@bibstrip
+  %        \footnotetextauthorsaddresses{%
+  %          \def\par{\let\par\@par}\parindent\z@\@setauthorsaddresses}%
+  %      \fi
+  %    \fi
+  % \fi
   \if@ACM@nonacm\else\footnotetextcopyrightpermission{%
     \if@ACM@authordraft
         \raisebox{-2ex}[\z@][\z@]{\makebox[0pt][l]{\large\bfseries
@@ -1759,7 +1761,7 @@
     \if@printcopyright
       \copyright\ \@copyrightyear\ \@copyrightowner\\
     \else
-      \@copyrightyear.\
+      % \@copyrightyear.\
     \fi
     \if@ACM@manuscript
       Manuscript submitted to ACM\\
@@ -1779,17 +1781,17 @@
             , \@formatdoi{\@acmDOI}.
           \fi\\
         \else
-          \if@ACM@nonacm\else
-            \if@ACM@journal@bibstrip
-              \@permissionCodeOne/\@acmYear/\@acmMonth-ART\@acmArticle
-              \ifx\@acmPrice\@empty\else\ \$\@acmPrice\fi\\
-              \@formatdoi{\@acmDOI}%
-            \else % Conference
-              \ifx\@acmISBN\@empty\else ACM~ISBN~\@acmISBN
-              \ifx\@acmPrice\@empty.\else\dots\$\@acmPrice\fi\\\fi
-              \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi%
-            \fi
-          \fi
+          % \if@ACM@nonacm\else
+          %   \if@ACM@journal@bibstrip
+          %     \@permissionCodeOne/\@acmYear/\@acmMonth-ART\@acmArticle
+          %     \ifx\@acmPrice\@empty\else\ \$\@acmPrice\fi\\
+          %     \@formatdoi{\@acmDOI}%
+          %   \else % Conference
+          %     \ifx\@acmISBN\@empty\else ACM~ISBN~\@acmISBN
+          %     \ifx\@acmPrice\@empty.\else\dots\$\@acmPrice\fi\\\fi
+          %     \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi%
+          %   \fi
+          % \fi
         \fi
       \fi}
     \fi
@@ -2295,30 +2297,30 @@
   \def\footnote{\ClassError{\@classname}{Please do not use footnotes
       inside a \string\title{} or \string\author{} command! Use
       \string\titlenote{} or \string\authornote{} instead!}}%
-  \def\@article@string{\ifx\@acmArticle\@empty{\ }\else,
-    Article~\@acmArticle\ \fi}%
-  \par\medskip\small\noindent{\bfseries ACM Reference Format:}\par\nobreak
-  \noindent\bgroup
-    \def\\{\unskip{}, \ignorespaces}\authors\egroup. \@acmYear. \@title
-  \ifx\@subtitle\@empty. \else: \@subtitle. \fi
-  \if@ACM@nonacm\else
-    % The 'nonacm' option disables 'printacmref' by default,
-    % and the present \@mkbibcitation definition is never used
-    % in this case. The conditional remains useful if the user
-    % explicitly sets \settopmatter{printacmref=true}.
-    \if@ACM@journal@bibstrip
-       \textit{\@journalNameShort}
-       \@acmVolume, \@acmNumber \@article@string (\@acmPubDate),
-       \ref{TotPages}~\@pages@word.
-    \else
-       In \textit{\@acmBooktitle}%
-       \ifx\@acmEditors\@empty\textit{.}\else
-         \andify\@acmEditors\textit{, }\@acmEditors~\@editorsAbbrev.%
-       \fi\
-       ACM, New York, NY, USA%
-         \@article@string\unskip, \ref{TotPages}~\@pages@word.
-    \fi
-  \fi
+  % \def\@article@string{\ifx\@acmArticle\@empty{\ }\else,
+  %   Article~\@acmArticle\ \fi}%
+  % \par\medskip\small\noindent{\bfseries ACM Reference Format:}\par\nobreak
+  % \noindent\bgroup
+  %   \def\\{\unskip{}, \ignorespaces}\authors\egroup. \@acmYear. \@title
+  % \ifx\@subtitle\@empty. \else: \@subtitle. \fi
+  % \if@ACM@nonacm\else
+  %   % The 'nonacm' option disables 'printacmref' by default,
+  %   % and the present \@mkbibcitation definition is never used
+  %   % in this case. The conditional remains useful if the user
+  %   % explicitly sets \settopmatter{printacmref=true}.
+  %   \if@ACM@journal@bibstrip
+  %      \textit{\@journalNameShort}
+  %      \@acmVolume, \@acmNumber \@article@string (\@acmPubDate),
+  %      \ref{TotPages}~\@pages@word.
+  %   \else
+  %      In \textit{\@acmBooktitle}%
+  %      \ifx\@acmEditors\@empty\textit{.}\else
+  %        \andify\@acmEditors\textit{, }\@acmEditors~\@editorsAbbrev.%
+  %      \fi\
+  %      ACM, New York, NY, USA%
+  %        \@article@string\unskip, \ref{TotPages}~\@pages@word.
+  %   \fi
+  % \fi
   \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi
 \par\egroup}
 \def\@printendtopmatter{\bgroup
@@ -2424,13 +2426,13 @@
     \or % acmlarge
       \fancyhead[LE]{\ACM@linecountL\@headfootfont
       \@acmArticlePage\quad\textbullet\quad\@shortauthors}%
-      \fancyhead[LO]{\ACM@linecountL}%
+      % \fancyhead[LO]{\ACM@linecountL}%
       \fancyhead[RO]{\@headfootfont
         \shorttitle\quad\textbullet\quad\@acmArticlePage}%
-      \if@ACM@nonacm\else%
-        \fancyfoot[RO,LE]{\footnotesize \@journalNameShort, Vol. \@acmVolume, No.
-        \@acmNumber, Article \@acmArticle.  Publication date: \@acmPubDate.}%
-      \fi
+      % \if@ACM@nonacm\else%
+      %   \fancyfoot[RO,LE]{\footnotesize \@journalNameShort, Vol. \@acmVolume, No.
+      %   \@acmNumber, Article \@acmArticle.  Publication date: \@acmPubDate.}%
+      % \fi
     \or % acmtog
       \fancyhead[LE]{\ACM@linecountL\@headfootfont
         \@acmArticlePage\quad\textbullet\quad\@shortauthors}%
@@ -2541,15 +2543,15 @@
       \fancyhead[RO]{\@folioblob}%
       \fancyheadoffset[RO,LE]{0.6\@folio@wd}%
     \or % acmlarge
-      \if@ACM@nonacm\else%
-        \fancyfoot[RO,LE]{\footnotesize \@journalNameShort, Vol. \@acmVolume, No.
-        \@acmNumber, Article \@acmArticle.  Publication date:
-        \@acmPubDate.}%
-      \fi%
-      \fancyhead[RO]{\@folioblob}%
-      \fancyhead[LE]{\ACM@linecountL\@folioblob}%
-      \fancyhead[LO]{\ACM@linecountL}%
-      \fancyheadoffset[RO,LE]{1.4\@folio@wd}%
+      % \if@ACM@nonacm\else%
+      %   \fancyfoot[RO,LE]{\footnotesize \@journalNameShort, Vol. \@acmVolume, No.
+      %   \@acmNumber, Article \@acmArticle.  Publication date:
+      %   \@acmPubDate.}%
+      % \fi%
+      % \fancyhead[RO]{\@folioblob}%
+      % \fancyhead[LE]{\ACM@linecountL\@folioblob}%
+      % \fancyhead[LO]{\ACM@linecountL}%
+      % \fancyheadoffset[RO,LE]{1.4\@folio@wd}%
     \or % acmtog
       \if@ACM@nonacm\else%
         \fancyfoot[RO,LE]{\footnotesize \@journalNameShort, Vol. \@acmVolume, No.

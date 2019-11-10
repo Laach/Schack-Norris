@@ -19,6 +19,7 @@
 %% the commands and values with those provided to you when you
 %% complete the rights form.
 % \setcopyright{acmcopyright}
+\setcopyright{none}
 % \copyrightyear{2018}
 % \acmYear{2018}
 % \acmDOI{10.1145/1122445.1122456}
@@ -127,7 +128,7 @@ We injected both the gamelogic and the database repository as dependencies into 
 
 
   \subsection{Implementing features}
-    We then started implementing the lobby. When a user requests to join the lobby a method is called which changes the users status to “Registered” in the lobby in the database. To leave the lobby another method is called that changes the status again. A user will also be automatically removed from the lobby when another user starts a game from the lobby with them. The lobby is regularly refreshed with AJAX so that changes in the lobby is visible to the user.(NG, EE, PK)
+    We then started implementing the lobby. When a user requests to join the lobby a method is called which changes the user's lobby status to “Registered” in the database. To leave the lobby another method is called that changes the status again. A user will also be automatically removed from the lobby when another user starts a game from the lobby with them. The lobby is regularly refreshed with AJAX so that changes in the lobby is visible to the user.(NG, EE, PK)
 
     The board is first rendered when a specific game session is requested by the client. Razor code, which is C\# code compiled on the server but written inline with HTML markdown, is used to draw the board state of the game session\cite{razor}. Information about the user is also accessed by the Razor code in order to draw the board from each players point of view. This is done by generating 64 css-grid styled div-tags which display images for the pieces. To make the board responsive, we implemented a naive version of the observer pattern in AJAX\cite{ajax}. Each web-client is an observer, waiting for the state of the board to change. This is more efficient than constantly updating the board manually, regardless if it is changed or not. An event loop (implemented as a timed javascript function) makes a request to the event provider (a POST request to the back-end)\cite{event-loop}. If changes have been made, another javascript function is called to “dispatch the event”, by updating the affected tiles’ div-tags. In a non distributed application an event loop might not have a timer, but on a web application it conserves bandwidth. (PK)
 
