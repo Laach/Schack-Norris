@@ -1,0 +1,284 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{19}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Anderson et~al\mbox{.}}{Anderson
+  et~al\mbox{.}}{2019a}]%
+        {aspnet-identity}
+\bibfield{author}{\bibinfo{person}{Rick Anderson} {et~al\mbox{.}}}
+  \bibinfo{year}{2019}\natexlab{a}.
+\newblock \bibinfo{title}{Introduction to ASP.NET Identity}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Anderson et~al\mbox{.}}{Anderson
+  et~al\mbox{.}}{2019b}]%
+        {razor}
+\bibfield{author}{\bibinfo{person}{Rick Anderson} {et~al\mbox{.}}}
+  \bibinfo{year}{2019}\natexlab{b}.
+\newblock \bibinfo{booktitle}{\emph{Razor syntax reference for ASP.NET Core}}.
+\newblock
+\urldef\tempurl%
+\url{https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-2.0}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Bootstrap}{Bootstrap}{[n.d.]}]%
+        {bootstrap}
+\bibfield{author}{\bibinfo{person}{Bootstrap}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Bootstrap}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://getbootstrap.com/docs/3.3/}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chess.com}{Chess.com}{[n.d.]}]%
+        {chess.com}
+\bibfield{author}{\bibinfo{person}{Chess.com}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Chess.com - Play chess online}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.chess.com/}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]}]%
+        {dependency-injection}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Dependency injection in Android}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/training/dependency-injection}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Framework}{Framework}{[n.d.]}]%
+        {ef-linq}
+\bibfield{author}{\bibinfo{person}{Entity Framework}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{LINQ Prevent SQL Injection}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://entityframework.net/linq-prevent-sql-injection}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Github}{Github}{2017}]%
+        {githubflow}
+\bibfield{author}{\bibinfo{person}{Github}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \bibinfo{title}{Understanding the GitHub flow}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://guides.github.com/introduction/flow/}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Grannas}{Grannas}{2019}]%
+        {nick}
+\bibfield{author}{\bibinfo{person}{Nick Grannas}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{Utvärdering av en enklare design med ett neutralt
+  perspektiv}.  (\bibinfo{date}{April} \bibinfo{year}{2019}).
+\newblock
+\newblock
+\shownote{Improvements on existing UX assignment.}
+
+
+\bibitem[\protect\citeauthoryear{lichess.org}{lichess.org}{[n.d.]}]%
+        {lichess.org}
+\bibfield{author}{\bibinfo{person}{lichess.org}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Lichess.com - Free online chess}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://lichess.org/}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Microsoft}{Microsoft}{[n.d.]}]%
+        {signalr}
+\bibfield{author}{\bibinfo{person}{Microsoft}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Real-time ASP.NET with SignalR}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://dotnet.microsoft.com/apps/aspnet/signalr}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Parente and Wenzel}{Parente and
+  Wenzel}{2018}]%
+        {Repository-pattern}
+\bibfield{author}{\bibinfo{person}{John Parente} {and} \bibinfo{person}{Maira
+  Wenzel}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \bibinfo{title}{Design the infrastructure persistence layer}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Smith}{Smith}{2019}]%
+        {aspnet-mvc}
+\bibfield{author}{\bibinfo{person}{Steve Smith}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Overview of ASP.NET Core MVC}}.
+\newblock
+\urldef\tempurl%
+\url{https://docs.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-2.0}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Tutorialspoint}{Tutorialspoint}{[n.d.]}]%
+        {Design-patterns}
+\bibfield{author}{\bibinfo{person}{Tutorialspoint}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Design Patterns - Observer Pattern}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.tutorialspoint.com/design_pattern/observer_pattern.htm}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{w3schools}{w3schools}{[n.d.]}]%
+        {ajax}
+\bibfield{author}{\bibinfo{person}{w3schools}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{PHP - AJAX Introduction}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.w3schools.com/php/php_ajax_intro.asp}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wasson}{Wasson}{2014}]%
+        {DTOs}
+\bibfield{author}{\bibinfo{person}{Mike Wasson}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Create Data Transfer Objects (DTOs)}}.
+\newblock
+\urldef\tempurl%
+\url{https://docs.microsoft.com/en-us/aspnet/web-api/overview/data/using-web-api-with-entity-framework/part-5}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{[n.d.]}]%
+        {responsive-web-design}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Responsive web design}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/Responsive_web_design#Mobile_first,_unobtrusive_JavaScript,_and_progressive_enhancement}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{2019a}]%
+        {adodotnet}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{2019}\natexlab{a}.
+\newblock \bibinfo{title}{ADO.NET}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/ADO.NET}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{2019b}]%
+        {event-loop}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{2019}\natexlab{b}.
+\newblock \bibinfo{title}{Event loop}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/Event_loop}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{2019c}]%
+        {orm}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{2019}\natexlab{c}.
+\newblock \bibinfo{title}{Object-Relational mapping}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/Object-relational_mapping}
+\showURL{%
+Retrieved November 8, 2019 from \tempurl}
+
+
+\end{thebibliography}

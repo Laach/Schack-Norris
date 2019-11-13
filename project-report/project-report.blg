@@ -1,0 +1,72 @@
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: project-report.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: sources.bib
+Warning--string name "november" is undefined
+--line 34 of file sources.bib
+Warning--string name "june" is undefined
+--line 93 of file sources.bib
+Warning--string name "september" is undefined
+--line 126 of file sources.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty organization in razor
+Warning--empty year in bootstrap
+Warning--empty year in chess.com
+Warning--empty year in dependency-injection
+Warning--empty year in ef-linq
+Warning--empty year in lichess.org
+Warning--empty year in signalr
+Warning--empty organization in aspnet-mvc
+Warning--empty year in Design-patterns
+Warning--empty year in ajax
+Warning--empty organization in DTOs
+Warning--empty year in responsive-web-design
+You've used 19 entries,
+            5727 wiz_defined-function locations,
+            1374 strings with 16658 characters,
+and the built_in function-call counts, 13849 in all, are:
+= -- 1441
+> -- 427
+< -- 0
++ -- 121
+- -- 172
+* -- 845
+:= -- 1682
+add.period$ -- 94
+call.type$ -- 19
+change.case$ -- 96
+chr.to.int$ -- 16
+cite$ -- 31
+duplicate$ -- 1211
+empty$ -- 894
+format.name$ -- 176
+if$ -- 2951
+int.to.chr$ -- 5
+int.to.str$ -- 1
+missing$ -- 0
+newline$ -- 262
+num.names$ -- 149
+pop$ -- 527
+preamble$ -- 1
+purify$ -- 207
+quote$ -- 0
+skip$ -- 466
+stack$ -- 0
+substring$ -- 831
+swap$ -- 100
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 552
+warning$ -- 12
+while$ -- 149
+width$ -- 0
+write$ -- 411
+(There were 15 warnings)
